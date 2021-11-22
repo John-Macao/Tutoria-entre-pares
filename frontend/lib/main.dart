@@ -3,9 +3,17 @@ import 'package:frontend/Controlador/Administrador/administrador_service_locator
 import 'package:frontend/Controlador/General/service_locator_general.dart';
 import 'package:frontend/Controlador/Tutor/tutor_service_locator.dart';
 import 'package:frontend/Controlador/Tutorado/tutorado_service_locator.dart';
+import 'package:frontend/Controlador/routes/router.dart';
 import 'package:frontend/Vista/General/login.dart';
+import 'package:fluro/fluro.dart';
+import 'package:frontend/Vista/Tutor/tutor_inicio.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() {
+  //router
+  RoutePagina.configureRoutes();
+  setPathUrlStrategy();
+
   setupGetItGeneral();
   setupGetItAdministrador();
   setupGetItTutor();
@@ -25,7 +33,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Tutoria Entre Pares',
-      home: Login(),
+      home: TutorInicio(),
     );
   }
 }
