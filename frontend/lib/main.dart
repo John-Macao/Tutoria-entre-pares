@@ -33,6 +33,8 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Tutoria Entre Pares',
+      initialRoute: '/tutor-par-inicio',
+      onGenerateRoute: RoutePagina.router.generator,
       home: TutorInicio(),
     );
   }

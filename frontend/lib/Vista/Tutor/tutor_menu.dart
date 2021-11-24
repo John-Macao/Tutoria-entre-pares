@@ -20,7 +20,7 @@ class TutorMenu extends StatelessWidget{
             child: Text('Modificar Sesión Tutorial')
           ),
           TextButton(onPressed: (){
-              //Navigator.pushNamed(context, '/registrar-horario-tutoria');
+              Navigator.pushNamed(context, '/tutor-generar-tutoria');
             }, 
             child: Text('Registrar Horario de Tutoría')
           ),
