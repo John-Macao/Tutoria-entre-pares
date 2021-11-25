@@ -30,12 +30,12 @@ class TutorMenu extends StatelessWidget{
             child: Text('Modificar Horario de Tutoría')
           ),
           TextButton(onPressed: (){
-              //Navigator.pushNamed(context, '/modificar-telefono');
+              Navigator.pushNamed(context, '/tutor-modificar-telefono');
             }, 
             child: Text('Modificar Telefono')
           ),
           TextButton(onPressed: (){
-              //Navigator.pushNamed(context, '/coordinacion');
+              //Navigator.pushNamed(context, '/tutor');
             }, 
             child: Text('Coordinacion')
           ),
