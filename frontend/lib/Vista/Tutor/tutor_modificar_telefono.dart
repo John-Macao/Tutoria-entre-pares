@@ -17,7 +17,7 @@ class TutorModificarTelefono extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TutorMenu(),
-              formulario(),
+              formularioTelefono(),
             ],
           ),
         ),
@@ -27,7 +27,7 @@ class TutorModificarTelefono extends StatelessWidget{
 }
 
 
-class formulario extends StatelessWidget{
+class formularioTelefono extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutorModificarTelefonoController>(

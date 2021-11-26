@@ -10,7 +10,7 @@ class TutorMenu extends StatelessWidget{
       child: Row(
         children: [
           TextButton(onPressed: (){
-              //Navigator.pushNamed(context, '/generar-sesion-tutorial');
+              Navigator.pushNamed(context, '/tutor-generar-sesion');
             }, 
             child: Text('Generar Sesión Tutorial')
           ),

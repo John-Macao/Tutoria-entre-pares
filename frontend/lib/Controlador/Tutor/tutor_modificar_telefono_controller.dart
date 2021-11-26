@@ -18,7 +18,4 @@ class TutorModificarTelefonoController extends GetxController{
     print('Se manda a guardadr este numero: ' + numero.text);
   }
   
-
-
-
 }
