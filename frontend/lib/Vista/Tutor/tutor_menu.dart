@@ -15,7 +15,7 @@ class TutorMenu extends StatelessWidget{
             child: Text('Generar Sesión Tutorial')
           ),
           TextButton(onPressed: (){
-              //Navigator.pushNamed(context, '/modificar-sesion-tutorial');
+              Navigator.pushNamed(context, '/tutor-listar-sesiones');
             }, 
             child: Text('Modificar Sesión Tutorial')
           ),
@@ -25,7 +25,7 @@ class TutorMenu extends StatelessWidget{
             child: Text('Registrar Horario de Tutoría')
           ),
           TextButton(onPressed: (){
-              //Navigator.pushNamed(context, '/modificar-horario-tutoria');
+              Navigator.pushNamed(context, '/tutor-modificar-tutoria');
             }, 
             child: Text('Modificar Horario de Tutoría')
           ),
@@ -35,7 +35,7 @@ class TutorMenu extends StatelessWidget{
             child: Text('Modificar Telefono')
           ),
           TextButton(onPressed: (){
-              //Navigator.pushNamed(context, '/tutor');
+              Navigator.pushNamed(context, '/tutor-coordinacion');
             }, 
             child: Text('Coordinacion')
           ),
