@@ -27,13 +27,15 @@ class Menu{
         leading: Icon(Icons.add_circle_outline),
         onTap: () {
           Navigator.pushNamed(context, "/administrador-nuevo-tutor");
+          
         },
-      )
+      ),
     );
     drawerOptions.add(
       ListTile(
         title: Text("Quitar Tutor"),
         leading: Icon(Icons.remove_circle_outline),
+        
         onTap: () {
           Navigator.pushNamed(context, "/administrador-quitar-tutor");
         },
@@ -72,6 +74,7 @@ class Menu{
         leading: Icon(Icons.filter_alt_outlined),
         onTap: () {
           Navigator.pushNamed(context, "/administrador-filtro-estudiantes");
+          
         },
       )
     );

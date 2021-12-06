@@ -35,18 +35,7 @@ class tabla extends StatelessWidget {
     return GetBuilder<TestController>(
       init: TestController(),
       builder: (_){
-        return Column(
-          children: [
-            InkWell(
-              child: DataTable(
-                columns: <DataColumn>[
-                  DataColumn(label: Text("Uno ")),
-                  DataColumn(label: Text("Dos ")),
-                ], 
-                rows: rows) ,
-            )
-          ],
-        )
+        return Column();
       },
     );
   }
