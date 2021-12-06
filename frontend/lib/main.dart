@@ -3,11 +3,11 @@ import 'package:frontend/Controlador/Administrador/administrador_service_locator
 import 'package:frontend/Controlador/General/service_locator_general.dart';
 import 'package:frontend/Controlador/Tutor/tutor_service_locator.dart';
 import 'package:frontend/Controlador/Tutorado/tutorado_service_locator.dart';
-import 'package:frontend/Vista/Adminstrador/vista_principal.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_principal.dart';
 import 'package:frontend/Vista/General/login.dart';
 
 import 'Controlador/routes/router.dart';
-import 'Vista/Adminstrador/vista_nuevo_tutor.dart';
+import 'Vista/Adminstrador/administrador_nuevo_tutor.dart';
 
 void main() {
   setupGetItGeneral();

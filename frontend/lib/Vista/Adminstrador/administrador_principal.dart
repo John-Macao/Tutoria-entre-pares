@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:frontend/Controlador/Administrador/inicio_controller.dart';
-import 'package:frontend/Controlador/Administrador/menu_controller.dart';
+import 'package:frontend/Controlador/Administrador/administrador_principal_controller.dart';
+import 'package:frontend/Controlador/Administrador/administrador_menu_controller.dart';
 import 'package:get/get.dart';
 
 class VistaPrincipal extends StatelessWidget {
@@ -26,8 +26,8 @@ class HorarioPrincipal extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    return GetBuilder<AdministradorController>(
-      init: AdministradorController(),
+    return GetBuilder<PrincipalController>(
+      init: PrincipalController(),
       builder: (_){
         return Column(
           children: [

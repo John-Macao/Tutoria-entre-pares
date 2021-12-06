@@ -1,13 +1,13 @@
 
 
 import 'package:frontend/Modelo/estudiantes.dart';
-import 'package:frontend/Vista/Adminstrador/vista_nuevo_tutor.dart';
-import 'package:frontend/Vista/Adminstrador/vista_principal.dart';
-import 'package:frontend/Vista/Adminstrador/vista_quitar_tutor.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_nuevo_tutor.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_principal.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_quitar_tutor.dart';
 import 'package:get/get.dart';
 import 'package:frontend/Modelo/tutor_horario.dart';
 
-class AdministradorController extends GetxController{
+class PrincipalController extends GetxController{
   
   //porque aun no hay conexion con la base de datos
   List<Estudiantes> estudiante = <Estudiantes>[];

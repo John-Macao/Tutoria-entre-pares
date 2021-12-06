@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Controlador/Administrador/inicio_controller.dart';
-import 'package:frontend/Controlador/Administrador/menu_controller.dart';
-import 'package:frontend/Controlador/Administrador/reporte_tutorados_controller.dart';
+import 'package:frontend/Controlador/Administrador/administrador_principal_controller.dart';
+import 'package:frontend/Controlador/Administrador/administrador_menu_controller.dart';
+import 'package:frontend/Controlador/Administrador/administrador_reporte_tutorados_controller.dart';
 import 'package:get/get.dart';
 
 class VistaReporteTutorados extends StatelessWidget {

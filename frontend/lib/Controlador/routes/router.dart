@@ -10,13 +10,13 @@ import 'package:frontend/Vista/Tutorado/tutorado_historico.dart';
 import 'package:frontend/Vista/Tutorado/tutorado_registrar_asistencia.dart';
 */
 import 'package:fluro/fluro.dart';
-import 'package:frontend/Vista/Adminstrador/vista_filtrar_estudiantes.dart';
-import 'package:frontend/Vista/Adminstrador/vista_materia.dart';
-import 'package:frontend/Vista/Adminstrador/vista_nuevo_tutor.dart';
-import 'package:frontend/Vista/Adminstrador/vista_principal.dart';
-import 'package:frontend/Vista/Adminstrador/vista_quitar_tutor.dart';
-import 'package:frontend/Vista/Adminstrador/vista_reporte_tutorados.dart';
-import 'package:frontend/Vista/Adminstrador/vista_reporte_tutorias.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_filtrar_estudiantes.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_materia.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_nuevo_tutor.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_principal.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_quitar_tutor.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_reporte_tutorados.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_reporte_tutorias.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/main.dart';
 

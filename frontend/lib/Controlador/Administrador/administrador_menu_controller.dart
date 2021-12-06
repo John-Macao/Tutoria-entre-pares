@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Vista/Adminstrador/vista_nuevo_tutor.dart';
-import 'package:frontend/Vista/Adminstrador/vista_principal.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_nuevo_tutor.dart';
+import 'package:frontend/Vista/Adminstrador/administrador_principal.dart';
 import 'package:get/get.dart';
 import '../../main.dart';
-import 'inicio_controller.dart';
+import 'administrador_principal_controller.dart';
 import '../routes/router.dart';
 import 'package:fluro/fluro.dart';
 
