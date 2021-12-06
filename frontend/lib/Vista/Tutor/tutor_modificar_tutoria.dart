@@ -11,14 +11,15 @@ class TutorModificarTutoria extends StatelessWidget{
       builder: (_){
         return Scaffold(
         appBar: AppBar(
-          title: Text('Tutor Par Inicio'),
+          title: Text('Modificaar Horario de Tutoría'),
         ),
+      drawer: TutorMenu.getDrawer(context),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TutorMenu(),
+                //TutorMenu(),
                 Row(
                   children: [
                     Form(child: Column(

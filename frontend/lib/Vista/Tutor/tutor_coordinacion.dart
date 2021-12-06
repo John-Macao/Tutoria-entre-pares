@@ -12,14 +12,15 @@ class TutorCoordinacion extends StatelessWidget{
       builder: (_){
         return Scaffold(
         appBar: AppBar(
-          title: Text('Tutor Par Inicio'),
+          title: Text('Coordinacion'),
         ),
+      drawer: TutorMenu.getDrawer(context),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TutorMenu(),
+                //TutorMenu(),
                 Form(child: Column(
                   children: [
                     Text('Materia: '),

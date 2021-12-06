@@ -38,7 +38,7 @@ class TutoradoInicio extends StatelessWidget{
                   ),
                   TextButton(
                     onPressed: (){
-                      //Navigator.pushNamed(context, '/tutor-generar-tutoria');
+                      Navigator.pushNamed(context, '/tutorado-horario-tutor');
                     }, 
                     child: Text('Consulta Horario Tutor Par')
                   ),

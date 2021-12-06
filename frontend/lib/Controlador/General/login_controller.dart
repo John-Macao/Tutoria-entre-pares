@@ -23,7 +23,6 @@ class LoginController {
 }
 
 
-
 enum loginState{
   inicio,
   incorrecto,

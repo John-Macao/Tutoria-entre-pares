@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/Vista/General/login.dart';
 import 'package:frontend/Vista/Tutor/totur_listar_sesiones.dart';
 import 'package:frontend/Vista/Tutor/tutor_coordinacion.dart';
 import 'package:frontend/Vista/Tutor/tutor_generar_sesion.dart';
@@ -8,6 +9,7 @@ import 'package:frontend/Vista/Tutor/tutor_inicio.dart';
 import 'package:frontend/Vista/Tutor/tutor_modificar_telefono.dart';
 import 'package:frontend/Vista/Tutor/tutor_modificar_tutoria.dart';
 import 'package:frontend/Vista/Tutorado/tutorado_historico.dart';
+import 'package:frontend/Vista/Tutorado/tutorado_horario_tutor.dart';
 import 'package:frontend/Vista/Tutorado/tutorado_inicio.dart';
 import 'package:frontend/Vista/Tutorado/tutorado_registrar_asistencia.dart';
 import 'package:frontend/main.dart';
@@ -19,6 +21,13 @@ class RoutePagina {
   static Handler _emptyHandler = new Handler(
     handlerFunc: (BuildContext? context, Map<String, List<String>> params){
       return MyApp();
+    }
+  );
+
+  //GENERAL
+  static Handler _logIn = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return Login();
     }
   );
 
@@ -85,8 +94,16 @@ class RoutePagina {
     }
   );
 
+  static Handler _tutoradoHorarioTutor = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return TutoradoHorarioTutor();
+    }
+  );
+
 
   static void configureRoutes() {
+    //GENERAL
+    router.define('/login', handler: _logIn);
     //TUTOR PAR
     router.define('/tutor-par-inicio', handler: _tutorInicioHandler);
     router.define('/tutor-generar-tutoria', handler: _tutorGenerarTutoria);
@@ -99,6 +116,7 @@ class RoutePagina {
     router.define('/tutorado-inicio', handler: _tutoradoInicio);
     router.define('/tutorado-registrar-asistencia', handler: _tutoradoRegistrarAsistencia);
     router.define('/tutorado-historico', handler: _tutoradoHistorico);
+    router.define('/tutorado-horario-tutor', handler: _tutoradoHorarioTutor);
     //POR DEFECTO
       router.notFoundHandler = _emptyHandler;
   }

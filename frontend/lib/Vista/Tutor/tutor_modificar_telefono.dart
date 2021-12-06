@@ -9,14 +9,15 @@ class TutorModificarTelefono extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tutor Par Inicio'),
+        title: Text('Modificar Teléfono'),
       ),
+      drawer: TutorMenu.getDrawer(context),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TutorMenu(),
+              //TutorMenu(),
               formularioTelefono(),
             ],
           ),

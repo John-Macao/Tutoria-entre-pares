@@ -12,12 +12,13 @@ class TutorInicio extends StatelessWidget{
       appBar: AppBar(
         title: Text('Tutor Par Inicio'),
       ),
+      drawer: TutorMenu.getDrawer(context),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TutorMenu(),
+              //TutorMenu(),
               HorarioInicio(),
             ],
           ),
