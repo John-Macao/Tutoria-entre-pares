@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/Controlador/Administrador/administrador_principal_controller.dart';
@@ -17,13 +19,7 @@ class VistaNuevoTutor extends StatelessWidget {
         title: Text('Agregar Tutor Par'),
       ),
       drawer: Menu.getDrawer(context),
-      body: Center(
-        child: Container(
-          height: 600,
-          width: (queryData.size.width/1.1),
-          child: formularioNuevoTutor(),
-        ),
-      )
+      body: formularioNuevoTutor ()
     );
   }
 }
@@ -36,57 +32,27 @@ class formularioNuevoTutor extends StatelessWidget {
     return GetBuilder<AgregarNuevoTutorController>(
       init: AgregarNuevoTutorController() ,
       builder: (_){
-        return Form(
-          child: Column(
-            children: [
-              Text("Cédula: "),
-              CupertinoTextField(
-                controller: _.cedula,
-              ),
-              TextButton(
-                onPressed: (){
-                  _.buscar();
-                }, 
-                child: Text("Buscar")
-                ),
-
-                Text("Nombre: "),
-                CupertinoTextField(
-                controller: _.nombre,
-              ),
-              Text("Apellido: "),
-                CupertinoTextField(
-                controller: _.apellido,
-              ),
-              Text("Correo: "),
-                CupertinoTextField(
-                controller: _.correo,
-              ),
-              Text("Carrera: "),
-                CupertinoTextField(
-                controller: _.carrera,
-              ),
-              Text("Telefono: "),
-                CupertinoTextField(
-                controller: _.telefono,
-              ),
-              Text("Nivel: "),
-                CupertinoTextField(
-                controller: _.nivel,
-              ),
-
-              TextButton(
-                onPressed: (){
-                  _.agregar();
-                }, 
-                child: Text("Agregar")
-                ),
-
-            ],
-           
-          )
-          
-          );
+        return Center(
+          child: Container(
+            padding: EdgeInsets.all(50.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Text("Cédula : "),
+                      
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+        
       }
       
     );

@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Tutoria Entre Pares',
-      home: VistaPrincipal(),
+      home: VistaNuevoTutor(),
     );
   }
 }
