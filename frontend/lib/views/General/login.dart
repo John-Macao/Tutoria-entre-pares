@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Controlador/General/service_locator_general.dart';
-import 'package:frontend/Controlador/General/login_controller.dart';
+import 'package:frontend/domain/controllers/General/login_controller.dart';
+import 'package:frontend/domain/controllers/Tutorado/tutorado_service_locator.dart';
 
 
 
