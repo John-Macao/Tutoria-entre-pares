@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:frontend/Controlador/Administrador/administrador_principal_controller.dart';
-import 'package:frontend/Controlador/Administrador/administrador_menu_controller.dart';
+import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
+import 'package:frontend/domain/controllers/Administrador/administrador_principal_controller.dart';
 import 'package:get/get.dart';
 
 class VistaPrincipal extends StatelessWidget {

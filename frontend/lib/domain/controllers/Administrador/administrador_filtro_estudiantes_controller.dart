@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:frontend/Modelo/estudiantes.dart';
+import 'package:frontend/domain/models/estudiantes.dart';
 import 'package:get/get.dart';
 
 class FiltroEstudiantesController extends GetxController {
@@ -7,7 +7,6 @@ class FiltroEstudiantesController extends GetxController {
   var calificacion = TextEditingController();
 
   List<String> horarios = <String>[];
-  //porque aun no hay conexion con la base de datos
   List<Estudiantes> estudiante = <Estudiantes>[];
 
   @override

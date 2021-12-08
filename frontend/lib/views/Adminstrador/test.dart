@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:frontend/Controlador/Administrador/test_controller.dart';
+import 'package:frontend/domain/controllers/Administrador/test_controller.dart';
 import 'package:get/get.dart';
 
 

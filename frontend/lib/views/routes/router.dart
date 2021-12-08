@@ -1,6 +1,13 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/main.dart';
+import 'package:frontend/views/Adminstrador/administrador_filtrar_estudiantes.dart';
+import 'package:frontend/views/Adminstrador/administrador_materia.dart';
+import 'package:frontend/views/Adminstrador/administrador_nuevo_tutor.dart';
+import 'package:frontend/views/Adminstrador/administrador_principal.dart';
+import 'package:frontend/views/Adminstrador/administrador_quitar_tutor.dart';
+import 'package:frontend/views/Adminstrador/administrador_reporte_tutorados.dart';
+import 'package:frontend/views/Adminstrador/administrador_reporte_tutorias.dart';
 import 'package:frontend/views/General/login.dart';
 import 'package:frontend/views/Tutor/totur_listar_sesiones.dart';
 import 'package:frontend/views/Tutor/tutor_coordinacion.dart';
@@ -101,6 +108,51 @@ class RoutePagina {
     }
   );
 
+  // ADMINISTRADOR 
+
+  static Handler _administradorInicio = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return VistaPrincipal();
+    }
+  );
+
+  static Handler _administradorNuevoTutor = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return VistaNuevoTutor();
+    }
+  );
+
+  static Handler _administradorQuitarTutor = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return VistaQuitarTutor();
+    }
+  );
+
+  static Handler _administradorMateria = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return VistaMateria();
+    }
+  );
+
+  static Handler _administradorReporteTutorias = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return VistaReporteTutorias();
+    }
+  );
+
+  static Handler _administradorReporteTutorados = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return VistaReporteTutorados();
+    }
+  );
+
+  static Handler _administradorFiltrarEstudiantes = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return VistaFiltrarEstudiantes();
+    }
+  );
+
+
 
   static void configureRoutes() {
     //GENERAL
@@ -120,5 +172,16 @@ class RoutePagina {
     router.define('/tutorado-horario-tutor', handler: _tutoradoHorarioTutor);
     //POR DEFECTO
       router.notFoundHandler = _emptyHandler;
+
+    //ADMIN
+    router.define("/administrador-principal", handler: _administradorInicio);
+    router.define("/administrador-nuevo-tutor", handler: _administradorNuevoTutor);
+    router.define("/administrador-quitar-tutor", handler: _administradorQuitarTutor);
+    router.define("/administrador-materia", handler: _administradorMateria);
+    router.define("/administrador-reporte-tutorias", handler: _administradorReporteTutorias);
+    router.define("/administrador-reporte-tutorados", handler: _administradorReporteTutorados);
+    router.define("/administrador-filtro-estudiantes", handler: _administradorFiltrarEstudiantes);
+    
+
   }
 }
