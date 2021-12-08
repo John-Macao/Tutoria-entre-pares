@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Controlador/Tutorado/tutorado_historico_controller.dart';
+import 'package:frontend/domain/controllers/Tutorado/tutorado_historico_controller.dart';
 import 'package:get/get.dart';
 
 class TutoradoHistorico extends StatelessWidget{

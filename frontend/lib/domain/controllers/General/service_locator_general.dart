@@ -1,5 +1,5 @@
-import 'package:frontend/Controlador/General/login_controller.dart';
-import 'package:frontend/Vista/General/login.dart';
+import 'package:frontend/domain/controllers/General/login_controller.dart';
+import 'package:frontend/views/General/login.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;

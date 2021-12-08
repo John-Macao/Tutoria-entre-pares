@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/Controlador/Tutorado/tutorado_registrar_asistencia_controller.dart';
+import 'package:frontend/domain/controllers/Tutorado/tutorado_registrar_asistencia_controller.dart';
 import 'package:get/get.dart';
 
 class TutoradoRegistrarAsistencia extends StatelessWidget{

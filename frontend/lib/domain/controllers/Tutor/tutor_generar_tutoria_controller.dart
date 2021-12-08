@@ -1,7 +1,7 @@
-import 'package:frontend/modelo/tutor_horario.dart';
+import 'package:frontend/domain/models/tutor_horario.dart';
 import 'package:get/get.dart';
 
-class TutorInicioController extends GetxController{
+class TutorGenerarTutoriaController extends GetxController{
   
   List<String> horarios = <String>[];
   //porque aun no hay conexion con la base de datos
@@ -12,10 +12,20 @@ class TutorInicioController extends GetxController{
   Map mmiercoles = {};
   Map mjueves = {};
   Map mviernes = {};
+
+
+
+  //VARIABLES CON DATOS DE NUEVO ORARIO
+  List<String> listDia = <String>[];
+  List<String> listAsignatura = <String>[];
+  RxString dia = 'Lunes'.obs;
+  RxString hora = '7:00'.obs;
+  RxString asignatura = ''.obs;
   
   @override
   void onInit(){
     super.onInit();
+    //Horas
     horarios.add('7:00');
     horarios.add('8:00');
     horarios.add('9:00');
@@ -32,6 +42,21 @@ class TutorInicioController extends GetxController{
     horarios.add('20:00');
     horarios.add('21:00');
 
+    //Dias
+    listDia.add('Lunes');
+    listDia.add('Martes');
+    listDia.add('Miercoles');
+    listDia.add('Jueves');
+    listDia.add('viernes');
+
+    //asignaturas se agregan asi porque no hay db
+    listAsignatura.add('Calculito');
+    listAsignatura.add('Algebra Lineal');
+    listAsignatura.add('Probabilidad');
+    asignatura.value = listAsignatura[0];
+
+
+    //se agrega porque no hay datos
     tutorias.add(TutorHorario(id: 1, dia: 'Lunes', hora: '7:00', materia: 'Algebra Lineal'));
     tutorias.add(TutorHorario(id: 2, dia: 'Lunes', hora: '8:00', materia: 'Algebra Lineal'));
     
@@ -60,6 +85,12 @@ class TutorInicioController extends GetxController{
         } break;
       }
     }
+  }
+
+  agregarHorario(){
+    print('se agrega xd');
+    print(dia);
+    print(asignatura);
   }
 
   

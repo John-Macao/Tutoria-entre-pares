@@ -1,18 +1,18 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/Vista/General/login.dart';
-import 'package:frontend/Vista/Tutor/totur_listar_sesiones.dart';
-import 'package:frontend/Vista/Tutor/tutor_coordinacion.dart';
-import 'package:frontend/Vista/Tutor/tutor_generar_sesion.dart';
-import 'package:frontend/Vista/Tutor/tutor_generar_tutoria.dart';
-import 'package:frontend/Vista/Tutor/tutor_inicio.dart';
-import 'package:frontend/Vista/Tutor/tutor_modificar_telefono.dart';
-import 'package:frontend/Vista/Tutor/tutor_modificar_tutoria.dart';
-import 'package:frontend/Vista/Tutorado/tutorado_historico.dart';
-import 'package:frontend/Vista/Tutorado/tutorado_horario_tutor.dart';
-import 'package:frontend/Vista/Tutorado/tutorado_inicio.dart';
-import 'package:frontend/Vista/Tutorado/tutorado_registrar_asistencia.dart';
 import 'package:frontend/main.dart';
+import 'package:frontend/views/General/login.dart';
+import 'package:frontend/views/Tutor/totur_listar_sesiones.dart';
+import 'package:frontend/views/Tutor/tutor_coordinacion.dart';
+import 'package:frontend/views/Tutor/tutor_generar_sesion.dart';
+import 'package:frontend/views/Tutor/tutor_generar_tutoria.dart';
+import 'package:frontend/views/Tutor/tutor_inicio.dart';
+import 'package:frontend/views/Tutor/tutor_modificar_telefono.dart';
+import 'package:frontend/views/Tutor/tutor_modificar_tutoria.dart';
+import 'package:frontend/views/Tutorado/tutorado_historico.dart';
+import 'package:frontend/views/Tutorado/tutorado_horario_tutor.dart';
+import 'package:frontend/views/Tutorado/tutorado_inicio.dart';
+import 'package:frontend/views/Tutorado/tutorado_registrar_asistencia.dart';
 
 class RoutePagina {
   static FluroRouter router = FluroRouter();
@@ -53,6 +53,7 @@ class RoutePagina {
   static Handler _tutorGenerarSesion = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params){
       return TutorGenerarSesion();
+      
     }
   );
 

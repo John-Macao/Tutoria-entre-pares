@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/Controlador/Administrador/administrador_service_locator.dart';
-import 'package:frontend/Controlador/Tutor/tutor_inicio_controller.dart';
-import 'package:frontend/Vista/Tutor/tutor_menu.dart';
+import 'package:frontend/domain/controllers/Tutor/tutor_inicio_controller.dart';
+import 'package:frontend/views/Tutor/tutor_menu.dart';
 import 'package:get/get.dart';
 
 class TutorInicio extends StatelessWidget{

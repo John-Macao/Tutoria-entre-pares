@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Controlador/Tutor/tutor_modificar_tutoria_controller.dart';
-import 'package:frontend/Vista/Tutor/tutor_menu.dart';
+import 'package:frontend/domain/controllers/Tutor/tutor_modificar_tutoria_controller.dart';
+import 'package:frontend/views/Tutor/tutor_menu.dart';
 import 'package:get/get.dart';
 
 class TutorModificarTutoria extends StatelessWidget{
