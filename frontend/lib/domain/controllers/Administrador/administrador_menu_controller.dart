@@ -76,6 +76,7 @@ class Menu{
       child: Column(
         children: <Widget>[
           UserAccountsDrawerHeader(
+            
               accountName: Text(""), accountEmail: Text("")),
           Column(children: drawerOptions)
         ],

@@ -13,7 +13,8 @@ class VistaFiltrarEstudiantes extends StatelessWidget {
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-      title: Text("Filtrar Estudiantes"),
+        backgroundColor:Color.fromARGB(255, 0, 55, 114),
+        title: Text("Filtrar Estudiantes"),
       ),
       drawer: Menu.getDrawer(context),
       body: Center(
