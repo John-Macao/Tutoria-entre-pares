@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Color.fromARGB(style.mA, style.mR, style.mG, style.mB),
+        primaryColor: style.colorPrimario,
+        appBarTheme: AppBarTheme(color: style.colorPrimario),
       ),
       debugShowCheckedModeBanner: false,
       title: 'Tutoria Entre Pares',

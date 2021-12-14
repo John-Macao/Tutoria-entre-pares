@@ -12,7 +12,6 @@ class VistaPrincipal extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Administrador"),
-        backgroundColor:Color.fromARGB(255, 0, 55, 114),
       ),
       drawer: Menu.getDrawer(context),
       body: const HorarioPrincipal(),

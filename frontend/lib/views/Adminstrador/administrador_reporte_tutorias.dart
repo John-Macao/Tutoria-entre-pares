@@ -12,7 +12,6 @@ class VistaReporteTutorias extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Reporte Tutorias"),
-        backgroundColor:Color.fromARGB(255, 0, 55, 114),
       ),
       drawer: Menu.getDrawer(context),
       body: Center(

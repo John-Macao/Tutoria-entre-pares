@@ -9,66 +9,66 @@ class ResponsiveApp {
   late MediaQueryData _mediaQueryData;
   late double _textScaleFactor;
   late double _scaleFactor;
-  late EdgeInsetsApp edgeInsetsApp;
+  //late EdgeInsetsApp edgeInsetsApp;
 
   
   ResponsiveApp(this._context){
     _mediaQueryData = MediaQuery.of(_context);
     _textScaleFactor = _mediaQueryData.textScaleFactor;
     _scaleFactor = isMobile(_context)?1:isTablet(_context)?1.1:1.3;
-    edgeInsetsApp=EdgeInsetsApp(this);
+    //edgeInsetsApp=EdgeInsetsApp(this);
 
   }
+
+
+  //SizeBox Contenedores
+  get sizeBox1W => setWidth(300);
+  get sizeBox1H => setHeight(80);
+  
+  get sizeBox2W => setWidth(700);
+  get sizeBox2H => setHeight(60);
+  
+  get sizeBox3W => setWidth(250);
+  get sizeBox3H => setHeight(80);
   
 
-  //Container
-  get menuContainerHeight=>setHeight(100);
-  get menuContainerWidth=>setWidth(110);
-  get productContainerWidth=>setWidth(60);
-  get carouselContainerWidth=>setWidth(300);
-  get carouselContainerHeight=>setHeight(60);
-  get carouselCircleContainerWidth=>setWidth(10);
-  get carouselCircleContainerHeight=>setHeight(10);
-  get menuTabContainerHeight=>setHeight(400);
-  get sectionHeight=>setHeight(50);
-  get sectionWidth=>setWidth(8);
-
-  //Radius
-  get menuRadiusWidth=>setWidth(30);
-  get carouselRadiusWidth=>setWidth(10);
-
-
-  //Images
-  get menuImageHeight=>setHeight(60);
-  get menuImageWidth=>setWidth(50);
-  get tabImageHeight=>setHeight(30);
-
-  get menuHeight=>setHeight(850);
-  get opacityHeight=>setHeight(252);
-  get drawerWidth=>setWidth(252);
-
-  //Divider and Line
-  get dividerVtlHeight=>setHeight(100);
-  get dividerVtlWidth=>setWidth(2);
-  get dividerHznHeight=>setHeight(1);
-  get lineHznButtonHeight=>setHeight(2);
-  get lineHznButtonWidth=>setWidth(20);
-  //Spaces
-  get barSpace1Width=>setWidth(60);
-  get barSpace2Width=>setWidth(80);
-
   //Text Size
-  get bodyText1=>setSp(12);
-  get headline6=>setSp(15);
-  get headline3=>setSp(30);
-  get headline2=>setSp(40);
+  get text =>setSp(15);
+  get textField => setSp(14);
 
-  //Spacing
-  get letterSpacingCarouselWidth=>setWidth(10);
-  get letterSpacingHeaderWidth=>setWidth(3);
+  //Button Size
+  get buttonSize => setSp(15);
+  
+
+  //SizeBox
+  get boxWidth => setWidth(150);
+  get boxHeight => setHeight(20);
+
+  get boxLabelW => setWidth(190);
+  get boxLabelH => setHeight(20);
+
+
+  /*################################*/
+  //Padding
+
+  //Padding Horizontal
+  get padding1Hrz => EdgeInsets.only(left: setWidth(5));
+  get padding2Hrz => EdgeInsets.only(left: setWidth(25));
+  get padding3Hrz => EdgeInsets.only(left: setWidth(10));
 
 
 
+  /*################################*/
+  //Border
+
+  //BorderRadioCircular
+  get border1C => BorderRadius.circular(10);
+
+  
+  
+
+
+  // OPERADORES (estaticos)
   setWidth(int width) => width * _scaleWidth;
 
   setHeight(int height) => height * _scaleHeight;
@@ -83,5 +83,4 @@ class ResponsiveApp {
   get width =>_mediaQueryData.size.width;
   get height =>_mediaQueryData.size.height;
 }
-
 
