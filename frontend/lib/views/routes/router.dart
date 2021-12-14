@@ -9,6 +9,7 @@ import 'package:frontend/views/Adminstrador/administrador_quitar_tutor.dart';
 import 'package:frontend/views/Adminstrador/administrador_reporte_tutorados.dart';
 import 'package:frontend/views/Adminstrador/administrador_reporte_tutorias.dart';
 import 'package:frontend/views/General/login.dart';
+import 'package:frontend/views/General/verificar_login.dart';
 import 'package:frontend/views/Tutor/totur_listar_sesiones.dart';
 import 'package:frontend/views/Tutor/tutor_coordinacion.dart';
 import 'package:frontend/views/Tutor/tutor_generar_sesion.dart';
@@ -35,6 +36,12 @@ class RoutePagina {
   static Handler _logIn = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params){
       return Login();
+    }
+  );
+
+  static Handler _verificarLogIn = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return VerificarLogin();
     }
   );
 
@@ -157,6 +164,7 @@ class RoutePagina {
   static void configureRoutes() {
     //GENERAL
     router.define('/login', handler: _logIn);
+    router.define('/verificar-login', handler: _verificarLogIn);
     //TUTOR PAR
     router.define('/tutor-par-inicio', handler: _tutorInicioHandler);
     router.define('/tutor-generar-tutoria', handler: _tutorGenerarTutoria);

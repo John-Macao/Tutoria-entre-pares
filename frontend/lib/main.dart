@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_service_locator.dart';
+import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/controllers/General/service_locator_general.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_service_locator.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_service_locator.dart';
@@ -12,6 +13,8 @@ void main() {
   //router
   RoutePagina.configureRoutes();
   setPathUrlStrategy();
+
+  MsalService.initialize();
 
   setupGetItGeneral();
   setupGetItAdministrador();
