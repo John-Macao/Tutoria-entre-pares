@@ -1,4 +1,6 @@
+import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:get/get.dart';
+import 'dart:js' as js;
 
 class TutorListarSesionesController extends GetxController{
   
@@ -13,6 +15,12 @@ class TutorListarSesionesController extends GetxController{
   @override
   void onInit(){
     super.onInit();
+    if(MsalService.rol!='tutor'){
+      MsalService().getCurrentUser();
+      if (MsalService.rol!='tutor') {
+        js.context.callMethod('redireccion', [MsalService.rol]);
+      }
+    }
     //con conexion a base de datos para obtener las sesiones y cambiar todas estas variables por un modelo
     asignaturas.add('Calculito');
     asignaturas.add('Algebra Lineal');

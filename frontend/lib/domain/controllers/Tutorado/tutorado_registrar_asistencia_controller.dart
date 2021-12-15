@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:get/get.dart';
+import 'dart:js' as js;
 
 class TutoradoRegistrarAsistenciaController extends GetxController{
   
@@ -19,6 +21,12 @@ class TutoradoRegistrarAsistenciaController extends GetxController{
   @override
   void onInit(){
     super.onInit();
+    if(MsalService.rol!='tutorado'){
+      MsalService().getCurrentUser();
+      if (MsalService.rol!='tutorado') {
+        js.context.callMethod('redireccion', [MsalService.rol]);
+      }
+    }
     //con la url se obtiene la sesion y se buscan los datos de la misma
     tutorPar = 'Pablo Esteban Loja Morocho';
 

@@ -1,4 +1,6 @@
+import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:get/get.dart';
+import 'dart:js' as js;
 
 class TutoradoHorarioTutorController extends GetxController{
 
@@ -18,6 +20,12 @@ class TutoradoHorarioTutorController extends GetxController{
   @override
   void onInit(){
     super.onInit();
+    if(MsalService.rol!='tutorado'){
+      MsalService().getCurrentUser();
+      if (MsalService.rol!='tutorado') {
+        js.context.callMethod('redireccion', [MsalService.rol]);
+      }
+    }
     
     listAsignatura.add('Calculito');
     listAsignatura.add('Algebra Lineal');

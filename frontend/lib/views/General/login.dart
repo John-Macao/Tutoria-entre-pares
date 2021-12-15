@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/domain/controllers/General/login_controller.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_service_locator.dart';
 import 'package:get/get.dart';
@@ -27,8 +28,8 @@ class MostrarBoton extends StatelessWidget{
   MostrarBoton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MsalService>(
-      init: MsalService(),
+    return GetBuilder<LoginController>(
+      init: LoginController(),
       builder: (_){
         return TextButton(
           onPressed: (){

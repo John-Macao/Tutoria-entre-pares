@@ -1,6 +1,20 @@
+import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:get/get.dart';
+import 'dart:js' as js;
 
 class ReporteTutoriasController extends GetxController {
+
+  
+  @override
+  void onInit() {
+    super.onInit();
+    if(MsalService.rol!='administrador'){
+      MsalService().getCurrentUser();
+      if (MsalService.rol!='administrador') {
+        js.context.callMethod('redireccion', [MsalService.rol]);
+      }
+    }
+  }
 
   var opcion ;
   List<String> opciones = ['Materia', 'Jornada'];

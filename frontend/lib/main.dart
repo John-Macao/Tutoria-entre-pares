@@ -5,6 +5,7 @@ import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/controllers/General/service_locator_general.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_service_locator.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_service_locator.dart';
+import 'package:frontend/views/General/login.dart';
 import 'package:frontend/views/Tutor/tutor_inicio.dart';
 import 'package:frontend/views/routes/router.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -35,9 +36,9 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Tutoria Entre Pares',
-      initialRoute: '/tutor-par-inicio',
+      initialRoute: '/login',
       onGenerateRoute: RoutePagina.router.generator,
-      home: TutorInicio(),
+      home: Login(),
     );
   }
 }

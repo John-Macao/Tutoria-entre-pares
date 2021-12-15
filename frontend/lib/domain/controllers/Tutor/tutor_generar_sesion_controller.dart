@@ -1,4 +1,6 @@
+import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:get/get.dart';
+import 'dart:js' as js;
 
 class TutorGenerarSesionController extends GetxController{
   
@@ -9,6 +11,12 @@ class TutorGenerarSesionController extends GetxController{
   @override
   void onInit(){
     super.onInit();
+    if(MsalService.rol!='tutor'){
+      MsalService().getCurrentUser();
+      if (MsalService.rol!='tutor') {
+        js.context.callMethod('redireccion', [MsalService.rol]);
+      }
+    }
     //con conexion a base de datos
     nombre = 'Pablo Esteban Loja Morocho';
 

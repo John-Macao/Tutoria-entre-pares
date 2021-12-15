@@ -1,5 +1,7 @@
+import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/tutor_horario.dart';
 import 'package:get/get.dart';
+import 'dart:js' as js;
 
 class TutorInicioController extends GetxController{
   
@@ -16,6 +18,16 @@ class TutorInicioController extends GetxController{
   @override
   void onInit(){
     super.onInit();
+    if(MsalService.rol!='tutor'){
+      MsalService().getCurrentUser();
+      if (MsalService.rol!='tutor') {
+        js.context.callMethod('redireccion', [MsalService.rol]);
+      }
+    }
+
+    
+
+
     horarios.add('7:00');
     horarios.add('8:00');
     horarios.add('9:00');

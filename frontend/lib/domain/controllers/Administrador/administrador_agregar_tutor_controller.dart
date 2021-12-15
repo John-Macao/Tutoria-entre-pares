@@ -1,6 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:get/get.dart';
+import 'dart:js' as js;
 
 class AgregarNuevoTutorController extends GetxController {
 
@@ -11,6 +13,17 @@ class AgregarNuevoTutorController extends GetxController {
   var telefono = TextEditingController();
   var nivel = TextEditingController();
   var cedula = TextEditingController();
+
+  @override
+  void onInit() {
+    super.onInit();
+    if(MsalService.rol!='administrador'){
+      MsalService().getCurrentUser();
+      if (MsalService.rol!='administrador') {
+        js.context.callMethod('redireccion', [MsalService.rol]);
+      }
+    }
+  }
 
   agregar(){
     print("guarda los datos :  ----" + nombre.text );
@@ -26,3 +39,4 @@ class AgregarNuevoTutorController extends GetxController {
   }
 
 }
+
