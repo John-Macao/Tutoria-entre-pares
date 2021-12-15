@@ -14,11 +14,12 @@ class VerificarLogin extends StatelessWidget {
       init: VerificarLoginController(),
       builder: (_){
         return Scaffold(
+          appBar: AppBar(title: Text('Tutorías entre pares'),),
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Cargando'),
+                CircularProgressIndicator()
               ],
             ),
           ),
