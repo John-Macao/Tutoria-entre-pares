@@ -30,6 +30,9 @@ class ResponsiveApp {
   
   get sizeBox3W => setWidth(250);
   get sizeBox3H => setHeight(80);
+
+  get sizeBox4W => setWidth(300); 
+  get sizeBox4H => setHeight(100);
   
 
   //Text Size

@@ -14,8 +14,8 @@ class VistaNuevoTutor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ResponsiveApp responsiveP = ResponsiveApp(context);
-    MediaQueryData queryData = MediaQuery.of(context);
+    //ResponsiveApp responsiveP = ResponsiveApp(context);
+    //MediaQueryData queryData = MediaQuery.of(context);
     //print("Media query ==  + $queryData");
     return Scaffold(
       appBar: AppBar(
