@@ -19,9 +19,9 @@ class QuitarTutorController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    if(MsalService.rol!='administrador'){
+    if(MsalService.rol!='Administrador'){
       MsalService().getCurrentUser();
-      if (MsalService.rol!='administrador') {
+      if (MsalService.rol!='Administrador') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
     }

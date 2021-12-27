@@ -11,10 +11,10 @@ class VerificarLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<VerificarLoginController>(
-      init: VerificarLoginController(),
+      init: VerificarLoginController(context),
       builder: (_){
         return Scaffold(
-          appBar: AppBar(title: Text('Tutorías entre pares'),),
+          //appBar: AppBar(title: Text('Tutorías entre pares'),),
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -18,9 +18,9 @@ class TutorCoordinacionController extends GetxController{
   @override
   void onInit(){
     super.onInit();
-    if(MsalService.rol!='tutor'){
+    if(MsalService.rol!='Tutor'){
       MsalService().getCurrentUser();
-      if (MsalService.rol!='tutor') {
+      if (MsalService.rol!='Tutor') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
     }

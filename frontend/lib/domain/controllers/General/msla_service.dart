@@ -1,5 +1,6 @@
 import 'dart:js' as js;
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/models/UserLogIn.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +30,7 @@ class MsalService extends GetxController {
   }
 
   //obtiene los datos del usuario que ingreso al sistema y se guarda el correo
-  getCurrentUser() {
+  Future getCurrentUser() async {
     try {
         UserLogIn? user = UserLogIn.fromJson(js.JsObject.fromBrowserObject(js.context.callMethod('getCurrentUser', [])));
       if (user != null) {
@@ -37,7 +38,7 @@ class MsalService extends GetxController {
         _userLogin.refresh();
 
         correo = user.username!;
-        verificarUsuario();
+        await verificarUsuario();
         //return user;
       }
     } catch (e) {
@@ -46,18 +47,20 @@ class MsalService extends GetxController {
   }
 
     //se verifica el rol de un usuario segun su correo electronico
-    verificarUsuario(){
-    //aqui con el correo se verifica en la base de datos que permiso tiene
-    //se asignan permisos por el momento sin revisar la base
+  Future verificarUsuario() async{
+    
+    final data = await Usuario_api.instace.fetch_usuario_rol(MsalService.correo);
+    rol = data!;
+/*
     if(correo == 'ploja1@hotmail.com'){
-      rol = 'tutor';
+      rol = 'Tutor';
     }else if (correo == 'plojam@est.ups.edu.ec') {
-      rol = 'administrador';
+      rol = 'Administrador';
     }else if (correo == 'ploja1@live.com'){
-      rol = 'tutorado';
+      rol = 'Tutorado';
     }else{
       rol = '';
-    }
+    }*/
 
   }
 }

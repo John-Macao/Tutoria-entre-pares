@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_agregar_tutor_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
 class VistaNuevoTutor extends StatelessWidget {
@@ -17,7 +18,8 @@ class VistaNuevoTutor extends StatelessWidget {
       appBar: AppBar(
         title: Text('Agregar Tutor Par'),
       ),
-      drawer: Menu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: Menu.getDrawer(context),
       body: formularioNuevoTutor ()
     );
   }

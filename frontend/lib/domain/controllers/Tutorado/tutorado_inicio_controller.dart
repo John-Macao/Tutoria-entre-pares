@@ -11,9 +11,9 @@ class TutoradoInicioController extends GetxController{
   @override
   void onInit(){
     super.onInit();
-    if(MsalService.rol!='tutorado'){
+    if(MsalService.rol!='Tutorado'){
       MsalService().getCurrentUser();
-      if (MsalService.rol!='tutorado') {
+      if (MsalService.rol!='Tutorado') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
     }

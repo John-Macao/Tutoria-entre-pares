@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_principal_controller.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
 class VistaPrincipal extends StatelessWidget {
@@ -13,7 +14,8 @@ class VistaPrincipal extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Administrador"),
       ),
-      drawer: Menu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: Menu.getDrawer(context),
       body: const HorarioPrincipal(),
     );
     

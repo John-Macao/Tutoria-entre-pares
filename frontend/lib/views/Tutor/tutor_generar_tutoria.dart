@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_generar_tutoria_controller.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:frontend/views/Tutor/tutor_menu.dart';
 import 'package:get/get.dart';
 
@@ -17,7 +18,8 @@ class TutorGenerarTutoria extends StatelessWidget{
         appBar: AppBar(
           title: Text('Generar Horario de Tutoria'),
         ),
-      drawer: TutorMenu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: TutorMenu.getDrawer(context),
         body: SingleChildScrollView(
           child: Center(
             child: Column(

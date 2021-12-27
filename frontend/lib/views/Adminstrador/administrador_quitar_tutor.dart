@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_quitar_tutor_controller.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
 class VistaQuitarTutor extends StatelessWidget {
@@ -15,7 +16,8 @@ class VistaQuitarTutor extends StatelessWidget {
       appBar: AppBar(
       title: Text("Quitar Tutor Par"),
       ),
-      drawer: Menu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: Menu.getDrawer(context),
       body: Center(
         child: Container(
           height: 600,

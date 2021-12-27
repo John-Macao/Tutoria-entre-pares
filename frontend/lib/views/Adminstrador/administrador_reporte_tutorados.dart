@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_reporte_tutorados_controller.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
 class VistaReporteTutorados extends StatelessWidget {
@@ -13,7 +14,8 @@ class VistaReporteTutorados extends StatelessWidget {
       appBar: AppBar(
       title: Text("Reporte Tutorados"),
       ),
-      drawer: Menu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: Menu.getDrawer(context),
       body: Center(
         child: Container(
           height: 600,

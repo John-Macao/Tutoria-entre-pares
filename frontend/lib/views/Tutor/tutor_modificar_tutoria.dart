@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_modificar_tutoria_controller.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:frontend/views/Tutor/tutor_menu.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +14,8 @@ class TutorModificarTutoria extends StatelessWidget{
         appBar: AppBar(
           title: Text('Modificaar Horario de Tutoría'),
         ),
-      drawer: TutorMenu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: TutorMenu.getDrawer(context),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
