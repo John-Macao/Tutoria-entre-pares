@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
       //initialRoute: '/tutor-par-inicio',
       onGenerateRoute: RoutePagina.router.generator,
       home: VistaNuevoTutor(),
+      
     );
   }
 }

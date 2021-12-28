@@ -9,14 +9,14 @@ class ResponsiveApp {
   late MediaQueryData _mediaQueryData;
   late double _textScaleFactor;
   late double _scaleFactor;
-  //late EdgeInsetsApp edgeInsetsApp;
+  late EdgeInsetsApp edgeInsetsApp;
 
   
   ResponsiveApp(this._context){
     _mediaQueryData = MediaQuery.of(_context);
     _textScaleFactor = _mediaQueryData.textScaleFactor;
     _scaleFactor = isMobile(_context)?1:isTablet(_context)?1.1:1.3;
-    //edgeInsetsApp=EdgeInsetsApp(this);
+    edgeInsetsApp=EdgeInsetsApp(this);
 
   }
 
