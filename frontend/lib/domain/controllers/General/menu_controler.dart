@@ -45,9 +45,10 @@ class MenuController extends GetxController{
     //print('El correo ess: ' + CorreoController.correo.text);
     final data = await Menu_api.instace.fetch_menu(MsalService.correo);
     menus = data!;
-    //print('hay esta cantidad de manus: ' + menus.length.toString());
+    print('hay esta cantidad de manus: ' + MenuController.menus.length.toString());
     for (var i = 0; i < MenuController.menus.length; i++) {
       var menu = MenuController.menus[i];
+      print(menu.menid.toString());
       if(menu.mentipo=='U'){
           drawerOptions.add(
           new ListTile(

@@ -33,9 +33,13 @@ class Usuario(Base):
 
     usu_id = Column(Integer, primary_key=True, index=True)
     usu_correo = Column(String(length=50))
-    usu_estado = Column(String(length=1))
     usu_nombre = Column(String(length=60))
+    usu_estado = Column(String(length=1))
     usu_telefono = Column(String(length=10))
+    usu_beca = Column(String(length=10))
+    usu_nivel = Column(Integer)
+    usu_carrera = Column(String(length=150))
+    usu_razon = Column(String(length=150))
     tu_id = Column(Integer, ForeignKey('tipo_usuario.tu_id'))
 
     tu_ref = relationship('TipoUsuario', back_populates='usu_ref')

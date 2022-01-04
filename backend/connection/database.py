@@ -5,12 +5,12 @@ from sqlalchemy.engine.url import URL
 
 
 connect_url = URL(
-    "oracle+cx_oracle",
-    username="system",
+    "postgresql+psycopg2",
+    username="postgres",
     password="ka29kai9",
     host="localhost",
-    port="1521",
-    database="XE"
+    port="5432",
+    database="Tutorias"
 )
 
 engine = create_engine(connect_url, max_identifier_length=128)
