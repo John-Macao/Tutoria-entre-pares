@@ -1,64 +1,91 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
+from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer,
+                        Numeric, String)
+from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+from sqlalchemy.sql.expression import column, null
+from sqlalchemy.sql.sqltypes import Date
 
 from connection.database import Base
 
 class Menu(Base):
     __tablename__ = 'menu'
 
-    men_id = Column(Integer, primary_key=True, index=True)
-    men_descripcion = Column(String(length=50))
-    men_url = Column(String(length=200))
-    men_icono = Column(String(length=100))
-    men_estado = Column(String(length=1))
-    men_tipo = Column(String(length=1))
-    men_fkid = Column(Integer, ForeignKey('menu.men_id'))
+    men_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    men_descripcion = Column(String)
+    men_url = Column(String)
+    men_icono = Column(String)
+    men_estado = Column(String)
+    men_tipo = Column(String)
 
-    acc_ref = relationship('Acceso', back_populates='men_ref')
-    # men_ref = relationship('Menu', back_populates='men_ref')
-
-
+    men_fkid = Column(Integer, ForeignKey('menu.men_id', ondelete="CASCADE"), nullable=True)
+    
 class TipoUsuario(Base):
-    __tablename__ = 'tipo_usuario'
+    __tablename__ = "tipo_usuario"
 
-    tu_id = Column(Integer, primary_key=True, index=True)
-    tu_descripcion = Column(String(length=20))
-    tu_estado = Column(String(length=1))
+    tu_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    tu_descripcion = Column(String)
+    tu_estado = Column(String)
 
-    usu_ref = relationship('Usuario', back_populates='tu_ref')
-    acc_ref = relationship('Acceso', back_populates='tu_ref')
 
 class Usuario(Base):
     __tablename__ = 'usuario'
 
-    usu_id = Column(Integer, primary_key=True, index=True)
-    usu_correo = Column(String(length=50))
-    usu_nombre = Column(String(length=60))
-    usu_estado = Column(String(length=1))
-    usu_telefono = Column(String(length=10))
-    usu_beca = Column(String(length=10))
+    usu_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    usu_correo = Column(String)
+    usu_nombre = Column(String)
+    usu_cedula = Column(String)
+    usu_estado = Column(String)
+    usu_telefono = Column(String, nullable=True)
+    usu_beca = Column(String)
     usu_nivel = Column(Integer)
-    usu_carrera = Column(String(length=150))
-    usu_razon = Column(String(length=150))
-    tu_id = Column(Integer, ForeignKey('tipo_usuario.tu_id'))
-
-    tu_ref = relationship('TipoUsuario', back_populates='usu_ref')
-
+    usu_carrera = Column(String)
+    usu_razon = Column(String, nullable=True)
+    tu_id = Column(Integer, ForeignKey(
+        'tipo_usuario.tu_id', ondelete='CASCADE'))
+    tipo = relationship("TipoUsuario", foreign_keys=[tu_id])
 
 class Acceso(Base):
     __tablename__ = 'acceso'
 
-    acc_id = Column(Integer, primary_key=True, index=True)
-    acc_estado = Column(String(length=1))
-    acc_acceso = Column(String(length=50))
-    men_id = Column(Integer, ForeignKey('menu.men_id'))
-    tu_id = Column(Integer, ForeignKey('tipo_usuario.tu_id'))
+    acc_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    acc_estado = Column(String)
+    acc_acceso = Column(String)
+    men_id = Column(Integer, ForeignKey('menu.men_id', ondelete="CASCADE"))
+    tu_id = Column(Integer, ForeignKey('tipo_usuario.tu_id', ondelete="CASCADE"))
 
-    men_ref = relationship('Menu', back_populates='acc_ref')
-    tu_ref = relationship('TipoUsuario', back_populates='acc_ref')
+class MateriaOferta(Base):
+    __tablename__ = 'materia_oferta'
+
+    ma_of_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    ma_of_estado = Column(String)
+    id_materia_api = Column(Integer)
+    usu_id = Column(Integer, ForeignKey('usuario.usu_id'))
+    # usuario = relationship('Usuario',foreign_keys=[usu_id])
+
+class Horario(Base):
+    __tablename__ = 'horario'
+
+    hor_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    hor_dia = Column(String)
+    hor_hora = Column(String)
+    hor_fecha = Column(Date, nullable=True)
+    hor_tipo = Column(String)
+    ma_of_id = Column(Integer, ForeignKey('materia_oferta.ma_of_id'))
+    # materia = relationship('MeteriaOferta',foreign_keys=[ma_of_id])
+    usu_id = Column(Integer, ForeignKey('usuario.usu_id'))
+    # usuario = relationship('Usuario', foreign_keys=[usu_id])
 
 
+class Asistencia(Base):
+    __tablename__ = 'asistencia'
 
-
-
-
+    asi_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    asi_tema = Column(String)
+    asi_horas = Column(Integer)
+    asi_tipo = Column(String)
+    doc_id_api = Column(Integer)
+    hor_id = Column(Integer, ForeignKey('horario.hor_id'))
+    #horario = relationship('Horario', foreign_keys=[hor_id])
+    usu_id = Column(Integer, ForeignKey('usuario.usu_id'))
+    #usuario = relationship('Usuario', foreign_keys=[usu_id]) 
