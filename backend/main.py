@@ -138,6 +138,13 @@ def get_usuario_id(usu_correo: str,):
 ################################################################################
 ################################ MATERIA OFERTA ################################
 ################################################################################
+@app.get('/obtener-materia-por-id/{ma_of_id}',)
+def get_materias_usuario(ma_of_id: int,):
+    res = materia_oferta_controller.get_materia_por_id(ma_of_id)
+    if res is None:
+        raise HTTPException(status_code=404, detail="No se encontraron materias para este tutor")
+    return res
+
 @app.get('/obtener-materias/{usu_correo}',)
 def get_materias_usuario(usu_correo: str,):
     res = materia_oferta_controller.get_materias_tutor(usu_correo)

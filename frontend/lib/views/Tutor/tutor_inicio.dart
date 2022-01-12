@@ -60,26 +60,26 @@ class HorarioInicio extends StatelessWidget{
               ),
             ], 
             rows: List<DataRow>.generate(
-              _.horarios.length,
+              _.horas.length,
               (int index) => DataRow(
                 cells: <DataCell>[
                   DataCell(
-                    Text(_.horarios[index]),
+                    Text(_.horas[index]),
                   ),
                   DataCell(
-                    Text(_.mlunes[_.horarios[index]]!=null?_.mlunes[_.horarios[index]]:''),
+                    Text(_.mlunes[_.horas[index]]!=null?_.mlunes[_.horas[index]]:''),
                   ),
                   DataCell(
-                    Text(_.mmartes[_.horarios[index]]!=null?_.mmartes[_.horarios[index]]:''),
+                    Text(_.mmartes[_.horas[index]]!=null?_.mmartes[_.horas[index]]:''),
                   ),
                   DataCell(
-                    Text(_.mmiercoles[_.horarios[index]]!=null?_.mmiercoles[_.horarios[index]]:''),
+                    Text(_.mmiercoles[_.horas[index]]!=null?_.mmiercoles[_.horas[index]]:''),
                   ),
                   DataCell(
-                    Text(_.mjueves[_.horarios[index]]!=null?_.mjueves[_.horarios[index]]:''),
+                    Text(_.mjueves[_.horas[index]]!=null?_.mjueves[_.horas[index]]:''),
                   ),
                   DataCell(
-                    Text(_.mviernes[_.horarios[index]]!=null?_.mviernes[_.horarios[index]]:''),
+                    Text(_.mviernes[_.horas[index]]!=null?_.mviernes[_.horas[index]]:''),
                   ),
                 ]
               )

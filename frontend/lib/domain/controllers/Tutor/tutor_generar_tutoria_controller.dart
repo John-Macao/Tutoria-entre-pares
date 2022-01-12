@@ -25,11 +25,13 @@ class TutorGenerarTutoriaController extends GetxController{
   RxString asignatura = ''.obs;
   
   @override
-  void onInit(){
+  Future<void> onInit() async {
     super.onInit();
-    if(MsalService.rol!='Tutor'){
+    var cor = await MsalService().getCorreo(); 
+    var rol = await MsalService().getRol(cor);
+    if(rol!='Tutor'){
       MsalService().getCurrentUser();
-      if (MsalService.rol!='Tutor') {
+      if (rol!='Tutor') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
     }

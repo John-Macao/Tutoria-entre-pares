@@ -19,11 +19,13 @@ class TutoradoRegistrarAsistenciaController extends GetxController{
   String tutorPar = '';
 
   @override
-  void onInit(){
+  Future<void> onInit() async {
     super.onInit();
-    if(MsalService.rol!='Tutorado'){
+    var cor = await MsalService().getCorreo(); 
+    var rol = await MsalService().getRol(cor);
+    if(rol!='Tutorado'){
       MsalService().getCurrentUser();
-      if (MsalService.rol!='Tutorado') {
+      if (rol!='Tutorado') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
     }

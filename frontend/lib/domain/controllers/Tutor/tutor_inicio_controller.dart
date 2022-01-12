@@ -1,13 +1,16 @@
+import 'package:frontend/data/local_db/horario_api.dart';
+import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/domain/models/horario.dart';
 import 'package:frontend/domain/models/tutor_horario.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class TutorInicioController extends GetxController{
   
-  List<String> horarios = <String>[];
+  List<String> horas = <String>[];
   //porque aun no hay conexion con la base de datos
-  List<TutorHorario> tutorias = <TutorHorario>[];
+  List<Horario> horarios = <Horario>[];
 
   Map mlunes = {};
   Map mmartes = {};
@@ -16,66 +19,72 @@ class TutorInicioController extends GetxController{
   Map mviernes = {};
   
   @override
-  void onInit(){
+  Future<void> onInit() async {
     super.onInit();
-    if(MsalService.rol!='Tutor'){
+    var cor = await MsalService().getCorreo(); 
+    var rol = await MsalService().getRol(cor);
+
+    if(rol!='Tutor'){
       MsalService().getCurrentUser();
-      if (MsalService.rol!='Tutor') {
+      if (rol!='Tutor') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
     }
 
-    
+    horas.add('7:00');
+    horas.add('8:00');
+    horas.add('9:00');
+    horas.add('10:00');
+    horas.add('11:00');
+    horas.add('12:00');
+    horas.add('13:00');
+    horas.add('14:00');
+    horas.add('15:00');
+    horas.add('16:00');
+    horas.add('17:00');
+    horas.add('18:00');
+    horas.add('19:00');
+    horas.add('20:00');
+    horas.add('21:00');
 
+  }
 
-    horarios.add('7:00');
-    horarios.add('8:00');
-    horarios.add('9:00');
-    horarios.add('10:00');
-    horarios.add('11:00');
-    horarios.add('12:00');
-    horarios.add('13:00');
-    horarios.add('14:00');
-    horarios.add('15:00');
-    horarios.add('16:00');
-    horarios.add('17:00');
-    horarios.add('18:00');
-    horarios.add('19:00');
-    horarios.add('20:00');
-    horarios.add('21:00');
-
-    tutorias.add(TutorHorario(id: 1, dia: 'Lunes', hora: '7:00', materia: 'Algebra Lineal'));
-    tutorias.add(TutorHorario(id: 2, dia: 'Lunes', hora: '8:00', materia: 'Algebra Lineal'));
-    
-    tutorias.add(TutorHorario(id: 3, dia: 'Miercoles', hora: '13:00', materia: 'Calculito'));
-    tutorias.add(TutorHorario(id: 4, dia: 'Miercoles', hora: '14:00', materia: 'Calculito'));
-
-    tutorias.add(TutorHorario(id: 5, dia: 'Viernes', hora: '20:00', materia: 'Algebra Lineal'));
-    tutorias.add(TutorHorario(id: 6, dia: 'Viernes', hora: '21:00', materia: 'Algebra Lineal'));
-
-    for (var i = 0; i < tutorias.length; i++) {
-      switch(tutorias[i].dia){
-        case 'Lunes': {
-          mlunes[tutorias[i].hora] = tutorias[i].materia;
-        } break;
-        case 'Martes': {
-          mmartes[tutorias[i].hora] = tutorias[i].materia;
-        } break;
-        case 'Miercoles': {
-          mmiercoles[tutorias[i].hora] = tutorias[i].materia;
-        } break;
-        case 'Jueves': {
-          mjueves[tutorias[i].hora] = tutorias[i].materia;
-        } break;
-        case 'Viernes': {
-          mviernes[tutorias[i].hora] = tutorias[i].materia;
-        } break;
-      }
-    }
+  @override
+  void onReady() {
+    super.onReady();
+    this.loadHorarios();
   }
 
   
+  Future<void> loadHorarios() async{
+    
+    final data = await Horario_api.instace.fetch_horarios_fijo(MsalService.correo);
 
+    horarios = data!;
 
+    for (var i = 0; i < horarios.length; i++) {
+      final mat = await MateriaOferta_api.instace.fetch_materia__por_ip(horarios[i].maofId);
+      //aqui se debe buscar (con el id de la api dentro de la variable materia) el nombre de la materia dentro de las apis ofrecidas por la u
+      switch(horarios[i].horDia){
+        case 'Lunes': {
+          mlunes[horarios[i].horHora] = mat?.idMateriaApi.toString();//modificar por el resultado de la busqueda por la api
+        } break;
+        case 'Martes': {
+          mmartes[horarios[i].horHora] = mat?.idMateriaApi.toString();
+        } break;
+        case 'Miercoles': {
+          mmiercoles[horarios[i].horHora] = mat?.idMateriaApi.toString();
+        } break;
+        case 'Jueves': {
+          mjueves[horarios[i].horHora] = mat?.idMateriaApi.toString();
+        } break;
+        case 'Viernes': {
+          mviernes[horarios[i].horHora] = mat?.idMateriaApi.toString();
+        } break;
+      }
+      update();
 
+    }
+
+  }
 }

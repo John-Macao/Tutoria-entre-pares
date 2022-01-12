@@ -51,6 +51,7 @@ class MsalService extends GetxController {
     
     final data = await Usuario_api.instace.fetch_usuario_rol(MsalService.correo);
     rol = data!;
+
 /*
     if(correo == 'ploja1@hotmail.com'){
       rol = 'Tutor';
@@ -63,5 +64,27 @@ class MsalService extends GetxController {
     }*/
 
   }
+
+  Future<String?> getCorreo() async{
+    try {
+        UserLogIn? user = UserLogIn.fromJson(js.JsObject.fromBrowserObject(js.context.callMethod('getCurrentUser', [])));
+      if (user != null) {
+        _userLogin.value = user;
+        _userLogin.refresh();
+
+        correo = user.username!;
+        return correo;
+      }
+    } catch (e) {
+      return '';
+    } 
+  }
+
+  Future<String?> getRol(correou) async{
+    final data = await Usuario_api.instace.fetch_usuario_rol(correou);
+    rol = data!;
+    return rol;
+  }
+
 }
 

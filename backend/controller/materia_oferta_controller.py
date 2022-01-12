@@ -7,6 +7,10 @@ from controller import usuario_controller
 
 from connection import database as db
 
+def get_materia_por_id(ma_of_id):
+    res = db.session.query(models.MateriaOferta).get(ma_of_id)
+    return res
+
 def get_materias_tutor(usu_correo):
     return db.session.query(models.MateriaOferta).filter(
             models.MateriaOferta.usu_id == models.Usuario.usu_id,

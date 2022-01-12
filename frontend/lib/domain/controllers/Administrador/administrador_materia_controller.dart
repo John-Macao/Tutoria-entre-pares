@@ -12,11 +12,13 @@ class MateriaController extends GetxController{
   var materias = TextEditingController();
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-    if(MsalService.rol!='Administrador'){
+    var cor = await MsalService().getCorreo(); 
+    var rol = await MsalService().getRol(cor);
+    if(rol!='Administrador'){
       MsalService().getCurrentUser();
-      if (MsalService.rol!='Administrador') {
+      if (rol!='Administrador') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
     }
