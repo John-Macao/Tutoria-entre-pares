@@ -29,4 +29,15 @@ class Horario {
     );
   }
 
+  Map<String, dynamic> toJson() => 
+  {
+    'hor_id': horId,
+    'hor_dia': horDia,
+    'hor_hora': horHora,
+    'hor_fecha': horFehca,
+    'hor_tipo': horTipo,
+    'ma_of_id': maofId,
+    'usu_id': usuId,
+  };
+
 }

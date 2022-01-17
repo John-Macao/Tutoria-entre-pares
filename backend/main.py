@@ -174,43 +174,39 @@ def get_horario_fijo(hor_id: str,):
     return res
 
 @app.get('/obtener-horario-fijo/{usu_correo}',)
-def get_horario_fijo(usu_correo: str,):
+def get_horario_fijo(usu_correo: str):
     res = horario_controller.get_horarios_fijos(usu_correo)
     if res is None:
         raise HTTPException(status_code=404, detail="No se encontraron horarios para este tutor")
     return res
 
 @app.get('/obtener-horario-sesion/{usu_correo}',)
-def get_horario_sesion(usu_correo: str,):
+def get_horario_sesion(usu_correo: str):
     res = horario_controller.get_horarios_sesion(usu_correo)
     if res is None:
         raise HTTPException(status_code=404, detail="No se encontraron horarios para este tutor")
     return res
 
 @app.put('/agregar-horario-tutor-fijo/{usu_correo}',)
-async def agregar_horario_fijo(dato:Request,usu_correo:str,):
+async def agregar_horario_fijo(dato:Request,usu_correo:str,db:   Session = Depends(get_db)):
     res = await dato.json()
-    horario = models.Horario
-    horario.hor_dia = res['hor_dia']
-    horario.hor_hora = res['hor_hora']
-    horario.hor_tipo = res['hor_tipo']
-    horario.ma_of_id = res['ma_of_id']
+    # horario = models.Horario
+    # horario.hor_dia = res['hor_dia']
+    # horario.hor_hora = res['hor_hora']
+    # horario.hor_tipo = res['hor_tipo']
+    # horario.ma_of_id = res['ma_of_id']
     
-    res2 = horario_controller.put_horario_fijo(usu_correo, horario)
+    res2 = horario_controller.put_horario_fijo(db,usu_correo,res )
+
+    db.close()
 
     return res2
 
 @app.put('/agregar-horario-tutor-sesion/{usu_correo}',)
 async def agregar_horario_sesion(dato:Request,usu_correo:str,):
     res = await dato.json()
-    horario = models.Horario
-    horario.hor_dia = res['hor_dia']
-    horario.hor_hora = res['hor_hora']
-    horario.hor_tipo = res['hor_tipo']
-    horario.hor_fecha = res["hor_fecha"]
-    horario.ma_of_id = res['ma_of_id']
     
-    res2 = horario_controller.put_horario_sesion(usu_correo, horario)
+    res2 = horario_controller.put_horario_sesion(usu_correo, res)
 
     return res2
 

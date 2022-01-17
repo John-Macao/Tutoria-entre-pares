@@ -34,7 +34,7 @@ def get_menu_correo(usu_correo):
             models.TipoUsuario.tu_id == models.Usuario.tu_id,
             models.Usuario.usu_correo == usu_correo,
             models.Menu.men_tipo != 'H',
-        ).all()
+        ).order_by(models.Menu.men_id).all()
 
     return res
 

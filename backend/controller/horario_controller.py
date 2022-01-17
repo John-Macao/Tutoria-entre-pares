@@ -12,46 +12,77 @@ def get_horario(hor_id):
 
 def get_horarios_fijos(usu_correo):
     usu_id = usuario_controller.get_usuario_id(usu_correo)[0]
+
+    # fl1 = db.query(models.Horario).filter(
+    #         # models.Horario.usu_id == usu_id,
+    #         models.Horario.hor_tipo == 'Fijo',
+    #         # models.Horario.hor_fecha == None
+    #     )
+
+    # print(fl1)
+
+    # fl2 = db.query(models.Horario).filter(
+    #         models.Horario.usu_id == usu_id,
+    #         models.Horario.hor_tipo == 'Sesion',
+    #         # models.Horario.hor_fecha !=None
+    #     )
+    # print(fl2)
+
     return db.session.query(models.Horario).filter(
-            models.Horario.usu_id == usu_id,
-            models.Horario.hor_tipo == 'Fijo'
-        ).all()
+            models.Horario.usu_id == usu_id,).filter(
+            or_(
+                models.Horario.hor_tipo == 'Fijo',
+                models.Horario.hor_tipo != 'Sesion'
+            )
+            ).all()
+
+    # return db.session.query(models.Horario).filter(
+    #         models.Horario.usu_id == usu_id,
+    #         models.Horario.hor_tipo == 'Fijo',
+    #         # models.Horario.hor_fecha != None
+    #     ).all()
 
 def get_horarios_sesion(usu_correo):
     usu_id = usuario_controller.get_usuario_id(usu_correo)[0]
+
     return db.session.query(models.Horario).filter(
-            models.Horario.hor_tipo == 'Sesion',
-            models.Horario.usu_id == usu_id
+            models.Horario.usu_id == usu_id,
+            models.Horario.hor_tipo != 'Fijo',
+            # models.Horario.hor_fecha != None
         ).all()
     
-def put_horario_fijo(usu_correo, horario:models.Horario):
+def put_horario_fijo(db,usu_correo,res):
     usu_id = usuario_controller.get_usuario_id(usu_correo)[0]
 
     hor = models.Horario()
     hor.usu_id = usu_id
-    hor.hor_hora = horario.hor_hora
-    hor.hor_dia = horario.hor_dia
-    hor.hor_tipo = horario.hor_tipo
-    hor.ma_of_id = horario.ma_of_id
+    hor.hor_dia = res['hor_dia']
+    hor.hor_hora = res['hor_hora']
+    hor.hor_tipo = res['hor_tipo']
+    hor.ma_of_id = res['ma_of_id']
     # horario.hor_fecha = datetime.today().strftime('%A, %B %d, %Y %H:%M:%S')
 
-    db.session.add(hor)
-    db.session.commit()
+    db.add(hor)
+    db.commit()
+
     return True
 
-def put_horario_sesion(usu_correo, horario:models.Horario):
+def put_horario_sesion(usu_correo, res):
     usu_id = usuario_controller.get_usuario_id(usu_correo)[0]
 
     hor = models.Horario()
     hor.usu_id = usu_id
-    hor.hor_hora = horario.hor_hora
-    hor.hor_dia = horario.hor_dia
-    hor.hor_tipo = horario.hor_tipo
-    hor.hor_fecha = horario.hor_fecha
-    hor.ma_of_id = horario.ma_of_id
+    hor.hor_dia = res['hor_dia']
+    hor.hor_hora = res['hor_hora']
+    hor.hor_tipo = res['hor_tipo']
+    hor.hor_fecha = res["hor_fecha"]
+    hor.ma_of_id = res['ma_of_id']
     
     db.session.add(hor)
     db.session.commit()
+
+    #db.session.close_all()
+
     return True
 
 def update_horario_fijo(hor_id, hor_dia, hor_hora,ma_of_id,usu_id):

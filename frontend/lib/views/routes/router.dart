@@ -160,6 +160,11 @@ class RoutePagina {
   );
 
 //----------------------------------BORRAR
+  // static Handler _borrar = Handler(
+  //   handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+  //     return BorrarModificarHorario();
+  //   }
+  // );
 
 
 
@@ -193,6 +198,7 @@ class RoutePagina {
     router.define("/administrador-filtro-estudiantes", handler: _administradorFiltrarEstudiantes);
 
     //-----------------------------BORRAR
+    // router.define("/borrar", handler: _borrar);
     
 
   }

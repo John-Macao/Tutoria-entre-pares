@@ -17,12 +17,15 @@ class TutorInicioController extends GetxController{
   Map mmiercoles = {};
   Map mjueves = {};
   Map mviernes = {};
+
+  var cor = '';
+  var rol = '';
   
   @override
   Future<void> onInit() async {
     super.onInit();
-    var cor = await MsalService().getCorreo(); 
-    var rol = await MsalService().getRol(cor);
+    cor = (await MsalService().getCorreo())!; 
+    rol = (await MsalService().getRol(cor))!;
 
     if(rol!='Tutor'){
       MsalService().getCurrentUser();
@@ -58,9 +61,12 @@ class TutorInicioController extends GetxController{
   
   Future<void> loadHorarios() async{
     
-    final data = await Horario_api.instace.fetch_horarios_fijo(MsalService.correo);
+    cor = (await MsalService().getCorreo())!; 
+    final data = await Horario_api.instace.fetch_horarios_fijo(cor);
 
     horarios = data!;
+    print('-----------------------');
+    print(horarios.length);
 
     for (var i = 0; i < horarios.length; i++) {
       final mat = await MateriaOferta_api.instace.fetch_materia__por_ip(horarios[i].maofId);

@@ -21,4 +21,16 @@ class MateriaOferta_api {
       return null;
     }
   }
+
+ Future<List<MateriaOferta>?> fetch_materia_por_tutor(String correo) async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/obtener-materias/'+correo;
+      final Response response = await this._dio.get(llamada,);
+      List<MateriaOferta> menus = (response.data as List).map((e) => MateriaOferta.fromJson(e)).toList();
+      return menus;
+
+    } catch (e) {
+      return null;
+    }
+  }
 }

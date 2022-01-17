@@ -1,36 +1,38 @@
+import 'dart:convert';
+
+import 'package:frontend/data/local_db/horario_api.dart';
+import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/domain/models/horario.dart';
+import 'package:frontend/domain/models/materia_oferta.dart';
 import 'package:frontend/domain/models/tutor_horario.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class TutorModificarTutoriaController extends GetxController{
 
-  TutorHorario seleccionado = TutorHorario(id: -1, dia: '', hora: '', materia: '');
+Horario seleccionado = Horario(horId:-1,horDia:'',horHora:'',horFehca: null,horTipo: '',maofId: -1,usuId: -1);
   
-  List<String> horarios = <String>[];
+  List<String> horas = <String>[];
   //porque aun no hay conexion con la base de datos
-  List<TutorHorario> tutorias = <TutorHorario>[];
+  List<Horario> horarios = <Horario>[];
 
-  Map<dynamic, TutorHorario> mlunes = {};
-  Map<dynamic, TutorHorario> mmartes = {};
-  Map<dynamic, TutorHorario> mmiercoles = {};
-  Map<dynamic, TutorHorario> mjueves = {};
-  Map<dynamic, TutorHorario> mviernes = {};
+  Map<dynamic, Horario> mlunes = {};
+  Map<dynamic, Horario> mmartes = {};
+  Map<dynamic, Horario> mmiercoles = {};
+  Map<dynamic, Horario> mjueves = {};
+  Map<dynamic, Horario> mviernes = {};
+  Map materiaNombre = {};
 
 
-
-  //VARIABLES CON DATOS DE NUEVO ORARIO
-  List<String> listDia = <String>[];
-  List<String> listAsignatura = <String>[];
-  RxString dia = 'Lunes'.obs;
-  RxString hora = '7:00'.obs;
-  RxString asignatura = ''.obs;
+  var cor = '';
+  var rol = '';
   
   @override
   Future<void> onInit() async {
     super.onInit();
-    var cor = await MsalService().getCorreo(); 
-    var rol = await MsalService().getRol(cor);
+    cor = (await MsalService().getCorreo())!; 
+    rol = (await MsalService().getRol(cor))!;
     if(rol!='Tutor'){
       MsalService().getCurrentUser();
       if (rol!='Tutor') {
@@ -38,21 +40,93 @@ class TutorModificarTutoriaController extends GetxController{
       }
     }
     //Horas
-    horarios.add('7:00');
-    horarios.add('8:00');
-    horarios.add('9:00');
-    horarios.add('10:00');
-    horarios.add('11:00');
-    horarios.add('12:00');
-    horarios.add('13:00');
-    horarios.add('14:00');
-    horarios.add('15:00');
-    horarios.add('16:00');
-    horarios.add('17:00');
-    horarios.add('18:00');
-    horarios.add('19:00');
-    horarios.add('20:00');
-    horarios.add('21:00');
+    horas.add('7:00');
+    horas.add('8:00');
+    horas.add('9:00');
+    horas.add('10:00');
+    horas.add('11:00');
+    horas.add('12:00');
+    horas.add('13:00');
+    horas.add('14:00');
+    horas.add('15:00');
+    horas.add('16:00');
+    horas.add('17:00');
+    horas.add('18:00');
+    horas.add('19:00');
+    horas.add('20:00');
+    horas.add('21:00');
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    this.loadHorarios();
+  }
+
+
+  actualizarHorario(){
+    mlunes = {};
+    mmartes = {};
+    mmiercoles = {};
+    mjueves = {};
+    mviernes = {};
+    this.loadHorarios();
+  }
+
+  Future<void> loadHorarios() async{
+    
+    final data = await Horario_api.instace.fetch_horarios_fijo(MsalService.correo);
+
+    horarios = data!;
+
+    for (var i = 0; i < horarios.length; i++) {
+      final mat = await MateriaOferta_api.instace.fetch_materia__por_ip(horarios[i].maofId);
+      //aqui se debe buscar (con el id de la api dentro de la variable materia) el nombre de la materia dentro de las apis ofrecidas por la u
+      materiaNombre[horarios[i].horId] = mat?.idMateriaApi.toString();//aqui se pondria el nombre de la materia
+      switch(horarios[i].horDia){
+        case 'Lunes': {
+          mlunes[horarios[i].horHora] = horarios[i];//modificar por el resultado de la busqueda por la api
+        } break;
+        case 'Martes': {
+          mmartes[horarios[i].horHora] = horarios[i];
+        } break;
+        case 'Miercoles': {
+          mmiercoles[horarios[i].horHora] = horarios[i];
+        } break;
+        case 'Jueves': {
+          mjueves[horarios[i].horHora] = horarios[i];
+        } break;
+        case 'Viernes': {
+          mviernes[horarios[i].horHora] = horarios[i];
+        } break;
+      }
+    }
+      update(['horario']);
+  }
+
+}
+
+
+class ModificarHorario extends GetxController{
+
+  Horario seleccionado = Horario(horId:-1,horDia:'',horHora:'',horFehca: null,horTipo: '',maofId: -1,usuId: -1);
+  
+  //este es un mapeo donde se van a guardar los nombres de las materias junto con el id de la materia ofertada por el tutor, esto para ahorrar 
+  //esfuerzo buscando una por una hasta saber que materia se quiere ingresar, puesto que la tabla mareria_oferta no tiene el nombre de la materia
+  Map materias = {};
+
+  //VARIABLES NECESARIAS PARA MANIPULAR UN HORARIO
+  List<String> listDia = <String>[];
+  List<String> listAsignatura = <String>[];
+  String? dia;
+  String? hora;
+  RxString asignatura = ''.obs;
+
+  var cor ='';
+
+  @override
+  void onInit(){
+    super.onInit();
 
     //Dias
     listDia.add('Lunes');
@@ -61,75 +135,54 @@ class TutorModificarTutoriaController extends GetxController{
     listDia.add('Jueves');
     listDia.add('Viernes');
 
-    //asignaturas se agregan asi porque no hay db
-    listAsignatura.add('Calculito');
-    listAsignatura.add('Algebra Lineal');
-    listAsignatura.add('Probabilidad');
-    asignatura.value = listAsignatura[0];
+    //asignaturas se agregan 
+    this.loadAsignaturas();
+  }
 
 
-    //se agrega porque no hay datos
-    tutorias.add(TutorHorario(id: 1, dia: 'Lunes', hora: '7:00', materia: 'Algebra Lineal'));
-    tutorias.add(TutorHorario(id: 2, dia: 'Lunes', hora: '8:00', materia: 'Algebra Lineal'));
-    
-    tutorias.add(TutorHorario(id: 3, dia: 'Miercoles', hora: '13:00', materia: 'Calculito'));
-    tutorias.add(TutorHorario(id: 4, dia: 'Miercoles', hora: '14:00', materia: 'Calculito'));
-
-    tutorias.add(TutorHorario(id: 5, dia: 'Viernes', hora: '20:00', materia: 'Algebra Lineal'));
-    tutorias.add(TutorHorario(id: 6, dia: 'Viernes', hora: '21:00', materia: 'Algebra Lineal'));
-
-    for (var i = 0; i < tutorias.length; i++) {
-      switch(tutorias[i].dia){
-        case 'Lunes': {
-          mlunes[tutorias[i].hora] = tutorias[i];
-        } break;
-        case 'Martes': {
-          mmartes[tutorias[i].hora] = tutorias[i];
-        } break;
-        case 'Miercoles': {
-          mmiercoles[tutorias[i].hora] = tutorias[i];
-        } break;
-        case 'Jueves': {
-          mjueves[tutorias[i].hora] = tutorias[i];
-        } break;
-        case 'Viernes': {
-          mviernes[tutorias[i].hora] = tutorias[i];
-        } break;
-      }
-      //print(mlunes[tutorias[i].hora]?.materia);
+  Future<void> loadAsignaturas() async{
+    cor = (await MsalService().getCorreo())!; 
+    final data = await MateriaOferta_api.instace.fetch_materia_por_tutor(cor);
+    List<MateriaOferta> mat = data!;
+    for(var i=0; i<mat.length; i++){
+      //se busca el nombre de la materia en la api de la u para poder ponerlo en la List de asignaturas
+      //la llave del mapa es el nombre de la asignatura y su valor devuelve el id de la materia_oferta
+      materias[mat[i].idMateriaApi.toString()] = mat[i].maofId;//antes del igual cambiar por el nombre de la materia 
+      listAsignatura.add(mat[i].idMateriaApi.toString());
     }
-  }
-
-  seleccionarHorario(TutorHorario th){
-    seleccionado = th;
-    print(seleccionado.dia);
-    dia.value = seleccionado.dia;
-    hora.value = seleccionado.hora;
-    asignatura.value = seleccionado.materia;
+    asignatura.value = listAsignatura[0];
     update();
   }
-  seleccionarVacio(){
-    seleccionado = TutorHorario(id: -1, dia: '', hora: '', materia: '');
-    update();
-  }
-  
 
-  actualizarHorario(){
-    print('se actualiza');
-    print(dia);
-    print(asignatura);
-    print(seleccionado.id);
-  }
+  Future agregarHorario() async{
+    cor = (await MsalService().getCorreo())!; 
+    //obtener el id de la materia, el id del correo no es encesario, solo enviar el correo y el backend se encarga
+    //aqui se buscan todas las materias 
+    Horario horario = Horario(horId: 0, horDia: dia!, horHora: hora!, horFehca: null, horTipo: 'Fijo', maofId:materias[asignatura.value.toString()], usuId:-1);
 
+    var json = jsonEncode(horario.toJson());
 
-  eliminarHorario(){
-    print('se elimina');
-    print(dia);
-    print(asignatura);
-    print(seleccionado.id);
+    final insertar = await Horario_api.instace.put_horario_tutor(cor, json);
+
+    return insertar;
   }
 
+  Future actualizarHorario(Horario hor) async {
+    Horario horario = Horario(horId: hor.horId, horDia: dia!, horHora: hora!, horFehca: null, horTipo: 'Fijo', maofId:materias[asignatura.value.toString()], usuId:hor.usuId);
 
+    var json = jsonEncode(horario.toJson());
 
+    final insertar = await Horario_api.instace.update_horario_tutor(json);
+
+    return insertar;
+    
+  }
+
+  Future eliminarHorario(Horario horario)async{
+    var json = jsonEncode(horario.toJson());
+
+    final insertar = await Horario_api.instace.delete_horario_tutor(json);
+    return insertar;
+  }
 
 }
