@@ -20,4 +20,19 @@ class Usuario_api {
       return null;
     }
   }
+
+  Future<String?> fetch_usuario_nombre(String correo) async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuario_nombre/'+correo;
+      print(llamada);
+      final Response response = await this._dio.get(llamada,);
+      String nombre = response.data['usu_nombre'];
+      return nombre;
+
+    } catch (e) {
+      return null;
+    }
+  }
+
+
 }

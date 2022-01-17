@@ -121,6 +121,13 @@ def get_usuario(usu_correo: str):
         raise HTTPException(status_code=404, detail="User not found")
     return res
 
+@app.get('/usuario_nombre/{usu_correo}',)
+def get_usuario(usu_correo: str):
+    res = usuario_controller.get_usuario_nombre(usu_correo)
+    if res is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return res
+
 @app.get('/usuario_rol/{usu_correo}',)
 def get_usuario_rol(usu_correo: str,):
     res = usuario_controller.get_usuario_rol(usu_correo)
@@ -169,6 +176,13 @@ def deshabilitar_materia_tutor(usu_correo:str,id_materia_api:str,db:Session=Depe
 @app.get('/obtener-un-horario/{hor_id}',)
 def get_horario_fijo(hor_id: str,):
     res = horario_controller.get_horario(hor_id)
+    if res is None:
+        raise HTTPException(status_code=404, detail="No se encontraron horarios para este tutor")
+    return res
+
+@app.get('/obtener-ultimo-horario/{usu_correo}',)
+def get_horario_fijo(usu_correo: str,):
+    res = horario_controller.get_ultimo_horario(usu_correo)
     if res is None:
         raise HTTPException(status_code=404, detail="No se encontraron horarios para este tutor")
     return res

@@ -4,6 +4,7 @@ import 'package:frontend/views/General/menu_view.dart';
 import 'package:frontend/views/Tutor/tutor_menu.dart';
 import 'package:get/get.dart';
 
+
 class TutorGenerarSesion extends StatelessWidget{
   @override
   Widget build(BuildContext context){
@@ -59,7 +60,7 @@ class formularioGenerarSesion extends StatelessWidget{
               ),
               TextButton(
                 onPressed: (){
-                  _.generarSesion();
+                  _.generarSesion(context);
                 }, 
                 child: Text('Generar sesion tutorial')
               ),

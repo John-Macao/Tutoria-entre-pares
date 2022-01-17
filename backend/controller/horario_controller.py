@@ -10,23 +10,12 @@ def get_horario(hor_id):
     res = db.session.query(models.Horario).get(hor_id)
     return res
 
+def get_ultimo_horario(usu_correo):
+    usu_id = usuario_controller.get_usuario_id(usu_correo)[0]
+    return db.session.query(models.Horario.hor_id).filter(models.Horario.usu_id==usu_id).order_by(models.Horario.hor_id.desc()).first()
+
 def get_horarios_fijos(usu_correo):
     usu_id = usuario_controller.get_usuario_id(usu_correo)[0]
-
-    # fl1 = db.query(models.Horario).filter(
-    #         # models.Horario.usu_id == usu_id,
-    #         models.Horario.hor_tipo == 'Fijo',
-    #         # models.Horario.hor_fecha == None
-    #     )
-
-    # print(fl1)
-
-    # fl2 = db.query(models.Horario).filter(
-    #         models.Horario.usu_id == usu_id,
-    #         models.Horario.hor_tipo == 'Sesion',
-    #         # models.Horario.hor_fecha !=None
-    #     )
-    # print(fl2)
 
     return db.session.query(models.Horario).filter(
             models.Horario.usu_id == usu_id,).filter(
@@ -36,11 +25,6 @@ def get_horarios_fijos(usu_correo):
             )
             ).all()
 
-    # return db.session.query(models.Horario).filter(
-    #         models.Horario.usu_id == usu_id,
-    #         models.Horario.hor_tipo == 'Fijo',
-    #         # models.Horario.hor_fecha != None
-    #     ).all()
 
 def get_horarios_sesion(usu_correo):
     usu_id = usuario_controller.get_usuario_id(usu_correo)[0]
@@ -50,6 +34,7 @@ def get_horarios_sesion(usu_correo):
             models.Horario.hor_tipo != 'Fijo',
             # models.Horario.hor_fecha != None
         ).all()
+
     
 def put_horario_fijo(db,usu_correo,res):
     usu_id = usuario_controller.get_usuario_id(usu_correo)[0]

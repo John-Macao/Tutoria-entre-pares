@@ -2,7 +2,7 @@ class Horario {
   final int horId;
   final String horDia;
   final String horHora;
-  final DateTime? horFehca;
+  final String? horFehca;
   final String horTipo;
   final int maofId;
   final int usuId;

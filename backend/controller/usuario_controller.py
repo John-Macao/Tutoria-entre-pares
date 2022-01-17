@@ -10,6 +10,11 @@ def get_usuario(usu_correo):
             models.Usuario.usu_correo == usu_correo
         ).first()
 
+def get_usuario_nombre(usu_correo):
+    return db.session.query(models.Usuario.usu_nombre).filter(
+            models.Usuario.usu_correo == usu_correo
+        ).first()
+
 def get_usuario_rol(usu_correo):
     return db.session.query(models.TipoUsuario.tu_descripcion).filter(
             models.Usuario.usu_correo == usu_correo,
