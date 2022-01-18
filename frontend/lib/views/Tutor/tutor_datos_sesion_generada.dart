@@ -32,6 +32,13 @@ class TutorDatosSesionGenerada extends StatelessWidget{
                     Text(_.horario.horId.toString()),
                     Text('Enlace: '),
                     SelectableText('http://localhost:64790//tutorado-registrar-asistencia/'+_.horario.horId.toString()),
+
+                    TextButton(
+                      onPressed: (){
+                        Navigator.pushNamed(context, '/tutor-par-inicio');
+                      }, 
+                      child: Text('Volver al inicio'),
+                    ),
                   ],
                 ),
               );

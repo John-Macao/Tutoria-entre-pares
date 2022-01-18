@@ -33,7 +33,7 @@ def get_horarios_sesion(usu_correo):
             models.Horario.usu_id == usu_id,
             models.Horario.hor_tipo != 'Fijo',
             # models.Horario.hor_fecha != None
-        ).all()
+        ).order_by(models.Horario.hor_id.desc()).all()
 
     
 def put_horario_fijo(db,usu_correo,res):
@@ -78,6 +78,13 @@ def update_horario_fijo(hor_id, hor_dia, hor_hora,ma_of_id,usu_id):
     comprobacion.ma_of_id = ma_of_id
     db.session.commit()
 
+    return True
+
+def update_horario_sesion(hor_id, ma_of_id):
+    comprobacion = get_horario(hor_id)
+
+    comprobacion.ma_of_id = ma_of_id
+    db.session.commit()
     return True
 
 def eliminar_horario_fijo(hor_id):

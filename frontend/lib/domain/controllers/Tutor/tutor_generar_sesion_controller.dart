@@ -40,14 +40,9 @@ class TutorGenerarSesionController extends GetxController{
   Future<void> loadDatos() async{
     cor = (await MsalService().getCorreo())!; 
 
-    print(cor);
-
     nombre = (await Usuario_api.instace.fetch_usuario_nombre(cor))!;
 
-    print(nombre);
-
     final data = await MateriaOferta_api.instace.fetch_materia_por_tutor(cor);
-    print('llega');
     List<MateriaOferta> mat = data!;
     for(var i=0; i<mat.length; i++){
       //se busca el nombre de la materia en la api de la u para poder ponerlo en la List de asignaturas

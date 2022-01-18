@@ -237,6 +237,16 @@ async def actualizar_horario_fijo(horario:Request,):
 
     return res2
 
+@app.put('/actualizar-horario-tutor-sesion/',)
+async def actualizar_horario_fijo(horario:Request,):
+    res = await horario.json()
+    hor_id = res['hor_id']
+    ma_of_id = res['ma_of_id']
+    
+    res2 = horario_controller.update_horario_sesion(hor_id,ma_of_id)
+
+    return res2
+
 @app.put('/eliminar-horario-tutor-fijo/',)
 async def eliminar_horario_fijo(horario:Request,):
     res = await horario.json()

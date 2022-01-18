@@ -22,6 +22,19 @@ class Horario_api {
     }
   }
 
+
+  Future<List<Horario>?> fetch_horarios_sesion(String correo) async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/obtener-horario-sesion/'+correo;
+      final Response response = await _dio.get(llamada,);
+      List<Horario> horarios = (response.data as List).map((e) => Horario.fromJson(e)).toList();
+      return horarios;
+
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<Horario?> fetch_horarios_id(int horId) async {
     try {
       var llamada = 'http://127.0.0.1:8000/obtener-un-horario/'+horId.toString();
@@ -79,6 +92,18 @@ class Horario_api {
       return false;
     }
   }
+  
+  Future<Object> update_horario_tutor_sesion(json) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/actualizar-horario-tutor-sesion/';
+      final response = await _dio.put(llamada, data: json);
+      return response;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  
 
   Future<Object> delete_horario_tutor(json) async{
     try {
