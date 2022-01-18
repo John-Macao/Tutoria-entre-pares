@@ -13,10 +13,7 @@ class TutorDatosSesionGeneradaController extends GetxController{
 
   Horario horario = Horario(horId: 0, horDia: '', horHora: '', horFehca: null, horTipo: '', maofId:0, usuId:0);
 
-  TutorDatosSesionGeneradaController(this.horarioId){
-    print('llega aca ');
-    print(horario);
-  }
+  TutorDatosSesionGeneradaController(this.horarioId);
 
   String nombre = '';
 

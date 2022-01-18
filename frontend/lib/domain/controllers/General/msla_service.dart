@@ -38,6 +38,8 @@ class MsalService extends GetxController {
         _userLogin.refresh();
 
         correo = user.username!;
+        print(correo);
+        
         await verificarUsuario();
         //return user;
       }

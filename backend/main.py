@@ -121,6 +121,13 @@ def get_usuario(usu_correo: str):
         raise HTTPException(status_code=404, detail="User not found")
     return res
 
+@app.get('/usuario_por_id/{usu_id}',)
+def get_usuario(usu_id: int):
+    res = usuario_controller.get_usuario_por_id(usu_id)
+    if res is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return res
+
 @app.get('/usuario_nombre/{usu_correo}',)
 def get_usuario(usu_correo: str):
     res = usuario_controller.get_usuario_nombre(usu_correo)
@@ -152,6 +159,11 @@ def get_usuario_id(usu_correo: str,):
 @app.put('/actualizar-usuario-telefono/{usu_correo}-{usu_telefono}',)
 def put_materia_tutor(usu_correo:str,usu_telefono:str,db:Session=Depends(get_db),):
     res = usuario_controller.update_usuario_telefono(usu_correo,usu_telefono)
+    return res
+
+@app.put('/usuario-agregar-razon/{usu_correo}-{usu_razon}',)
+def put_materia_tutor(usu_correo:str,usu_razon:str,db:Session=Depends(get_db),):
+    res = usuario_controller.update_usuario_razon(usu_correo,usu_razon)
     return res
 
 ################################################################################

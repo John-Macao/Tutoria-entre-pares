@@ -4,14 +4,16 @@ import 'package:frontend/domain/controllers/Tutorado/tutorado_registrar_asistenc
 import 'package:get/get.dart';
 
 class TutoradoRegistrarAsistencia extends StatelessWidget{
+  final String codigo;
+  TutoradoRegistrarAsistencia({Key? key, required this.codigo}) : super(key: key);
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutoradoRegistrarAsistenciaController>(
-      init: TutoradoRegistrarAsistenciaController(),
+      init: TutoradoRegistrarAsistenciaController(int.parse(codigo)),
       builder: (_){
         return Scaffold(
           appBar: AppBar(
-            title: Text('Tutor Par Inicio'),
+            title: Text('Registrar asistencia'),
           ),
           body: SingleChildScrollView(
             child: Center(
@@ -58,26 +60,28 @@ class TutoradoRegistrarAsistencia extends StatelessWidget{
                       }).toList(),
                     ),
                   ),
-                  Text('¿Quién le incentivo a asistir a las tutorías?:'),
-                  Obx(() =>
-                      DropdownButton<String>(
-                      hint: Text('Seleccionar motivo'),
-                      value: _.motivo.value,
-                      onChanged: (String? seleccionado){
-                        _.motivo.value = seleccionado!;
-                      },
-                      items: _.listMotivo
-                            .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                          );
-                      }).toList(),
+                  if (_.motivoBool == false) ...[
+                    Text('¿Quién le incentivo a asistir a las tutorías?:'),
+                    Obx(() =>
+                        DropdownButton<String>(
+                        hint: Text('Seleccionar motivo'),
+                        value: _.motivo.value,
+                        onChanged: (String? seleccionado){
+                          _.motivo.value = seleccionado!;
+                        },
+                        items: _.listMotivo
+                              .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                            );
+                        }).toList(),
+                      ),
                     ),
-                  ),
+                  ],
                   TextButton(
                     onPressed: (){
-                      _.aceptar();
+                      _.aceptar(context);
                     }, 
                     child: Text('Aceptar')
                   ),
@@ -87,6 +91,8 @@ class TutoradoRegistrarAsistencia extends StatelessWidget{
                     }, 
                     child: Text('Cancelar')
                   ),
+
+                  
                 ],
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_horario_tutor_controller.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
 class TutoradoHorarioTutor extends StatelessWidget{
@@ -9,6 +10,7 @@ class TutoradoHorarioTutor extends StatelessWidget{
       appBar: AppBar(
         title: Text('Tutor Par Inicio'),
       ),
+      drawer: MenuView.getDrawer(context),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

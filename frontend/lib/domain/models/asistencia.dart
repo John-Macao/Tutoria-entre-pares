@@ -29,4 +29,15 @@ class Asistencia {
     );
   }
 
+  Map<String, dynamic> toJson() => 
+  {
+    'asi_id': asiId,
+    'asi_tema': asiTema,
+    'asi_horas': asiHoras,
+    'asi_tipo': asiTipo,
+    'doc_id_api': docidApi,
+    'hor_id': horId,
+    'usu_id': usuId,
+  };
+
 }

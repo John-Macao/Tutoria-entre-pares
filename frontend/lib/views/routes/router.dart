@@ -107,7 +107,7 @@ class RoutePagina {
 
   static Handler _tutoradoRegistrarAsistencia = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params){
-      return TutoradoRegistrarAsistencia();
+      return TutoradoRegistrarAsistencia(codigo: params['codigo'][0]);
     }
   );
 
@@ -191,7 +191,7 @@ class RoutePagina {
     router.define('tutor-datos-sesion-generado/:horarioId', handler: _tutorDatosSesionGenerada);
     //TUTORADO
     router.define('/tutorado-inicio', handler: _tutoradoInicio);
-    router.define('/tutorado-registrar-asistencia', handler: _tutoradoRegistrarAsistencia);
+    router.define('/tutorado-registrar-asistencia/:codigo', handler: _tutoradoRegistrarAsistencia);
     router.define('/tutorado-historico', handler: _tutoradoHistorico);
     router.define('/tutorado-horario-tutor', handler: _tutoradoHorarioTutor);
     //POR DEFECTO

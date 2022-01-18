@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_inicio_controller.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
 class TutoradoInicio extends StatelessWidget{
@@ -13,6 +14,7 @@ class TutoradoInicio extends StatelessWidget{
           appBar: AppBar(
             title: Text('Tutor Par Inicio'),
           ),
+          drawer: MenuView.getDrawer(context),
           body: SingleChildScrollView(
             child: Center(
               child: Column(
@@ -26,21 +28,9 @@ class TutoradoInicio extends StatelessWidget{
                   TextButton(
                     onPressed: (){
                       //creo que se agrega el codigo al link de aqui, algo asi para enviar a la siguiente pagina
-                      Navigator.pushNamed(context, '/tutorado-registrar-asistencia');
+                      Navigator.pushNamed(context, '/tutorado-registrar-asistencia/'+_.codigo.text);
                     }, 
                     child: Text('Siguiente')
-                  ),
-                  TextButton(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/tutorado-historico');
-                    }, 
-                    child: Text('Historico')
-                  ),
-                  TextButton(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/tutorado-horario-tutor');
-                    }, 
-                    child: Text('Consulta Horario Tutor Par')
                   ),
                 ],
               ),

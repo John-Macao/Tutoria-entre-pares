@@ -31,8 +31,6 @@ def put_asistencia_tutorado(usu_correo, asistencia:models.Asistencia):
 
     cantidad = get_asisnteica_tutorado_id(usu_correo)
 
-    print(len(cantidad))
-
     if(len(cantidad)<2):
         asistencia.asi_tipo = 'Consulta'
     else:
