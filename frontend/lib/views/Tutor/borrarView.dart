@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/domain/controllers/Tutor/borrarController.dart';
 import 'package:frontend/domain/models/horario.dart';
@@ -9,10 +10,13 @@ class BorrarView extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      
     );
   }
 }
+
+
+
+
 
 
 

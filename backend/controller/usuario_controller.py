@@ -15,6 +15,11 @@ def get_usuario_nombre(usu_correo):
             models.Usuario.usu_correo == usu_correo
         ).first()
 
+def get_usuario_telefono(usu_correo):
+    return db.session.query(models.Usuario.usu_telefono).filter(
+            models.Usuario.usu_correo == usu_correo
+        ).first()
+
 def get_usuario_rol(usu_correo):
     return db.session.query(models.TipoUsuario.tu_descripcion).filter(
             models.Usuario.usu_correo == usu_correo,
@@ -25,3 +30,10 @@ def get_usuario_id(usu_correo):
     return db.session.query(models.Usuario.usu_id).filter(
             models.Usuario.usu_correo == usu_correo
         ).first()
+
+def update_usuario_telefono(usu_id, usu_telefono):
+    comprobacion = get_usuario(usu_id)
+
+    comprobacion.usu_telefono = usu_telefono
+    db.session.commit()
+    return True

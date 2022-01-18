@@ -24,13 +24,34 @@ class Usuario_api {
   Future<String?> fetch_usuario_nombre(String correo) async {
     try {
       var llamada = 'http://127.0.0.1:8000/usuario_nombre/'+correo;
-      print(llamada);
-      final Response response = await this._dio.get(llamada,);
+      final Response response = await _dio.get(llamada,);
       String nombre = response.data['usu_nombre'];
       return nombre;
 
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<String?> fetch_usuario_telefono(String correo) async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuario_telefono/'+correo;
+      final Response response = await _dio.get(llamada,);
+      String telefono = response.data['usu_telefono'];
+      return telefono;
+
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Object> update_usuario_telefono(String correo, String telefono) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/actualizar-usuario-telefono/'+correo+'-'+telefono;
+      final response = await _dio.put(llamada,);
+      return response;
+    } catch (e) {
+      return false;
     }
   }
 
