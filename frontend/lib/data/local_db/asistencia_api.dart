@@ -21,5 +21,16 @@ class Asistencia_api {
       return false;
     }
   }
+  
+  Future<List<Asistencia>?> fetch_asistencias_tutorado(String correo) async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/obtener-asistencia-tutorado/'+correo;
+      final Response response = await _dio.get(llamada,);
+      List<Asistencia> asistencias = (response.data as List).map((e) => Asistencia.fromJson(e)).toList();
+      return asistencias;
+    } catch (e) {
+      return null;
+    }
+  }
 
 }

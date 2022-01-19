@@ -14,7 +14,7 @@ def get_asisnteica_tutorado(usu_correo):
     usu_id = usuario_controller.get_usuario_id(usu_correo)[0]
     return db.session.query(models.Asistencia).filter(
             models.Asistencia.usu_id == usu_id
-        ).all()
+        ).order_by(models.Asistencia.asi_id).all()
     
 def get_una_asistencia(asi_id):
     res = db.session.query(models.Asistencia).get(asi_id)

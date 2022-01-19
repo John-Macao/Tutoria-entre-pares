@@ -45,6 +45,9 @@ class formularioNuevoTutor extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text("Cédula : "),
+                      CupertinoTextField(
+                        controller: _.cedula,
+                      ),
                       
                     ],
                   ),
