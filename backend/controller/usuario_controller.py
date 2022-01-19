@@ -48,3 +48,31 @@ def update_usuario_razon(usu_correo, usu_razon):
     comprobacion.usu_razon = usu_razon
     db.session.commit()
     return True
+
+def update_usuario_a_tutor(usu_id, usu_beca, usu_nivel,usu_carrera,tu_id):
+    comprobacion = get_usuario_por_id(usu_id)
+    comprobacion.usu_beca = usu_beca
+    comprobacion.usu_nivel = usu_nivel
+    comprobacion.usu_carrera = usu_carrera
+    comprobacion.tu_id = tu_id
+
+    db.session.commit()
+    return True
+
+def put_usuario(res):
+    usuario = models.Usuario()
+    usuario.usu_correo = res["usu_correo"]
+    usuario.usu_nombre = res["usu_nombre"]
+    usuario.usu_cedula = res["usu_cedula"]
+    usuario.usu_estado = 'A'
+    usuario.usu_telefono = res["usu_telefono"]
+    usuario.usu_beca = res['usu_beca']
+    usuario.usu_nivel = res["usu_nivel"]
+    usuario.usu_carrera = res['usu_carrera']
+    usuario.usu_razon = res["usu_razon"]
+    usuario.tu_id = res['tu_id']
+
+    db.session.add(usuario)
+    db.session.commit()
+
+    return True

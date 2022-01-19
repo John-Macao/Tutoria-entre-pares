@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:frontend/domain/models/usuario.dart';
 
 class Usuario_api {
 
@@ -50,7 +51,7 @@ class Usuario_api {
       var llamada = 'http://127.0.0.1:8000/usuarios/'+correo;
       final Response response = await _dio.get(llamada,);
       String motivo = response.data['usu_razon'];
-      if(motivo!=null){
+      if(motivo!=''){
         return true;
       }else{
         return false;
@@ -92,6 +93,53 @@ class Usuario_api {
       return false;
     }
   }
+
+  Future<Object> comprobar_usuario_por_correo(String correo) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuarios/'+correo;
+      final Response response = await _dio.get(llamada,);
+      final Usuario usuario = Usuario.fromJson(response.data);
+      print('aaaaaaaaaaa');
+      print(usuario.tuId);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<Usuario?> fetch_usuario_por_correo(String correo) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuarios/'+correo;
+      final Response response = await _dio.get(llamada,);
+      final Usuario usuario = Usuario.fromJson(response.data);
+      return usuario;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Object> update_usuario_a_tutor(json) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuario-actualizar-a-tutor/';
+      final response = await _dio.put(llamada, data: json);
+      return response;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<Object> put_usuario(json) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuario-agregar/';
+      final response = await this._dio.put(llamada,data: json);
+      return response;
+
+    } catch (e) {
+      return false;
+    }
+  }
+
+  
 
 
 }

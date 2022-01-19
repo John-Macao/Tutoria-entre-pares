@@ -166,6 +166,25 @@ def put_materia_tutor(usu_correo:str,usu_razon:str,db:Session=Depends(get_db),):
     res = usuario_controller.update_usuario_razon(usu_correo,usu_razon)
     return res
 
+@app.put('/usuario-actualizar-a-tutor/',)
+async def actualizar_horario_fijo(usuario:Request,):
+    res = await usuario.json()
+    usu_id = res['usu_id']
+    usu_beca = res['usu_beca']
+    usu_nivel = res["usu_nivel"]
+    usu_carrera = res['usu_carrera']
+    tu_id = res['tu_id']
+    
+    res2 = usuario_controller.update_usuario_a_tutor(usu_id, usu_beca, usu_nivel,usu_carrera,tu_id)
+
+    return res2
+
+@app.put('/usuario-agregar/',)
+async def put_materia_tutor(usuario:Request,):
+    res = await usuario.json()
+    res = usuario_controller.put_usuario(res)
+    return res
+
 ################################################################################
 ################################ MATERIA OFERTA ################################
 ################################################################################

@@ -38,20 +38,29 @@ class formularioNuevoTutor extends StatelessWidget {
             padding: EdgeInsets.all(50.0),
             child: Column(
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Text("Cédula : "),
-                      CupertinoTextField(
-                        controller: _.cedula,
-                      ),
-                      
-                    ],
-                  ),
-                )
+                Text("Cédula : "),
+                CupertinoTextField(
+                  controller: _.cedula,
+                ),
+                TextButton(
+                  onPressed: (){
+                    _.buscar();
+                  }, 
+                  child: Text('Buscar')
+                ),
+                Divider(color: Colors.black,), 
+                Text("Nombre: " + _.nombre),
+                Text("Correo: " + _.correo),
+                Text("Carrera: " + _.carrera),
+                Text("Telefono: " + _.telefono),
+                Text("Nivel: " + _.nivel),
+
+                TextButton(
+                  onPressed: (){
+                    _.agregar(context);
+                  }, 
+                  child: Text("Agregar como tutor")
+                ),
               ],
             ),
           ),

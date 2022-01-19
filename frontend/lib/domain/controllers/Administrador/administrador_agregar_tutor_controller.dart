@@ -1,17 +1,21 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/domain/models/usuario.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class AgregarNuevoTutorController extends GetxController {
 
-  var nombre = TextEditingController();
-  var correo = TextEditingController();
-  var apellido = TextEditingController();
-  var carrera = TextEditingController();
-  var telefono = TextEditingController();
-  var nivel = TextEditingController();
+  Usuario? usuario;
+  String nombre ='';
+  String correo = '';
+  String carrera = '';
+  String telefono = '';
+  String nivel = '';
   var cedula = TextEditingController();
 
   @override
@@ -27,17 +31,48 @@ class AgregarNuevoTutorController extends GetxController {
     }
   }
 
-  agregar(){
-    print("guarda los datos :  ----" + nombre.text );
+  buscar(){
+    //SE MANDA A BUSCAR AL ESTUDIANTE EN LA API DE LA U CON EL NUMERO DE CEDULA Y SE LO CONVIERTE EN USUARIO Y ESO DEBE OBTENER ESTE METODO
+    usuario = Usuario(usuId: 0, usuCorreo: "jmacao@est.ups.edu.ec", usuNomrbe: "John Macao", usuCedula: cedula.text, usuEstado: 'A', usuTelefono: "0989449535", usuBeca: "No", 
+                      usuNivel: 9, usuCarrera: "Computación", usuRazon: "", tuId: 2);
+
+    nombre = usuario!.usuNomrbe;
+    correo = usuario!.usuCorreo;
+    carrera = usuario!.usuCarrera;
+    telefono = usuario!.usuTelefono;
+    nivel = usuario!.usuNivel.toString();
+
+    update();
   }
 
-  buscar(){
-    nombre.text = "John";
-    correo.text = "johnm@gmail.com";
-    apellido.text = "Macao";
-    carrera.text= "Computación";
-    telefono.text = "0989449535";
-    nivel.text = "noveno";
+  Future agregar(BuildContext context)async{
+    print(correo);
+    print(cedula.text);
+    final existe = await Usuario_api.instace.comprobar_usuario_por_correo(correo);
+
+    print(existe);
+
+    if(existe==true){
+      final comprobacion = (await Usuario_api.instace.fetch_usuario_por_correo(correo))!;
+      final usu = Usuario(usuId: comprobacion.usuId, usuCorreo: comprobacion.usuCorreo, usuNomrbe: comprobacion.usuNomrbe, usuCedula: comprobacion.usuCedula, usuEstado: 'A', 
+                      usuTelefono: comprobacion.usuTelefono, usuBeca: usuario!.usuBeca, usuNivel: usuario!.usuNivel, usuCarrera: usuario!.usuCarrera, usuRazon: comprobacion.usuRazon, 
+                      tuId: 2);
+      
+      var json = jsonEncode(usu.toJson());
+
+      final insertar = await Usuario_api.instace.update_usuario_a_tutor(json);
+
+
+    }else{
+      
+      var json = jsonEncode(usuario!.toJson());
+
+      final insertar = await Usuario_api.instace.put_usuario(json);
+
+
+    }
+    Navigator.pushNamed(context, '/administrador-principal');
+
   }
 
 }
