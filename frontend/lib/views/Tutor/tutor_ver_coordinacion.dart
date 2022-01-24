@@ -15,6 +15,12 @@ class TutorVerCoordinacion extends StatelessWidget{
           title: Text('Coordinacion'),
         ),
       drawer: MenuView.getDrawer(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/tutor-coordinacion');
+        },
+        child: Icon(IconData(int.parse('0xe047'), fontFamily: 'MaterialIcons')),
+      ),
       //drawer: TutorMenu.getDrawer(context),
         body: SingleChildScrollView(
           child: Center(

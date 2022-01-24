@@ -10,6 +10,18 @@ class Usuario_api {
 
   final _dio = Dio();
 
+  Future<Usuario?> fetch_usuario_por_id(int usuId) async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuario_por_id/'+usuId.toString();
+      final Response response = await _dio.get(llamada,);
+      Usuario usuario = Usuario.fromJson(response.data);
+      return usuario;
+
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<String?> fetch_usuario_rol(String correo) async {
     try {
       var llamada = 'http://127.0.0.1:8000/usuario_rol/'+correo;
@@ -69,6 +81,17 @@ class Usuario_api {
       String telefono = response.data['usu_telefono'];
       return telefono;
 
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Usuario?> fetch_usuario_por_cedula(String cedula) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuario_por_cedula/'+cedula;
+      final Response response = await _dio.get(llamada,);
+      final Usuario usuario = Usuario.fromJson(response.data);
+      return usuario;
     } catch (e) {
       return null;
     }
@@ -136,17 +159,6 @@ class Usuario_api {
 
     } catch (e) {
       return false;
-    }
-  }
-
-  Future<Usuario?> fetch_usuario_por_cedula(String cedula) async{
-    try {
-      var llamada = 'http://127.0.0.1:8000/usuario_por_cedula/'+cedula;
-      final Response response = await _dio.get(llamada,);
-      final Usuario usuario = Usuario.fromJson(response.data);
-      return usuario;
-    } catch (e) {
-      return null;
     }
   }
 

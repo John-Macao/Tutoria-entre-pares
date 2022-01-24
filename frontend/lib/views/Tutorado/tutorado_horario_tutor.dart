@@ -41,7 +41,8 @@ class AsignaturaDeTabla extends StatelessWidget{
                 hint: Text('Seleccionar asignatura'),
                 value: _.asignatura.value,
                 onChanged: (String? seleccionado){
-                  _.buscar(seleccionado!);
+                  _.asignatura.value = seleccionado!;
+                  _.buscar();
                 },
                 items: _.listAsignatura
                       .map<DropdownMenuItem<String>>((String value) {
@@ -96,17 +97,17 @@ class TablaTutorHorario extends StatelessWidget{
               ),
             ], 
             rows: List<DataRow>.generate(
-              _.listTutores.length,
+              _.listUsuario.length,
               (int index) => DataRow(
                 cells: <DataCell>[
                   DataCell(
-                    Text(_.listTutores[index]),
+                    Text(_.listUsuario[index].usuNomrbe),
                   ),
                   DataCell(
                     Text(_.asignatura.value),
                   ),
                   DataCell(
-                    Text(_.listContacto[index]),
+                    Text(_.listUsuario[index].usuTelefono),
                   ),
                   DataCell(
                     Text(_.listLunes[index]!=null?_.listLunes[index]:''),

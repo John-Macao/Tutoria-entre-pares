@@ -1,4 +1,8 @@
+import 'package:frontend/data/local_db/horario_api.dart';
+import 'package:frontend/data/local_db/materia_oferta_api.dart';
+import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/domain/models/usuario.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
@@ -6,9 +10,11 @@ class TutoradoHorarioTutorController extends GetxController{
 
   List<String> listAsignatura = <String>[];
   RxString asignatura = ''.obs;
-  
-  List<String> listTutores = <String>[];
-  List<String> listContacto = <String>[];
+
+  Map<dynamic, dynamic> asignaturasMap = {};
+
+  List<Usuario> listUsuario = <Usuario>[];
+
 
   List<String> listLunes = <String>[];
   List<String> listMartes = <String>[];
@@ -28,55 +34,76 @@ class TutoradoHorarioTutorController extends GetxController{
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
     }
+
+    loadDatos();
+
+  }
+
+  Future loadDatos()async{
+    final listMatOferta = (await MateriaOferta_api.instace.fetch_materias_unicas())!;
     
-    listAsignatura.add('Calculito');
-    listAsignatura.add('Algebra Lineal');
-    listAsignatura.add('Probabilidad');
+    for(int i=0;i<listMatOferta.length;i++){
+      //por cada id_mat_api que haya, buscar en la api el nombre de la materia
+      listAsignatura.add(listMatOferta[i].idMateriaApi.toString());
+      asignaturasMap[listMatOferta[i].idMateriaApi.toString()] = listMatOferta[i].idMateriaApi;
+    }
     asignatura.value = listAsignatura[0];
 
-    listTutores.add('Tutor1');
-    listTutores.add('Tutor2');
-    listTutores.add('Tutor3');
+    buscar();
+  }
 
-    listContacto.add('0998742563');
-    listContacto.add('0998453908');
-    listContacto.add('0998586726');
+  Future buscar()async{
+    listUsuario = <Usuario>[];
+    listLunes = <String>[];
+    listMartes = <String>[];
+    listMiercoles = <String>[];
+    listJueves = <String>[];
+    listViernes = <String>[];
 
-    int hor = 9;
-    for (var i = 0; i < listTutores.length; i++) {
+    var idMateria = asignaturasMap[asignatura.value];
+
+    final materiasOferta = (await MateriaOferta_api.instace.fetch_materias_por_materia(idMateria))!;
+
+    for(int i=0; i<materiasOferta.length; i++){
+      listUsuario.add((await Usuario_api.instace.fetch_usuario_por_id(materiasOferta[i].usuId))!);
+
+
+      final horarios = (await Horario_api.instace.fetch_horarios_fijo_de_materia_y_usuario(listUsuario[i].usuId, materiasOferta[i].maofId))!;
+
+
       listLunes.add('');
       listMartes.add('');
       listMiercoles.add('');
       listJueves.add('');
       listViernes.add('');
-      if (i % 2 == 0) {
-        listLunes[i] = listLunes[i] + hor.toString() + ':00 - ';
-        hor++;
-        listLunes[i] = listLunes[i] + hor.toString() + ':00';
-        hor++;
-        
-        listViernes[i] = listViernes[i] + hor.toString() + ':00 - ';
-        hor++;
-        listViernes[i] = listViernes[i] + hor.toString() + ':00';
-        hor++;
-      } else {
-        listMartes[i] = listMartes[i] + hor.toString() + ':00 - ';
-        hor++;
-        listMartes[i] = listMartes[i] + hor.toString() + ':00';
-        hor++;
-        
-        listJueves[i] = listJueves[i] + hor.toString() + ':00 - ';
-        hor++;
-        listJueves[i] = listJueves[i] + hor.toString() + ':00';
-        hor++;
+
+      for(int j=0;j<horarios.length;j++){
+        switch (horarios[j].horDia) {
+          case 'Lunes':
+            listLunes[i] = listLunes[i] + horarios[j].horHora + ' -';
+            break;
+          case 'Martes':
+            listMartes[i] = listMartes[i] + horarios[j].horHora + ' -';
+            break;
+          case 'Miercoles':
+            listMiercoles[i] = listMiercoles[i] + horarios[j].horHora + ' -';
+            break;
+          case 'Jueves':
+            listJueves[i] = listJueves[i] + horarios[j].horHora + ' -';
+            break;
+          case 'Viernes':
+            listViernes[i] = listViernes[i] + horarios[j].horHora + ' -';
+            break;
+          default:
+            break;
+        }
       }
+
+
+      update();
+
     }
 
-  }
-
-  buscar(String seleccionado){
-    asignatura.value = seleccionado;
-    update();
   }
 
   

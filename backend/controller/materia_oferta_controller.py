@@ -10,6 +10,12 @@ from connection import database as db
 def get_materias_unica():
     return db.session.query(models.MateriaOferta).distinct(models.MateriaOferta.id_materia_api).all()
 
+def get_materias_por_materia(id_materia_api):
+    return db.session.query(models.MateriaOferta).filter(
+            models.MateriaOferta.id_materia_api == id_materia_api,
+            models.MateriaOferta.ma_of_estado == 'A'
+        ).all()
+
 def get_materia_por_id(ma_of_id):
     res = db.session.query(models.MateriaOferta).get(ma_of_id)
     return res

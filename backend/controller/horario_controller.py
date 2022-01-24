@@ -25,6 +25,13 @@ def get_horarios_fijos(usu_correo):
             )
             ).all()
 
+def get_horarios_fijos_de_materia_y_usuario(usu_id, ma_of_id):
+    return db.session.query(models.Horario).filter(
+                models.Horario.usu_id == usu_id,
+                models.Horario.ma_of_id == ma_of_id,
+                models.Horario.hor_tipo == 'Fijo'
+            ).all()
+
 
 def get_horarios_sesion(usu_correo):
     usu_id = usuario_controller.get_usuario_id(usu_correo)[0]

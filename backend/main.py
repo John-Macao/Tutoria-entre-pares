@@ -209,6 +209,13 @@ def get_materias_usuario():
         raise HTTPException(status_code=404, detail="No se encontraron materias para este tutor")
     return res
 
+@app.get('/obtener-materias-por_materia/{id_materia_api}',)
+def get_materias_usuario(id_materia_api:int):
+    res = materia_oferta_controller.get_materias_por_materia(id_materia_api)
+    if res is None:
+        raise HTTPException(status_code=404, detail="No se encontraron materias")
+    return res
+
 @app.get('/obtener-materia-por-id/{ma_of_id}',)
 def get_materias_usuario(ma_of_id: int,):
     res = materia_oferta_controller.get_materia_por_id(ma_of_id)
@@ -254,6 +261,13 @@ def get_horario_fijo(usu_correo: str,):
 @app.get('/obtener-horario-fijo/{usu_correo}',)
 def get_horario_fijo(usu_correo: str):
     res = horario_controller.get_horarios_fijos(usu_correo)
+    if res is None:
+        raise HTTPException(status_code=404, detail="No se encontraron horarios para este tutor")
+    return res
+
+@app.get('/obtener-horario-fijo-de-materia_y_usuario/{usu_id}-{ma_of_id}',)
+def get_horario_fijo(usu_id:int, ma_of_id: int):
+    res = horario_controller.get_horarios_fijos_de_materia_y_usuario(usu_id, ma_of_id)
     if res is None:
         raise HTTPException(status_code=404, detail="No se encontraron horarios para este tutor")
     return res

@@ -22,6 +22,20 @@ class Horario_api {
     }
   }
 
+  Future<List<Horario>?> fetch_horarios_fijo_de_materia_y_usuario(int usuId, int maofId) async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/obtener-horario-fijo-de-materia_y_usuario/'+usuId.toString()+'-'+maofId.toString();
+      final Response response = await this._dio.get(llamada,);
+      List<Horario> horarios = (response.data as List).map((e) => Horario.fromJson(e)).toList();
+      return horarios;
+
+    } catch (e) {
+      return <Horario>[];
+    }
+  }
+
+
+
 
   Future<List<Horario>?> fetch_horarios_sesion(String correo) async {
     try {

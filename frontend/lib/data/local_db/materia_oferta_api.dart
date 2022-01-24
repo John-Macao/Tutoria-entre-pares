@@ -22,6 +22,21 @@ class MateriaOferta_api {
     }
   }
 
+  Future<List<MateriaOferta>?> fetch_materias_por_materia(int idMateriaApi) async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/obtener-materias-por_materia/'+idMateriaApi.toString();
+      final Response response = await this._dio.get(llamada,);
+      List<MateriaOferta> materias = (response.data as List).map((e) => MateriaOferta.fromJson(e)).toList();
+      return materias;
+
+    } catch (e) {
+      return null;
+    }
+  }
+
+
+  
+
   Future<MateriaOferta?> fetch_materia__por_ip(int id) async {
     try {
       var llamada = 'http://127.0.0.1:8000/obtener-materia-por-id/'+id.toString();
