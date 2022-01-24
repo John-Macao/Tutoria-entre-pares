@@ -10,6 +10,18 @@ class MateriaOferta_api {
 
   final _dio = Dio();
 
+  Future<List<MateriaOferta>?> fetch_materias_unicas() async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/obtener-materias-unicas/';
+      final Response response = await this._dio.get(llamada,);
+      List<MateriaOferta> materias = (response.data as List).map((e) => MateriaOferta.fromJson(e)).toList();
+      return materias;
+
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<MateriaOferta?> fetch_materia__por_ip(int id) async {
     try {
       var llamada = 'http://127.0.0.1:8000/obtener-materia-por-id/'+id.toString();
@@ -26,11 +38,37 @@ class MateriaOferta_api {
     try {
       var llamada = 'http://127.0.0.1:8000/obtener-materias/'+correo;
       final Response response = await this._dio.get(llamada,);
-      List<MateriaOferta> menus = (response.data as List).map((e) => MateriaOferta.fromJson(e)).toList();
-      return menus;
+      List<MateriaOferta> materias = (response.data as List).map((e) => MateriaOferta.fromJson(e)).toList();
+      return materias;
 
     } catch (e) {
       return null;
     }
   }
+
+  Future<Object> update_deshabilitar_materia(correoTutor, idMateria) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/deshabilitar-materia-tutor/'+correoTutor+"-"+idMateria.toString();
+      final response = await _dio.put(llamada);
+      return response;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<Object> put_materia_oferta(correoTutor, idMateriaApi) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/agregar-materia-tutor/'+correoTutor+"-"+idMateriaApi.toString();
+      final response = await _dio.put(llamada);
+      return response;
+    } catch (e) {
+      return false;
+    }
+  }
+
+
+  
+
+
+  
 }

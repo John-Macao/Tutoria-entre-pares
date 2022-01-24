@@ -89,3 +89,13 @@ class Asistencia(Base):
     #horario = relationship('Horario', foreign_keys=[hor_id])
     usu_id = Column(Integer, ForeignKey('usuario.usu_id'))
     #usuario = relationship('Usuario', foreign_keys=[usu_id]) 
+
+class Coordinacion(Base):
+    __tablename__ = 'coordinacion'
+
+    coo_id  = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    coo_asignatura = Column(String)
+    coo_docente = Column(String)
+    coo_comentario = Column(String)
+    coo_fecha = Column(Date)
+    usu_id = Column(Integer, ForeignKey('usuario.usu_id'))

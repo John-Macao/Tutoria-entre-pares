@@ -14,6 +14,12 @@ def get_usuario_por_id(usu_id):
     res = db.session.query(models.Usuario).get(usu_id)
     return res
 
+def get_usuario_por_cedula(usu_cedula):
+    res = db.session.query(models.Usuario).filter(
+            models.Usuario.usu_cedula == usu_cedula
+        ).first()
+    return res
+
 def get_usuario_nombre(usu_correo):
     return db.session.query(models.Usuario.usu_nombre).filter(
             models.Usuario.usu_correo == usu_correo
@@ -55,6 +61,13 @@ def update_usuario_a_tutor(usu_id, usu_beca, usu_nivel,usu_carrera,tu_id):
     comprobacion.usu_nivel = usu_nivel
     comprobacion.usu_carrera = usu_carrera
     comprobacion.tu_id = tu_id
+
+    db.session.commit()
+    return True
+
+def update_usuario_a_tutorado(usu_id):
+    comprobacion = get_usuario_por_id(usu_id)
+    comprobacion.tu_id = 3
 
     db.session.commit()
     return True

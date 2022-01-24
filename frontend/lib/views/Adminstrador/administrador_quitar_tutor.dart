@@ -49,49 +49,31 @@ class formularioQuitarTutor extends StatelessWidget {
                   _.buscar();
                 }, 
                 child: Text("Buscar")
-                ),
+              ),
 
-                Text("Nombre: "),
-                CupertinoTextField(
-                controller: _.nombre,
-              ),
-              Text("Apellido: "),
-                CupertinoTextField(
-                controller: _.apellido,
-              ),
+              Text("Nombre: "),
+              Text(_.nombre),
               Text("Correo: "),
-                CupertinoTextField(
-                controller: _.correo,
-              ),
+              Text(_.correo),
               Text("Carrera: "),
-                CupertinoTextField(
-                controller: _.carrera,
-              ),
+              Text(_.carrera),
               Text("Telefono: "),
-                CupertinoTextField(
-                controller: _.telefono,
-              ),
+              Text(_.telefono),
               Text("Nivel: "),
-                CupertinoTextField(
-                controller: _.nivel,
+              Text(_.nivel),
+              Text("Materias:"),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: _.listMaterias.length,
+                itemBuilder: (context, index){
+                  return Text(_.listMaterias[index]);
+                }
               ),
 
-              Card(
-                child: Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: TextField(
-                    controller: _.n,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Materias ',
-                    ),
-                  ), 
-                ),
-              ),
 
               TextButton(
                 onPressed: (){
-                  _.eliminar();
+                  _.eliminar(context);
                 }, 
                 child: Text("Eliminar ")
                 ),

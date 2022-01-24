@@ -32,6 +32,7 @@ class TutorCoordinacion extends StatelessWidget{
                         value: _.asignatura.value,
                         onChanged: (String? seleccionado){
                           _.asignatura.value = seleccionado!;
+                          _.consultar();
                         },
                         items: _.listAsignatura
                               .map<DropdownMenuItem<String>>((String value) {
@@ -41,12 +42,6 @@ class TutorCoordinacion extends StatelessWidget{
                             );
                         }).toList(),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: (){
-                        _.consultar();
-                      }, 
-                      child: Text('Consultar')
                     ),
                     
                     Text('Docente: '),

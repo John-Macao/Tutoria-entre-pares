@@ -1,20 +1,20 @@
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/data/local_db/materia_oferta_api.dart';
+import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class QuitarTutorController extends GetxController{
-  var nombre = TextEditingController();
-  var correo = TextEditingController();
-  var apellido = TextEditingController();
-  var carrera = TextEditingController();
-  var telefono = TextEditingController();
-  var nivel = TextEditingController();
+  int idTutor = 0;
+  String nombre = '';
+  String correo = '';
+  String carrera = '';
+  String telefono = '';
+  String nivel = '';
   var cedula = TextEditingController();
-  var n = TextEditingController();
-  var materia1 = "Algebra Lineal";
-  var materia2 = "Ecuaciones ";
-  var materia3 = "Base de datos";
+  List<String> listMaterias = [];
+  
   
   @override
   Future<void> onInit() async {
@@ -28,20 +28,30 @@ class QuitarTutorController extends GetxController{
       }
     }
   }
+
+  Future buscar()async{
+    final tutor = await Usuario_api.instace.fetch_usuario_por_cedula(cedula.text);
+    nombre = tutor!.usuNomrbe;
+    correo = tutor.usuCorreo;
+    carrera = tutor.usuCarrera;
+    telefono = tutor.usuTelefono;
+    nivel = tutor.usuNivel.toString();
+    idTutor = tutor.usuId;
+
+
+    final listMaOf = (await MateriaOferta_api.instace.fetch_materia_por_tutor(correo))!;
+    for(int i=0;i<listMaOf.length;i++){
+      //aqui se busca el nombre de las materias en la api de la u
+      listMaterias.add(listMaOf[i].idMateriaApi.toString());
+    }
+
+    update();
+  }
   
 
-  eliminar(){
-    print("Quita los datos :  ----" );
-  }
-
-  buscar(){
-    nombre.text = "John";
-    correo.text = "johnm@gmail.com";
-    apellido.text = "Macao";
-    carrera.text= "Computación";
-    telefono.text = "0989449535";
-    nivel.text = "noveno";
-    n.text = "Algebra Lineal,  Ecuaciones,  Base de datos";
+  Future eliminar(BuildContext context)async{
+    final insertado = await Usuario_api.instace.update_usuario_a_tutorado(idTutor);
+    Navigator.pushNamed(context, "/administrador-principal");
   }
 
   

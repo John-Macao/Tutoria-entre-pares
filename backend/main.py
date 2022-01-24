@@ -11,7 +11,7 @@ from starlette.status import HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED, \
         HTTP_503_SERVICE_UNAVAILABLE
 from sqlalchemy.orm import Session
 
-from controller import  menu_controller, usuario_controller, materia_oferta_controller, horario_controller, asistencia_controller
+from controller import  menu_controller, usuario_controller, materia_oferta_controller, horario_controller, asistencia_controller, coordinacion_controller
 from model import models
 from connection.database import SessionLocal, engine
 
@@ -120,6 +120,13 @@ def get_usuario(usu_correo: str):
     if res is None:
         raise HTTPException(status_code=404, detail="User not found")
     return res
+    
+@app.get('/usuario_por_cedula/{usu_cedula}',)
+def get_usuario(usu_cedula: str):
+    res = usuario_controller.get_usuario_por_cedula(usu_cedula)
+    if res is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return res
 
 @app.get('/usuario_por_id/{usu_id}',)
 def get_usuario(usu_id: int):
@@ -179,6 +186,13 @@ async def actualizar_horario_fijo(usuario:Request,):
 
     return res2
 
+@app.put('/usuario-actualizar-a-tutorado/{usu_id}',)
+async def actualizar_horario_fijo(usu_id:int,):
+    
+    res2 = usuario_controller.update_usuario_a_tutorado(usu_id)
+
+    return res2
+
 @app.put('/usuario-agregar/',)
 async def put_materia_tutor(usuario:Request,):
     res = await usuario.json()
@@ -188,6 +202,13 @@ async def put_materia_tutor(usuario:Request,):
 ################################################################################
 ################################ MATERIA OFERTA ################################
 ################################################################################
+@app.get('/obtener-materias-unicas/',)
+def get_materias_usuario():
+    res = materia_oferta_controller.get_materias_unica()
+    if res is None:
+        raise HTTPException(status_code=404, detail="No se encontraron materias para este tutor")
+    return res
+
 @app.get('/obtener-materia-por-id/{ma_of_id}',)
 def get_materias_usuario(ma_of_id: int,):
     res = materia_oferta_controller.get_materia_por_id(ma_of_id)
@@ -330,6 +351,26 @@ async def agregar_horario_sesion(dato:Request,usu_correo:str,):
 
     
     res2 = asistencia_controller.put_asistencia_tutorado(usu_correo, asistencia)
+
+    return res2
+
+
+##############################################################################
+################################ COORDINACION ################################
+##############################################################################
+@app.get('/obtener-coordinaicon-tutor/{usu_correo}',)
+def get_toda_asistencia(usu_correo:str):
+    res = coordinacion_controller.get_coodfinaciones_tutor(usu_correo)
+    if res is None:
+        raise HTTPException(status_code=404, detail="No se encontraron asistencias para este usuario")
+    return res
+
+@app.put('/agregar-coordinaicon/{usu_correo}',)
+async def agregar_horario_sesion(dato:Request,usu_correo:str,):
+    res = await dato.json()
+
+    
+    res2 = coordinacion_controller.put_coordinacion(res,usu_correo)
 
     return res2
 

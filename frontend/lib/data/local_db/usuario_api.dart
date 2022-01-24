@@ -139,6 +139,26 @@ class Usuario_api {
     }
   }
 
+  Future<Usuario?> fetch_usuario_por_cedula(String cedula) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuario_por_cedula/'+cedula;
+      final Response response = await _dio.get(llamada,);
+      final Usuario usuario = Usuario.fromJson(response.data);
+      return usuario;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Object> update_usuario_a_tutorado(id) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuario-actualizar-a-tutorado/'+id.toString();
+      final response = await _dio.put(llamada);
+      return response;
+    } catch (e) {
+      return false;
+    }
+  }
   
 
 

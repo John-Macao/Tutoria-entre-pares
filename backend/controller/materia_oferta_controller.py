@@ -7,6 +7,9 @@ from controller import usuario_controller
 
 from connection import database as db
 
+def get_materias_unica():
+    return db.session.query(models.MateriaOferta).distinct(models.MateriaOferta.id_materia_api).all()
+
 def get_materia_por_id(ma_of_id):
     res = db.session.query(models.MateriaOferta).get(ma_of_id)
     return res
@@ -47,6 +50,6 @@ def deshabilitar_materias_tutor(id_materia_api, usu_correo):
 
     if comprobacion is not None:
         comprobacion.ma_of_estado = 'D'
-        db.session.add(comprobacion)
         db.session.commit()
     return True
+
