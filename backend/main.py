@@ -120,6 +120,13 @@ def get_usuario(usu_correo: str):
     if res is None:
         raise HTTPException(status_code=404, detail="User not found")
     return res
+
+@app.get('/usuario_obtener_tutores/',)
+def get_usuario():
+    res = usuario_controller.get_usuario_tutores()
+    if res is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return res
     
 @app.get('/usuario_por_cedula/{usu_cedula}',)
 def get_usuario(usu_cedula: str):

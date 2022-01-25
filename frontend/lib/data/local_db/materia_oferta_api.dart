@@ -57,7 +57,7 @@ class MateriaOferta_api {
       return materias;
 
     } catch (e) {
-      return null;
+      return <MateriaOferta>[];
     }
   }
 

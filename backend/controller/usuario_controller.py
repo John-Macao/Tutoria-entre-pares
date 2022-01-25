@@ -20,6 +20,12 @@ def get_usuario_por_cedula(usu_cedula):
         ).first()
     return res
 
+def get_usuario_tutores():
+    res = db.session.query(models.Usuario).filter(
+            models.Usuario.tu_id == 2
+        ).all()
+    return res
+
 def get_usuario_nombre(usu_correo):
     return db.session.query(models.Usuario.usu_nombre).filter(
             models.Usuario.usu_correo == usu_correo

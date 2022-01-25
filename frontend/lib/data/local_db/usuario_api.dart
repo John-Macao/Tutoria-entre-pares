@@ -22,6 +22,21 @@ class Usuario_api {
     }
   }
 
+  Future<List<Usuario>?> fetch_usuario_tutores() async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/usuario_obtener_tutores/';
+      final Response response = await _dio.get(llamada,);
+      final List<Usuario> usuario = (response.data as List).map((e) => Usuario.fromJson(e)).toList();
+      return usuario;
+    } catch (e) {
+      print('error');
+      return <Usuario>[];
+    }
+  }
+
+
+  
+
   Future<String?> fetch_usuario_rol(String correo) async {
     try {
       var llamada = 'http://127.0.0.1:8000/usuario_rol/'+correo;
