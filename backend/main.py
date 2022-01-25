@@ -385,13 +385,31 @@ def get_toda_asistencia(usu_correo:str):
     if res is None:
         raise HTTPException(status_code=404, detail="No se encontraron asistencias para este usuario")
     return res
+@app.get('/obtener-coordinaicon-por_id/{coo_id}',)
+def get_toda_asistencia(coo_id:int):
+    res = coordinacion_controller.get_coodfinaciones_por_id(coo_id)
+    if res is None:
+        raise HTTPException(status_code=404, detail="No se encontraron asistencias para este usuario")
+    return res
 
 @app.put('/agregar-coordinaicon/{usu_correo}',)
 async def agregar_horario_sesion(dato:Request,usu_correo:str,):
     res = await dato.json()
-
-    
     res2 = coordinacion_controller.put_coordinacion(res,usu_correo)
+
+    return res2
+
+@app.put('/editar-coordinaicon/',)
+async def agregar_horario_sesion(dato:Request):
+    res = await dato.json()
+    res2 = coordinacion_controller.update_coordinacion(res)
+
+    return res2
+
+@app.put('/eliminar-coordinaicon/',)
+async def agregar_horario_sesion(dato:Request):
+    res = await dato.json()
+    res2 = coordinacion_controller.delete_coordinacion(res)
 
     return res2
 

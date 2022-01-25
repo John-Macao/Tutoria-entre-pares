@@ -21,9 +21,42 @@ class Coordinacion_api {
     }
   }
 
+  Future<Coordinacion?> fetch_coordinacion_por_id(int id) async {
+    try {
+      var llamada = 'http://127.0.0.1:8000/obtener-coordinaicon-por_id/'+id.toString();
+      final Response response = await _dio.get(llamada,);
+      Coordinacion coordinacion = Coordinacion.fromJson(response.data);
+      return coordinacion;
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<Object> put_coordinacion(String correo, json) async{
     try {
       var llamada = 'http://127.0.0.1:8000/agregar-coordinaicon/'+correo;
+      final response = await _dio.put(llamada,data: json);
+      return response;
+
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<Object> update_coordinacion(json) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/editar-coordinaicon/';
+      final response = await _dio.put(llamada,data: json);
+      return response;
+
+    } catch (e) {
+      return false;
+    }
+  }
+  
+  Future<Object> delete_coordinacion(json) async{
+    try {
+      var llamada = 'http://127.0.0.1:8000/eliminar-coordinaicon/';
       final response = await _dio.put(llamada,data: json);
       return response;
 

@@ -27,11 +27,20 @@ class TutorVerCoordinacionController extends GetxController{
   }
 
   Future loadDatos()async{
-    print('bbbbbbb');
     listCoordinacion = (await Coordinacion_api.instace.fetch_coordinacion_tutor(cor))!;
-    print(listCoordinacion.length);
 
     update();
+  }
+
+
+  Future elininar(Coordinacion coordinacion)async{
+    var json = coordinacion.toJson();
+
+    final insertar = await Coordinacion_api.instace.delete_coordinacion(json);
+
+    loadDatos();
+
+
   }
 
 }

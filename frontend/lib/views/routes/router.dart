@@ -13,6 +13,7 @@ import 'package:frontend/views/General/verificar_login.dart';
 import 'package:frontend/views/Tutor/borrarView.dart';
 import 'package:frontend/views/Tutor/totur_listar_sesiones.dart';
 import 'package:frontend/views/Tutor/tutor_coordinacion.dart';
+import 'package:frontend/views/Tutor/tutor_coordinacion_editar.dart';
 import 'package:frontend/views/Tutor/tutor_datos_sesion_generada.dart';
 import 'package:frontend/views/Tutor/tutor_generar_sesion.dart';
 import 'package:frontend/views/Tutor/tutor_generar_tutoria.dart';
@@ -101,6 +102,12 @@ class RoutePagina {
   static Handler _tutorVerCoordinacion = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params){
       return TutorVerCoordinacion();
+    }
+  );
+
+  static final Handler _tutorEditarCoordinacion = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return TutorEditarCoordinacion(coordinacionId: params['coordinacionId'][0]);
     }
   );
 
@@ -197,6 +204,7 @@ class RoutePagina {
     router.define('/tutor-coordinacion', handler: _tutorCoordinacion);
     router.define('tutor-datos-sesion-generado/:horarioId', handler: _tutorDatosSesionGenerada);
     router.define('/tutor-ver-coordinacion', handler: _tutorVerCoordinacion);
+    router.define('tutor-editar-coordinacion/:coordinacionId', handler: _tutorEditarCoordinacion);
     //TUTORADO
     router.define('/tutorado-inicio', handler: _tutoradoInicio);
     router.define('/tutorado-registrar-asistencia/:codigo', handler: _tutoradoRegistrarAsistencia);
@@ -220,3 +228,4 @@ class RoutePagina {
 
   }
 }
+

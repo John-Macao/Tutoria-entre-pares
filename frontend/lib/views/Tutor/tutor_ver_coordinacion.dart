@@ -17,7 +17,7 @@ class TutorVerCoordinacion extends StatelessWidget{
       drawer: MenuView.getDrawer(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/tutor-coordinacion');
+          Navigator.pushNamed(context, '/tutor-coordinacion').then((p) => _.loadDatos());
         },
         child: Icon(IconData(int.parse('0xe047'), fontFamily: 'MaterialIcons')),
       ),
@@ -32,13 +32,25 @@ class TutorVerCoordinacion extends StatelessWidget{
                 itemCount: _.listCoordinacion.length,
                 itemBuilder: (context, index){
                   final Coordinacion coordinacion = _.listCoordinacion[index];
+                  final int coordinacionId = coordinacion.cooId;
                   return ListTile(
+                    visualDensity: VisualDensity(vertical: 3),
                     title: Text('Asignatura: ' + coordinacion.cooAsignatura),
-                    subtitle: Text('Fecha: ' + coordinacion.cooFehca + '\n' + 'Comentario: ' + coordinacion.cooComentario),
+                    subtitle: Text('Fecha: ' + coordinacion.cooFehca + '\n' + 'Comentario: ' + coordinacion.cooComentario + '\n' + 'Docente: ' + coordinacion.cooDocente),
                     trailing: Column(
                       children: [
-                        Text('Docente:'),
-                        Text(coordinacion.cooDocente),
+                        TextButton(
+                          onPressed: (){
+                            Navigator.pushNamed(context, 'tutor-editar-coordinacion/$coordinacionId').then((p) => _.loadDatos());
+                          }, 
+                          child: Text('Editar')
+                        ),
+                        TextButton(
+                          onPressed: (){
+                            _.elininar(coordinacion);
+                          }, 
+                          child: Text('Eliminar')
+                        ),
                       ],
                     ),
                   );

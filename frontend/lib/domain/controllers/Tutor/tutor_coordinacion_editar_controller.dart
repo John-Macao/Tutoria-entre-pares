@@ -4,15 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:frontend/data/local_db/coordinacion_api.dart';
 import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
-import 'package:frontend/domain/controllers/Tutor/tutor_ver_coordinacion_controller.dart';
 import 'package:frontend/domain/models/coordinacion.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
-class TutorCoordinacionController extends GetxController{
-  
+class TutorCoordinacionEditarController extends GetxController{
 
+  int coordinacionId;
 
+  Coordinacion? coor;
 
   //VARIABLES CON DATOS DE NUEVO ORARIO
   List<String> listDocente = <String>[];
@@ -20,6 +20,8 @@ class TutorCoordinacionController extends GetxController{
   RxString docente = 'Vacio'.obs;
   RxString asignatura = ''.obs;
   var comentario = TextEditingController();
+
+  TutorCoordinacionEditarController(this.coordinacionId);
 
   var cor = '';
   var rol = '';
@@ -45,12 +47,14 @@ class TutorCoordinacionController extends GetxController{
   }
 
   Future loadDatos()async{
+    coor = (await Coordinacion_api.instace.fetch_coordinacion_por_id(coordinacionId))!;
+
     final listMatOferta = (await MateriaOferta_api.instace.fetch_materias_unicas())!;
     for(int i=0;i<listMatOferta.length;i++){
       //por cada id_mat_api que haya, buscar en la api el nombre de la materia
       listAsignatura.add(listMatOferta[i].idMateriaApi.toString());
     }
-    asignatura.value = listAsignatura[0];
+    asignatura.value = coor!.cooAsignatura;
 
     consultar();
 
@@ -63,7 +67,9 @@ class TutorCoordinacionController extends GetxController{
     listDocente.add('Profesor1');
     listDocente.add('Profesor2');
     listDocente.add('Profesor3');
-    docente.value = listDocente[0];
+    docente.value = coor!.cooDocente;
+
+    comentario.text = coor!.cooComentario;
 
   }
   
@@ -71,12 +77,12 @@ class TutorCoordinacionController extends GetxController{
     DateTime now = DateTime.now();
     String fecha = now.day.toString() + '-' + now.month.toString() + '-' + now.year.toString();
 
-    Coordinacion coordinacion = Coordinacion(cooId: 0, cooAsignatura: asignatura.value, cooDocente: docente.value, cooComentario: comentario.text, cooFehca: fecha,usuId: 0);
+    Coordinacion coordinacion = Coordinacion(cooId: coor!.cooId, cooAsignatura: asignatura.value, cooDocente: docente.value, cooComentario: comentario.text, cooFehca: coor!.cooFehca,usuId: coor!.usuId);
 
 
     var json = jsonEncode(coordinacion.toJson());
 
-    final creacion = await Coordinacion_api.instace.put_coordinacion(cor, json);
+    final creacion = await Coordinacion_api.instace.update_coordinacion(json);
 
 
     Navigator.pop(context);
