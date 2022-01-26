@@ -44,6 +44,11 @@ function getCurrentUser() {
     } : null;
 }
 
+function logout() {
+    msalInstance.logout();
+    window.location.href = 'http://localhost:64790/verificar-login'
+}
+
 
 //esta funcion se encarga de redireccionar a las paginas principales de cada rol del sistema
 function redireccion(rol){
@@ -58,7 +63,7 @@ function redireccion(rol){
             window.location.href = 'http://localhost:64790/tutorado-inicio'
             break;
         default:
-            window.location.href = 'http://localhost:64790/login'
+            window.location.href = 'http://localhost:64790/verificar-login'
             break;
       }
 }

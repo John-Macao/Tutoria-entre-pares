@@ -34,10 +34,6 @@ class MateriaController extends GetxController{
     }
   }
 
-  eliminar(){
-    print("Quita los datos :  ----" );
-  }
-
   Future buscar()async{
     final tutor = await Usuario_api.instace.fetch_usuario_por_cedula(cedula.text);
     nombre = tutor!.usuNomrbe;

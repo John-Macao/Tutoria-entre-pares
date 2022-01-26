@@ -38,7 +38,6 @@ class MsalService extends GetxController {
         _userLogin.refresh();
 
         correo = user.username!;
-        print(correo);
         
         await verificarUsuario();
         //return user;
@@ -46,6 +45,10 @@ class MsalService extends GetxController {
     } catch (e) {
       UserLogIn? user;
     } 
+  }
+
+  logout(BuildContext context){
+    js.context.callMethod('logout', []);
   }
 
     //se verifica el rol de un usuario segun su correo electronico
@@ -83,9 +86,14 @@ class MsalService extends GetxController {
   }
 
   Future<String?> getRol(correou) async{
-    final data = await Usuario_api.instace.fetch_usuario_rol(correou);
-    rol = data!;
-    return rol;
+    try {
+      final data = await Usuario_api.instace.fetch_usuario_rol(correou);
+      rol = data!;
+      return rol;
+    } catch (e) {
+      return '';
+    }
+    
   }
 
 }

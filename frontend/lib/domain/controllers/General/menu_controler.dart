@@ -25,15 +25,12 @@ class MenuController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    print("Igual a initState menu");
   }
 
   @override
   void onReady() {
     super.onReady();
-    print("igual a onReady menu");
-    print(menus.length);
-    this.loadMenu();
+    loadMenu();
   }
 
   actualizar(){
@@ -41,14 +38,12 @@ class MenuController extends GetxController{
   }
 
   Future<void> loadMenu() async {
-    
-    //print('El correo ess: ' + CorreoController.correo.text);
     final data = await Menu_api.instace.fetch_menu(MsalService.correo);
     menus = data!;
     for (var i = 0; i < MenuController.menus.length; i++) {
       var menu = MenuController.menus[i];
       if(menu.mentipo=='U'){
-          drawerOptions.add(
+        drawerOptions.add(
           new ListTile(
             title: Text(menu.mendescripcion),
             leading: Icon(IconData(int.parse(menu.menicono), fontFamily: 'MaterialIcons')),
@@ -81,6 +76,16 @@ class MenuController extends GetxController{
       }
       
     }
+
+    drawerOptions.add(
+      new ListTile(
+        title: Text('Cerrar Sesión'),
+        leading: Icon(IconData(int.parse('0xe3b3'), fontFamily: 'MaterialIcons')),
+        onTap: (){
+          MsalService().logout(context!);
+        },
+      )
+    );
     
     update();
   }

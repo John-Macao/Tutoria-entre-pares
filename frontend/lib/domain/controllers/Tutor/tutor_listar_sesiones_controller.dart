@@ -80,11 +80,6 @@ class TutorListarSesionesController extends GetxController{
     var json = jsonEncode(horario.toJson());
 
     final insertar = await Horario_api.instace.update_horario_tutor_sesion(json);
-    print(horario.horId);
-    print(insertar);
-
-    print(asignatura.value);
-    print(materias[asignatura.value]);
 
 
     seleccionado = -1;

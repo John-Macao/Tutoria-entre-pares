@@ -38,7 +38,6 @@ class TutorModificarTelefonoController extends GetxController{
 
   Future modificar()async{
     final insertar = await Usuario_api.instace.update_usuario_telefono(cor,numero.text);
-    print(insertar);
     loadDatos();
   }
   

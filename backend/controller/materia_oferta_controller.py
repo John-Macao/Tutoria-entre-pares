@@ -13,7 +13,9 @@ def get_materias_unica():
 def get_materias_por_materia(id_materia_api):
     return db.session.query(models.MateriaOferta).filter(
             models.MateriaOferta.id_materia_api == id_materia_api,
-            models.MateriaOferta.ma_of_estado == 'A'
+            models.MateriaOferta.ma_of_estado == 'A',
+            models.Usuario.usu_id == models.MateriaOferta.usu_id,
+            models.Usuario.tu_id == 2
         ).all()
 
 def get_materia_por_id(ma_of_id):

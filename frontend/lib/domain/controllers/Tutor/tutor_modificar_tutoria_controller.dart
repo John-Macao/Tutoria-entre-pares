@@ -14,7 +14,7 @@ class TutorModificarTutoriaController extends GetxController{
 Horario seleccionado = Horario(horId:-1,horDia:'',horHora:'',horFehca: null,horTipo: '',maofId: -1,usuId: -1);
   
   List<String> horas = <String>[];
-  //porque aun no hay conexion con la base de datos
+  
   List<Horario> horarios = <Horario>[];
 
   Map<dynamic, Horario> mlunes = {};

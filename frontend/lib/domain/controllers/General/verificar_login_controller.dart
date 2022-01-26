@@ -9,6 +9,9 @@ class VerificarLoginController extends GetxController {
 
   //luego de iniciar sesion se redirige a esta pagina donde segun el rol del usuario, se redirige al inicio del usuario
   
+  var cor = '';
+  var rol = '';
+
   BuildContext? context;
 
   VerificarLoginController(BuildContext context){
@@ -32,7 +35,9 @@ class VerificarLoginController extends GetxController {
 
     //js.context.callMethod('redireccion', [MsalService.rol]);
     //print(MsalService.rol);
-    switch (MsalService.rol) {
+    cor = (await MsalService().getCorreo())!; 
+    rol = (await MsalService().getRol(cor))!;
+    switch (rol) {
       case 'Administrador':
           Navigator.pushNamed(context!, '/administrador-principal');
           break;
@@ -47,6 +52,5 @@ class VerificarLoginController extends GetxController {
           break;
     }
   }
-
 
 }

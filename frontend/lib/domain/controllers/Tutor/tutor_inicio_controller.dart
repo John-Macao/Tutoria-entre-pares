@@ -9,7 +9,7 @@ import 'dart:js' as js;
 class TutorInicioController extends GetxController{
   
   List<String> horas = <String>[];
-  //porque aun no hay conexion con la base de datos
+  
   List<Horario> horarios = <Horario>[];
 
   Map mlunes = {};
@@ -65,8 +65,6 @@ class TutorInicioController extends GetxController{
     final data = await Horario_api.instace.fetch_horarios_fijo(cor);
 
     horarios = data!;
-    print('-----------------------');
-    print(horarios.length);
 
     for (var i = 0; i < horarios.length; i++) {
       final mat = await MateriaOferta_api.instace.fetch_materia__por_ip(horarios[i].maofId);

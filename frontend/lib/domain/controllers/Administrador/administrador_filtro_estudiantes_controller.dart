@@ -26,15 +26,14 @@ class FiltroEstudiantesController extends GetxController {
     estudiante.add(Estudiantes(id: 2, cedula: "0104323456", nombres: "Andrea Cardenas", materia: "Algebra Lineal", calificacion: "89", carrera: "Computación" ));
     estudiante.add(Estudiantes(id: 3, cedula: "0104386795", nombres: "Omar Rodrigez", materia: "Algebra Lineal", calificacion: "80", carrera: "Computación" ));
 
+    update();
+
   
   }
 
   filtrar(){
   }
 
-  eliminar(){
-    print("filtra los datos :  ----" );
-  }
 
 
 }

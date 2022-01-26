@@ -46,11 +46,8 @@ class AgregarNuevoTutorController extends GetxController {
   }
 
   Future agregar(BuildContext context)async{
-    print(correo);
-    print(cedula.text);
     final existe = await Usuario_api.instace.comprobar_usuario_por_correo(correo);
 
-    print(existe);
 
     if(existe==true){
       final comprobacion = (await Usuario_api.instace.fetch_usuario_por_correo(correo))!;

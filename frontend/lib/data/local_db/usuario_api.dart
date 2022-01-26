@@ -29,7 +29,6 @@ class Usuario_api {
       final List<Usuario> usuario = (response.data as List).map((e) => Usuario.fromJson(e)).toList();
       return usuario;
     } catch (e) {
-      print('error');
       return <Usuario>[];
     }
   }
@@ -137,8 +136,6 @@ class Usuario_api {
       var llamada = 'http://127.0.0.1:8000/usuarios/'+correo;
       final Response response = await _dio.get(llamada,);
       final Usuario usuario = Usuario.fromJson(response.data);
-      print('aaaaaaaaaaa');
-      print(usuario.tuId);
       return true;
     } catch (e) {
       return false;
