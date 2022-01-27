@@ -5,13 +5,13 @@ import 'package:frontend/domain/controllers/Administrador/administrador_filtro_e
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VistaFiltrarEstudiantes extends StatelessWidget {
   const VistaFiltrarEstudiantes({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
       title: Text("Filtrar Estudiantes"),
@@ -140,7 +140,17 @@ class tablaFiltro extends StatelessWidget {
                             Text(_.listUsuarios[index].usuNomrbe),
                           ),
                           DataCell(
-                            Text(_.listUsuarios[index].usuTelefono),
+                            Row(
+                              children: [
+                                Text(_.listUsuarios[index].usuTelefono),
+                                IconButton(
+                                  onPressed: (){
+                                    launch('tel://'+_.listUsuarios[index].usuTelefono);
+                                  }, 
+                                  icon: Icon(IconData(int.parse('0xe126'), fontFamily: 'MaterialIcons'))
+                                ),
+                              ],
+                            ),
                           ),
                           DataCell(
                             Text(_.seleccionado),

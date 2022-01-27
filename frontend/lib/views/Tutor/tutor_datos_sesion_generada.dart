@@ -35,9 +35,10 @@ class TutorDatosSesionGenerada extends StatelessWidget{
 
                     TextButton(
                       onPressed: (){
-                        Navigator.pushNamed(context, '/tutor-par-inicio');
+                        //Navigator.pushNamed(context, '/tutor-par-inicio');
+                        Navigator.pop(context);
                       }, 
-                      child: Text('Volver al inicio'),
+                      child: Text('Salir'),
                     ),
                   ],
                 ),

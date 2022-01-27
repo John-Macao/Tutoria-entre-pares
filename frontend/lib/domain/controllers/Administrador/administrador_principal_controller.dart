@@ -79,7 +79,10 @@ class PrincipalController extends GetxController{
       asignatura.value = listAsignaturas[0];
     }
 
-    update(['formulario']);
+    listTutores = [];
+
+
+    update(['formulario', 'tabla']);
   }
 
   Future buscarPorCedula()async{

@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/data/local_db/horario_api.dart';
 import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/horario.dart';
 import 'package:frontend/domain/models/materia_oferta.dart';
+import 'package:frontend/views/Tutor/tutor_datos_sesion_generada.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
@@ -95,6 +97,7 @@ class TutorGenerarSesionController extends GetxController{
 
     int horarioId = (await Horario_api.instace.fetch_ultimo_horario_creado(cor))!;
 
+    //Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new TutorDatosSesionGenerada(horarioId: horarioId.toString())));
     Navigator.pushNamed(context, 'tutor-datos-sesion-generado/$horarioId');
 
   }

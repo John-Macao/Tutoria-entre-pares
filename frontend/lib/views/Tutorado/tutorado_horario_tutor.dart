@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_horario_tutor_controller.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TutoradoHorarioTutor extends StatelessWidget{
   @override
@@ -107,7 +108,18 @@ class TablaTutorHorario extends StatelessWidget{
                     Text(_.asignatura.value),
                   ),
                   DataCell(
-                    Text(_.listUsuario[index].usuTelefono),
+                    Row(
+                      children: [
+                        Text(_.listUsuario[index].usuTelefono),
+                        IconButton(
+                          onPressed: (){
+                            launch('tel://'+_.listUsuario[index].usuTelefono);
+                          }, 
+                          icon: Icon(IconData(int.parse('0xe126'), fontFamily: 'MaterialIcons'))
+                        ),
+                      ],
+                    ),
+                    
                   ),
                   DataCell(
                     Text(_.listLunes[index]!=null?_.listLunes[index]:''),

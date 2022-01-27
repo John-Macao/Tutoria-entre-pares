@@ -7,23 +7,36 @@ import 'package:get/get.dart';
 class TutorListarSesiones extends StatelessWidget{
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Listar Sesiones'),
-      ),
-      drawer: MenuView.getDrawer(context),
-      //drawer: TutorMenu.getDrawer(context),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //TutorMenu(),
-              ListarSesiones(),
+    return GetBuilder<TutorListarSesionesController>(
+      init: TutorListarSesionesController(),
+      builder: (_){
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Listar Sesiones'),
+            actions: [
+              IconButton(
+                onPressed: (){
+                  _.loadDatos();
+                }, 
+                icon: Icon(IconData(int.parse('0xe514'), fontFamily: 'MaterialIcons')),
+              ),
             ],
           ),
-        ),
-      ),
+          drawer: MenuView.getDrawer(context),
+          //drawer: TutorMenu.getDrawer(context),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //TutorMenu(),
+                  ListarSesiones(),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
     );
   }
 }
@@ -33,7 +46,6 @@ class ListarSesiones extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutorListarSesionesController>(
-      init: TutorListarSesionesController(),
       builder: (_){
         return Form(
           child: Column(

@@ -38,6 +38,8 @@ class TutorDatosSesionGeneradaController extends GetxController{
   }
 
   Future<void> loadDatos() async{
+    //print('se busca con: ' + horarioId.toString());
+
     nombre = (await Usuario_api.instace.fetch_usuario_nombre(cor))!;
 
     horario = (await Horario_api.instace.fetch_horarios_id(horarioId))!;
@@ -46,6 +48,8 @@ class TutorDatosSesionGeneradaController extends GetxController{
 
     //buscar en la api de la u el nombre de la asignatura, por el momento se usa el id de la asingatura
     asignatura = mo.idMateriaApi.toString();
+
+    //print('debuelve: ' + horario.horId.toString());
 
     update();
   }
