@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/data/external_db/ejemplo_api.dart';
 import 'package:frontend/data/external_db/ejemplo_modelo.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
@@ -6,6 +7,8 @@ import 'package:frontend/domain/models/estudiantes.dart';
 import 'package:frontend/domain/models/usuario.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
+
+import 'package:url_launcher/url_launcher.dart';
 
 class FiltroEstudiantesController extends GetxController {
   var inputCalificacion = TextEditingController();
@@ -72,6 +75,55 @@ class FiltroEstudiantesController extends GetxController {
 
 
 
+}
+
+class FiltrarMiDataTableSource extends DataTableSource{
+  List<Usuario> listUsuarios;
+  String materia;
+  FiltrarMiDataTableSource(this.listUsuarios,this.materia);
+  @override
+  DataRow? getRow(int index){
+    if(index >= listUsuarios.length){
+      return null;
+    }
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        DataCell(Text(listUsuarios[index].usuCedula)),
+        DataCell(Text(listUsuarios[index].usuNomrbe)),
+        DataCell(
+          Row(
+            children: [
+              Text(listUsuarios[index].usuTelefono),
+              IconButton(
+                onPressed: (){
+                  launch('tel://'+listUsuarios[index].usuTelefono);
+                }, 
+                icon: Icon(IconData(int.parse('0xe126'), fontFamily: 'MaterialIcons'))
+              ),
+            ],
+          ),
+          
+        ),
+        DataCell(Text(materia)),
+        DataCell(Text(listUsuarios[index].usuNivel.toString())),
+        DataCell(Text('77')),
+        DataCell(Text(listUsuarios[index].usuCarrera)),
+      ]
+    );
+  }
+  @override
+  int get selectedRowCount {
+    return 0;
+  }
+  @override
+  bool get isRowCountApproximate {
+    return false;
+  }
+  @override
+  int get rowCount {
+    return listUsuarios.length;
+  }
 }
 
 

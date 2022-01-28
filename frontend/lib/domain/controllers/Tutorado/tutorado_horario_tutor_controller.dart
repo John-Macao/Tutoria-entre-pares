@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:frontend/data/local_db/horario_api.dart';
 import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/data/local_db/usuario_api.dart';
@@ -5,6 +6,8 @@ import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/usuario.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
+
+import 'package:url_launcher/url_launcher.dart';
 
 class TutoradoHorarioTutorController extends GetxController{
 
@@ -80,19 +83,19 @@ class TutoradoHorarioTutorController extends GetxController{
       for(int j=0;j<horarios.length;j++){
         switch (horarios[j].horDia) {
           case 'Lunes':
-            listLunes[i] = listLunes[i] + horarios[j].horHora + ' -';
+            listLunes[i] = listLunes[i] + horarios[j].horHora + ', ';
             break;
           case 'Martes':
-            listMartes[i] = listMartes[i] + horarios[j].horHora + ' -';
+            listMartes[i] = listMartes[i] + horarios[j].horHora + ', ';
             break;
           case 'Miercoles':
-            listMiercoles[i] = listMiercoles[i] + horarios[j].horHora + ' -';
+            listMiercoles[i] = listMiercoles[i] + horarios[j].horHora + ', ';
             break;
           case 'Jueves':
-            listJueves[i] = listJueves[i] + horarios[j].horHora + ' -';
+            listJueves[i] = listJueves[i] + horarios[j].horHora + ', ';
             break;
           case 'Viernes':
-            listViernes[i] = listViernes[i] + horarios[j].horHora + ' -';
+            listViernes[i] = listViernes[i] + horarios[j].horHora + ', ';
             break;
           default:
             break;
@@ -107,4 +110,59 @@ class TutoradoHorarioTutorController extends GetxController{
   }
 
   
+}
+
+class TutoradoTutorMiDataTableSource extends DataTableSource{
+  List<Usuario> listTutores;
+  List<String> listLunes;
+  List<String> listMartes;
+  List<String> listMiercoles;
+  List<String> listJueves;
+  List<String> listViernes;
+  String materia;
+  TutoradoTutorMiDataTableSource(this.listTutores,this.listLunes,this.listMartes,this.listMiercoles,this.listJueves,this.listViernes, this.materia);
+  @override
+  DataRow? getRow(int index){
+    if(index >= listTutores.length){
+      return null;
+    }
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        DataCell(Text(listTutores[index].usuNomrbe)),
+        DataCell(
+          Row(
+            children: [
+              Text(listTutores[index].usuTelefono),
+              IconButton(
+                onPressed: (){
+                  launch('tel://'+listTutores[index].usuTelefono);
+                }, 
+                icon: Icon(IconData(int.parse('0xe126'), fontFamily: 'MaterialIcons'))
+              ),
+            ],
+          ),
+          
+        ),
+        DataCell(Text(materia)),
+        DataCell(Text(listLunes[index])),
+        DataCell(Text(listMartes[index])),
+        DataCell(Text(listMiercoles[index])),
+        DataCell(Text(listJueves[index])),
+        DataCell(Text(listViernes[index])),
+      ]
+    );
+  }
+  @override
+  int get selectedRowCount {
+    return 0;
+  }
+  @override
+  bool get isRowCountApproximate {
+    return false;
+  }
+  @override
+  int get rowCount {
+    return listTutores.length;
+  }
 }

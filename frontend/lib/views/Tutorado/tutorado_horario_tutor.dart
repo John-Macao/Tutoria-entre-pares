@@ -68,78 +68,34 @@ class TablaTutorHorario extends StatelessWidget{
     return GetBuilder<TutoradoHorarioTutorController>(
       init: TutoradoHorarioTutorController(),
       builder: (_){
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: const <DataColumn>[
-              DataColumn(label: 
-                Text('Nombre', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Materia', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Contacto', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Lunes', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Martes', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Miércoles', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Jueves', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Viernes', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-            ], 
-            rows: List<DataRow>.generate(
-              _.listUsuario.length,
-              (int index) => DataRow(
-                cells: <DataCell>[
-                  DataCell(
-                    Text(_.listUsuario[index].usuNomrbe),
-                  ),
-                  DataCell(
-                    Text(_.asignatura.value),
-                  ),
-                  DataCell(
-                    Row(
-                      children: [
-                        Text(_.listUsuario[index].usuTelefono),
-                        IconButton(
-                          onPressed: (){
-                            launch('tel://'+_.listUsuario[index].usuTelefono);
-                          }, 
-                          icon: Icon(IconData(int.parse('0xe126'), fontFamily: 'MaterialIcons'))
-                        ),
-                      ],
-                    ),
-                    
-                  ),
-                  DataCell(
-                    Text(_.listLunes[index]!=null?_.listLunes[index]:''),
-                  ),
-                  DataCell(
-                    Text(_.listMartes[index]!=null?_.listMartes[index]:''),
-                  ),
-                  DataCell(
-                    Text(_.listMiercoles[index]!=null?_.listMiercoles[index]:''),
-                  ),
-                  DataCell(
-                    Text(_.listJueves[index]!=null?_.listJueves[index]:''),
-                  ),
-                  DataCell(
-                    Text(_.listViernes[index]!=null?_.listViernes[index]:''),
-                  ),
-                ]
-              )
+        return PaginatedDataTable(
+          columns: const <DataColumn>[
+            DataColumn(label: 
+              Text('Nombre', style: TextStyle(fontWeight: FontWeight.bold),)
             ),
-          ),
+            DataColumn(label: 
+              Text('Contacto', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Materia', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Lunes', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Martes', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Miércoles', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Jueves', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Viernes', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+          ], 
+          source: TutoradoTutorMiDataTableSource(_.listUsuario,_.listLunes,_.listMartes,_.listMiercoles,_.listJueves,_.listViernes,_.asignatura.value)
         );
       }
     );

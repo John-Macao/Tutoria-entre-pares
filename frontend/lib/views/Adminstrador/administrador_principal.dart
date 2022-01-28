@@ -116,18 +116,19 @@ class TutoresTabla extends StatelessWidget{
     return GetBuilder<PrincipalController>(
       id: 'tabla',
       builder: (_){
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Column(
+        return Column(
             children: [
               if (_.opcion.value == 'Cedula') ...[
-                DataTable(
+                PaginatedDataTable(
                   columns: const <DataColumn>[
                     DataColumn(label: 
                       Text('Cedula', style: TextStyle(fontWeight: FontWeight.bold),)
                     ),
                     DataColumn(label: 
                       Text('Nombre', style: TextStyle(fontWeight: FontWeight.bold),)
+                    ),
+                    DataColumn(label: 
+                      Text('Telefono', style: TextStyle(fontWeight: FontWeight.bold),)
                     ),
                     DataColumn(label: 
                       Text('Materia', style: TextStyle(fontWeight: FontWeight.bold),)
@@ -139,40 +140,22 @@ class TutoresTabla extends StatelessWidget{
                       Text('Carrera', style: TextStyle(fontWeight: FontWeight.bold),)
                     ),
                   ], 
-                  rows: List<DataRow>.generate(
-                    _.listTutores.length,
-                    (int index) => DataRow(
-                      cells: <DataCell>[
-                        DataCell(
-                          Text(_.listTutores[index].usuCedula),
-                        ),
-                        DataCell(
-                          Text(_.listTutores[index].usuNomrbe),
-                        ),
-                        DataCell(
-                          Text(_.materias[index]),
-                        ),
-                        DataCell(
-                          Text(_.listTutores[index].usuNivel.toString()),
-                        ),
-                        DataCell(
-                          Text(_.listTutores[index].usuCarrera),
-                        ),
-                      ]
-                    )
-                  ),
+                  source: CedulaMiDataTableSource(_.listTutores,_.materias)
                 ),
               ] else if(_.opcion.value == 'Materia')...[
-                DataTable(
+                PaginatedDataTable(
                   columns: const <DataColumn>[
+                    DataColumn(label: 
+                      Text('Cedula', style: TextStyle(fontWeight: FontWeight.bold),)
+                    ),
                     DataColumn(label: 
                       Text('Nombre', style: TextStyle(fontWeight: FontWeight.bold),)
                     ),
                     DataColumn(label: 
-                      Text('Materia', style: TextStyle(fontWeight: FontWeight.bold),)
+                      Text('Contacto', style: TextStyle(fontWeight: FontWeight.bold),)
                     ),
                     DataColumn(label: 
-                      Text('Contacto', style: TextStyle(fontWeight: FontWeight.bold),)
+                      Text('Materia', style: TextStyle(fontWeight: FontWeight.bold),)
                     ),
                     DataColumn(label: 
                       Text('Lunes', style: TextStyle(fontWeight: FontWeight.bold),)
@@ -190,41 +173,10 @@ class TutoresTabla extends StatelessWidget{
                       Text('Viernes', style: TextStyle(fontWeight: FontWeight.bold),)
                     ),
                   ], 
-                  rows: List<DataRow>.generate(
-                    _.listTutores.length,
-                    (int index) => DataRow(
-                      cells: <DataCell>[
-                        DataCell(
-                          Text(_.listTutores[index].usuNomrbe),
-                        ),
-                        DataCell(
-                          Text(_.asignatura.value),
-                        ),
-                        DataCell(
-                          Text(_.listTutores[index].usuTelefono),
-                        ),
-                        DataCell(
-                          Text(_.listLunes[index]!=null?_.listLunes[index]:''),
-                        ),
-                        DataCell(
-                          Text(_.listMartes[index]!=null?_.listMartes[index]:''),
-                        ),
-                        DataCell(
-                          Text(_.listMiercoles[index]!=null?_.listMiercoles[index]:''),
-                        ),
-                        DataCell(
-                          Text(_.listJueves[index]!=null?_.listJueves[index]:''),
-                        ),
-                        DataCell(
-                          Text(_.listViernes[index]!=null?_.listViernes[index]:''),
-                        ),
-                      ]
-                    )
-                  ),
+                  source: MateriaMiDataTableSource(_.listTutores,_.listLunes,_.listMartes,_.listMiercoles,_.listJueves,_.listViernes,_.asignatura.value)
                 ),
               ],
             ],
-          ),
           
         );
       }

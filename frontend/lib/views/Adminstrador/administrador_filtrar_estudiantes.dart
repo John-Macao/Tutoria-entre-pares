@@ -102,10 +102,12 @@ class tablaFiltro extends StatelessWidget {
                   ),   onPressed: (){ _.buscarEstudiantes(); }, child: Text("Filtrar"))
               ),
 
+              
+
               GetBuilder<FiltroEstudiantesController>(
                 id: 'tabla',
                 builder: (_){
-                  return DataTable(
+                  return PaginatedDataTable(
                     columns: const <DataColumn>[
                       DataColumn(label: 
                         Text('Cedula', style: TextStyle(fontWeight: FontWeight.bold),)
@@ -129,47 +131,12 @@ class tablaFiltro extends StatelessWidget {
                         Text('Carrera', style: TextStyle(fontWeight: FontWeight.bold),)
                       ),
                     ], 
-                    rows: List<DataRow>.generate(
-                      _.listUsuarios.length,
-                      (int index) => DataRow(
-                        cells: <DataCell>[
-                          DataCell(
-                            Text(_.listUsuarios[index].usuCedula),
-                          ),
-                          DataCell(
-                            Text(_.listUsuarios[index].usuNomrbe),
-                          ),
-                          DataCell(
-                            Row(
-                              children: [
-                                Text(_.listUsuarios[index].usuTelefono),
-                                IconButton(
-                                  onPressed: (){
-                                    launch('tel://'+_.listUsuarios[index].usuTelefono);
-                                  }, 
-                                  icon: Icon(IconData(int.parse('0xe126'), fontFamily: 'MaterialIcons'))
-                                ),
-                              ],
-                            ),
-                          ),
-                          DataCell(
-                            Text(_.seleccionado),
-                          ),
-                          DataCell(
-                            Text(_.listUsuarios[index].usuNivel.toString()),
-                          ),
-                          DataCell(
-                            Text('55'),
-                          ),
-                          DataCell(
-                            Text(_.listUsuarios[index].usuCarrera),
-                          ),
-                        ]
-                      )
-                    ),
+                    source: FiltrarMiDataTableSource(_.listUsuarios,'Algebra')
                   );
                 }
               ),
+
+
 
             ],
           ),

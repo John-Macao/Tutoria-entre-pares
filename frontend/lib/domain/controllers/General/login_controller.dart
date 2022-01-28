@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/data/local_db/horario_api.dart';
 import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/usuario.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginController extends GetxController {
 
@@ -103,3 +105,57 @@ class LoginController extends GetxController {
 
 }
 
+class InicioTutorMiDataTableSource extends DataTableSource{
+  List<Usuario> listTutores;
+  List<String> listLunes;
+  List<String> listMartes;
+  List<String> listMiercoles;
+  List<String> listJueves;
+  List<String> listViernes;
+  String materia;
+  InicioTutorMiDataTableSource(this.listTutores,this.listLunes,this.listMartes,this.listMiercoles,this.listJueves,this.listViernes, this.materia);
+  @override
+  DataRow? getRow(int index){
+    if(index >= listTutores.length){
+      return null;
+    }
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        DataCell(Text(listTutores[index].usuNomrbe)),
+        DataCell(
+          Row(
+            children: [
+              Text(listTutores[index].usuTelefono),
+              IconButton(
+                onPressed: (){
+                  launch('tel://'+listTutores[index].usuTelefono);
+                }, 
+                icon: Icon(IconData(int.parse('0xe126'), fontFamily: 'MaterialIcons'))
+              ),
+            ],
+          ),
+          
+        ),
+        DataCell(Text(materia)),
+        DataCell(Text(listLunes[index])),
+        DataCell(Text(listMartes[index])),
+        DataCell(Text(listMiercoles[index])),
+        DataCell(Text(listJueves[index])),
+        DataCell(Text(listViernes[index])),
+      ]
+    );
+  }
+  @override
+  int get selectedRowCount {
+    return 0;
+  }
+  @override
+  bool get isRowCountApproximate {
+    return false;
+  }
+  @override
+  int get rowCount {
+    return listTutores.length;
+  }
+}
