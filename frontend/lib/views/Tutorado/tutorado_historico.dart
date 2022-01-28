@@ -39,7 +39,7 @@ class ListarSesiones extends StatelessWidget{
             children: [
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: _.listAsistencia.length,
+                itemCount: _.listAsistenciaMostrados.length,
                 itemBuilder: (context, index){
                   final Asistencia asistencia = _.listAsistencia[index];
                   final String asignatura = _.listAsignatura[index];
@@ -57,6 +57,14 @@ class ListarSesiones extends StatelessWidget{
                   );
                 }
               ),
+              if (_.cantidadAsistencia == true) ...[
+                IconButton(
+                  onPressed: (){
+                    _.agregar();
+                  }, 
+                  icon: Icon(IconData(int.parse('0xe047'), fontFamily: 'MaterialIcons')),
+                ),
+              ] 
             ],
           )
         );

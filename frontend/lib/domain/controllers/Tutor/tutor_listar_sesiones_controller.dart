@@ -16,6 +16,9 @@ class TutorListarSesionesController extends GetxController{
   int seleccionado = -1;
 
   List<Horario> horarios = <Horario>[];
+  List<Horario> horariosMostrados = <Horario>[];
+  bool cantidaddHorarios = true;
+  int cantidad = 20;
   Map materias = {};
   Map maofIdAMateriaId = {};//un mapa en donde se ingresa el id de la materia ofertada por el tutor y se obtiene el id de la materia que se encuentra en la api de la universidad
 
@@ -40,6 +43,7 @@ class TutorListarSesionesController extends GetxController{
 
 
   Future<void> loadDatos()async{
+    listAsignatura = [];
     cor = (await MsalService().getCorreo())!; 
 
     final data = await Horario_api.instace.fetch_horarios_sesion(cor);
@@ -56,6 +60,14 @@ class TutorListarSesionesController extends GetxController{
       listAsignatura.add(mat[i].idMateriaApi.toString());
     }
     asignatura.value = listAsignatura[0];
+
+    if(horarios.length>=cantidad){
+      horariosMostrados = horarios.sublist(0,cantidad);
+    }else{
+      horariosMostrados = horarios;
+      cantidaddHorarios = false;
+    }
+
     update();
   }
 
@@ -85,6 +97,17 @@ class TutorListarSesionesController extends GetxController{
     seleccionado = -1;
 
     loadDatos();
+  }
+
+  agregar(){
+    cantidad = cantidad + 20;
+    if(horarios.length>=cantidad){
+      horariosMostrados = horarios.sublist(0,cantidad);
+    }else{
+      horariosMostrados = horarios;
+      cantidaddHorarios = false;
+    }
+    update();
   }
   
 }

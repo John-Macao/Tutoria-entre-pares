@@ -11,6 +11,11 @@ import 'dart:js' as js;
 class TutoradoHistoricoController extends GetxController{
   
   List<Asistencia> listAsistencia = <Asistencia>[];
+  List<Asistencia> listAsistenciaMostrados = <Asistencia>[];
+  bool cantidadAsistencia = true;
+  int cantidad = 20;
+
+
   List<String> listAsignatura = <String>[];
   List<String> listTutorPar = <String>[];
   List<Horario> listHorario = <Horario>[];
@@ -50,6 +55,24 @@ class TutoradoHistoricoController extends GetxController{
       //--------------------------------------------------
     }
 
+    if(listAsistencia.length>=cantidad){
+      listAsistenciaMostrados = listAsistencia.sublist(0,cantidad);
+    }else{
+      listAsistenciaMostrados = listAsistencia;
+      cantidadAsistencia = false;
+    }
+
+    update();
+  }
+
+  agregar(){
+    cantidad = cantidad + 20;
+    if(listAsistencia.length>=cantidad){
+      listAsistenciaMostrados = listAsistencia.sublist(0,cantidad);
+    }else{
+      listAsistenciaMostrados = listAsistencia;
+      cantidadAsistencia = false;
+    }
     update();
   }
 

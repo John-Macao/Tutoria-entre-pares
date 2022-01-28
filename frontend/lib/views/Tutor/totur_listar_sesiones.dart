@@ -52,9 +52,9 @@ class ListarSesiones extends StatelessWidget{
             children: [
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: _.horarios.length,
+                itemCount: _.horariosMostrados.length,
                 itemBuilder: (context, index){
-                  final Horario horario = _.horarios[index];
+                  final Horario horario = _.horariosMostrados[index];
                   if (_.seleccionado!=index) {
                       return ListTile(
                       title: Text('Asignatura: ' + _.obtenerNombreMateria(horario.maofId)),
@@ -93,9 +93,18 @@ class ListarSesiones extends StatelessWidget{
                       )
                     );
                   }
-                  
                 }
               ),
+
+              if (_.cantidaddHorarios == true) ...[
+                IconButton(
+                  onPressed: (){
+                    _.agregar();
+                  }, 
+                  icon: Icon(IconData(int.parse('0xe047'), fontFamily: 'MaterialIcons')),
+                ),
+              ] 
+              
             ],
           )
         );

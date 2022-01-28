@@ -29,9 +29,9 @@ class TutorVerCoordinacion extends StatelessWidget{
               children: [
                 ListView.builder(
                 shrinkWrap: true,
-                itemCount: _.listCoordinacion.length,
+                itemCount: _.listCoordinacionMostrados.length,
                 itemBuilder: (context, index){
-                  final Coordinacion coordinacion = _.listCoordinacion[index];
+                  final Coordinacion coordinacion = _.listCoordinacionMostrados[index];
                   final int coordinacionId = coordinacion.cooId;
                   return ListTile(
                     visualDensity: VisualDensity(vertical: 3),
@@ -56,6 +56,14 @@ class TutorVerCoordinacion extends StatelessWidget{
                   );
                 }
               ),
+              if (_.cantidadCoordinacion == true) ...[
+                IconButton(
+                  onPressed: (){
+                    _.agregar();
+                  }, 
+                  icon: Icon(IconData(int.parse('0xe047'), fontFamily: 'MaterialIcons')),
+                ),
+              ] 
               ],
             ),
           ),
