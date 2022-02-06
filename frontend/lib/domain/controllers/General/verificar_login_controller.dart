@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/UserLogIn.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class VerificarLoginController extends GetxController {
+
+  final UsuarioRepository _usuarioRepository;
 
 
   //luego de iniciar sesion se redirige a esta pagina donde segun el rol del usuario, se redirige al inicio del usuario
@@ -14,9 +17,7 @@ class VerificarLoginController extends GetxController {
 
   BuildContext? context;
 
-  VerificarLoginController(BuildContext context){
-    this.context = context;
-  }
+  VerificarLoginController(this.context, this._usuarioRepository);
 
   @override
   void onInit() {
@@ -30,13 +31,13 @@ class VerificarLoginController extends GetxController {
   }
 
   Future proceso() async{
-    await MsalService().getCurrentUser();
+    await MsalService(_usuarioRepository).getCurrentUser();
     //print(MsalService.rol);
 
     //js.context.callMethod('redireccion', [MsalService.rol]);
     //print(MsalService.rol);
-    cor = (await MsalService().getCorreo())!; 
-    rol = (await MsalService().getRol(cor))!;
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
+    rol = (await MsalService(_usuarioRepository).getRol(cor))!;
     switch (rol) {
       case 'Administrador':
           Navigator.pushNamed(context!, '/administrador-principal');

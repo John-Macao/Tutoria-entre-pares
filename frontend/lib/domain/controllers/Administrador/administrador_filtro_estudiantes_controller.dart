@@ -5,12 +5,16 @@ import 'package:frontend/data/external_db/ejemplo_modelo.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/estudiantes.dart';
 import 'package:frontend/domain/models/usuario.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 import 'package:url_launcher/url_launcher.dart';
 
 class FiltroEstudiantesController extends GetxController {
+
+  final UsuarioRepository _usuarioRepository;
+
   var inputCalificacion = TextEditingController();
 
   List<Ejemplo> datosEjemplo = <Ejemplo>[];
@@ -19,13 +23,15 @@ class FiltroEstudiantesController extends GetxController {
 
   List<Usuario> listUsuarios = <Usuario>[];
 
+  FiltroEstudiantesController(this._usuarioRepository);
+
   @override
   Future<void> onInit() async {
     super.onInit();
-    var cor = await MsalService().getCorreo(); 
-    var rol = await MsalService().getRol(cor);
+    var cor = await MsalService(_usuarioRepository).getCorreo(); 
+    var rol = await MsalService(_usuarioRepository).getRol(cor);
     if(rol!='Administrador'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Administrador') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }

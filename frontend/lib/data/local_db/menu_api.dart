@@ -3,10 +3,7 @@ import 'package:frontend/domain/models/menu.dart';
 
 class Menu_api {
 
-  Menu_api._internal();
-
-  static Menu_api _instance = Menu_api._internal();
-  static Menu_api get instace => _instance;
+  Menu_api();
 
   final _dio = Dio();
 

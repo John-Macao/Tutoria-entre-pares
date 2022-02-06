@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_registrar_asistencia_controller.dart';
+import 'package:frontend/domain/repository/asistencia_repository.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 
 class TutoradoRegistrarAsistencia extends StatelessWidget{
@@ -9,7 +13,7 @@ class TutoradoRegistrarAsistencia extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutoradoRegistrarAsistenciaController>(
-      init: TutoradoRegistrarAsistenciaController(int.parse(codigo)),
+      init: TutoradoRegistrarAsistenciaController(int.parse(codigo), locator.get<UsuarioRepository>(), locator.get<HorarioRepository>(), locator.get<AsistenciaRepository>()),
       builder: (_){
         return Scaffold(
           appBar: AppBar(

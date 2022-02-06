@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_horario_tutor_controller.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,7 +36,7 @@ class AsignaturaDeTabla extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutoradoHorarioTutorController>(
-      init: TutoradoHorarioTutorController(),
+      init: TutoradoHorarioTutorController(locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>(), locator.get<HorarioRepository>()),
       builder: (_){
         return Column(
           children: [
@@ -66,7 +70,7 @@ class TablaTutorHorario extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutoradoHorarioTutorController>(
-      init: TutoradoHorarioTutorController(),
+      init: TutoradoHorarioTutorController(locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>(), locator.get<HorarioRepository>()),
       builder: (_){
         return PaginatedDataTable(
           columns: const <DataColumn>[

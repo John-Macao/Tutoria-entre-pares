@@ -1,8 +1,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_filtro_estudiantes_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,7 +38,7 @@ class tablaFiltro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<FiltroEstudiantesController>(
-      init: FiltroEstudiantesController() ,
+      init: FiltroEstudiantesController(locator.get<UsuarioRepository>()) ,
       builder: (_){
         return Container(
           child: Column(

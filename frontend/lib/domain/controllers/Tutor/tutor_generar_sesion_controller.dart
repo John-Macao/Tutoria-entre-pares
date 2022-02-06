@@ -8,11 +8,18 @@ import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/horario.dart';
 import 'package:frontend/domain/models/materia_oferta.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/Tutor/tutor_datos_sesion_generada.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class TutorGenerarSesionController extends GetxController{
+
+  final UsuarioRepository _usuarioRepository;
+  final HorarioRepository _horarioRepository;
+  final MateriaOfertaRepository _materiaOfertaRepository;
   
   String nombre ='';
   List<String> listAsignatura = <String>[];
@@ -21,14 +28,16 @@ class TutorGenerarSesionController extends GetxController{
   var cor = '';
   var rol = '';
   Map materias = {};
+
+  TutorGenerarSesionController(this._usuarioRepository, this._horarioRepository, this._materiaOfertaRepository);
   
   @override
   Future<void> onInit() async {
     super.onInit();
-    cor = (await MsalService().getCorreo())!; 
-    rol = (await MsalService().getRol(cor))!;
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
+    rol = (await MsalService(_usuarioRepository).getRol(cor))!;
     if(rol!='Tutor'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Tutor') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
@@ -40,11 +49,11 @@ class TutorGenerarSesionController extends GetxController{
 
 
   Future<void> loadDatos() async{
-    cor = (await MsalService().getCorreo())!; 
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
 
-    nombre = (await Usuario_api.instace.fetch_usuario_nombre(cor))!;
+    nombre = (await _usuarioRepository.fetch_usuario_nombre(cor))!;
 
-    final data = await MateriaOferta_api.instace.fetch_materia_por_tutor(cor);
+    final data = await _materiaOfertaRepository.fetch_materia_por_tutor(cor);
     List<MateriaOferta> mat = data!;
     for(var i=0; i<mat.length; i++){
       //se busca el nombre de la materia en la api de la u para poder ponerlo en la List de asignaturas
@@ -93,9 +102,9 @@ class TutorGenerarSesionController extends GetxController{
 
     var json = jsonEncode(horario.toJson());
 
-    final insertar = await Horario_api.instace.put_horario_tutor_sesion(cor, json);
+    final insertar = await _horarioRepository.put_horario_tutor_sesion(cor, json);
 
-    int horarioId = (await Horario_api.instace.fetch_ultimo_horario_creado(cor))!;
+    int horarioId = (await _horarioRepository.fetch_ultimo_horario_creado(cor))!;
 
     //Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new TutorDatosSesionGenerada(horarioId: horarioId.toString())));
     Navigator.pushNamed(context, 'tutor-datos-sesion-generado/$horarioId');

@@ -3,10 +3,7 @@ import 'package:frontend/domain/models/materia_oferta.dart';
 
 class MateriaOferta_api {
 
-  MateriaOferta_api._internal();
-
-  static MateriaOferta_api _instance = MateriaOferta_api._internal();
-  static MateriaOferta_api get instace => _instance;
+  MateriaOferta_api();
 
   final _dio = Dio();
 

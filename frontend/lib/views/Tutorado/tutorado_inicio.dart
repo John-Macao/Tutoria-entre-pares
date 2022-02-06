@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_inicio_controller.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +10,7 @@ class TutoradoInicio extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutoradoInicioController>(
-      init: TutoradoInicioController(),
+      init: TutoradoInicioController(locator.get<UsuarioRepository>()),
       builder: (_){
         return Scaffold(
           appBar: AppBar(

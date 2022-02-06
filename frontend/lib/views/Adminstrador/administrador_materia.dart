@@ -1,8 +1,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_materia_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -36,7 +39,7 @@ class formularioMateria extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MateriaController>(
-      init: MateriaController(),
+      init: MateriaController(locator.get<MateriaOfertaRepository>(),locator.get<UsuarioRepository>()),
       builder: (_){
         return Form(
           child: Column(

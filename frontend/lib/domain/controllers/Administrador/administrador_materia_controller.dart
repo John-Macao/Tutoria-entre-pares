@@ -3,10 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class MateriaController extends GetxController{
+
+  final MateriaOfertaRepository _materiaOfertaRepository;
+  final UsuarioRepository _usuarioRepository;
 
   String nombre = "";
   String carrera = "";
@@ -21,13 +26,15 @@ class MateriaController extends GetxController{
   Map materiasOfertadas = {};
   Map materiasPosibles = {};
 
+  MateriaController(this._materiaOfertaRepository, this._usuarioRepository);
+
   @override
   Future<void> onInit() async {
     super.onInit();
-    var cor = await MsalService().getCorreo(); 
-    var rol = await MsalService().getRol(cor);
+    var cor = await MsalService(_usuarioRepository).getCorreo(); 
+    var rol = await MsalService(_usuarioRepository).getRol(cor);
     if(rol!='Administrador'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Administrador') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
@@ -35,13 +42,13 @@ class MateriaController extends GetxController{
   }
 
   Future buscar()async{
-    final tutor = await Usuario_api.instace.fetch_usuario_por_cedula(cedula.text);
+    final tutor = await _usuarioRepository.fetch_usuario_por_cedula(cedula.text);
     nombre = tutor!.usuNomrbe;
     carrera = tutor.usuCarrera;
     correoTutor = tutor.usuCorreo;
 
 
-    final listMaOf = (await MateriaOferta_api.instace.fetch_materia_por_tutor(tutor.usuCorreo))!;
+    final listMaOf = (await _materiaOfertaRepository.fetch_materia_por_tutor(tutor.usuCorreo))!;
     listMateriasOfertadas = [];
     for(int i=0;i<listMaOf.length;i++){
       //aqui se busca el nombre de las materias en la api de la u
@@ -57,7 +64,7 @@ class MateriaController extends GetxController{
   Future deshabilitar(String materiaNombre)async{
     int idMateria = materiasOfertadas[materiaNombre];
 
-    final cambio = await MateriaOferta_api.instace.update_deshabilitar_materia(correoTutor,idMateria);
+    final cambio = await _materiaOfertaRepository.update_deshabilitar_materia(correoTutor,idMateria);
 
     buscar();
   }
@@ -83,7 +90,7 @@ class MateriaController extends GetxController{
   Future agregarMateria(String nombre)async{
     int idMateriaApi = materiasPosibles[nombre];
 
-    final agregacion = await MateriaOferta_api.instace.put_materia_oferta(correoTutor, idMateriaApi);
+    final agregacion = await _materiaOfertaRepository.put_materia_oferta(correoTutor, idMateriaApi);
 
     buscar();
 

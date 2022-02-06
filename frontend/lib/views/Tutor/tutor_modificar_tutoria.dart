@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_modificar_tutoria_controller.dart';
 import 'package:frontend/domain/models/horario.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +12,7 @@ class TutorModificarTutoria extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutorModificarTutoriaController>(
-      init: TutorModificarTutoriaController(),
+      init: TutorModificarTutoriaController(locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>()),
       builder: (_){
         return Scaffold(
         appBar: AppBar(
@@ -161,7 +165,7 @@ class HorarioInicio extends StatelessWidget{
                 Form(child: Column(
                   children: [
                     GetBuilder<ModificarHorario>(
-                      init: ModificarHorario(),
+                      init: ModificarHorario(locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>()),
                       builder: (_){
                         _.dia = dia;
                         _.hora = hora;
@@ -224,7 +228,7 @@ class HorarioInicio extends StatelessWidget{
                 Form(child: Column(
                   children: [
                     GetBuilder<ModificarHorario>(
-                      init: ModificarHorario(),
+                      init: ModificarHorario(locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>()),
                       builder: (_){
                         _.asignatura.value = materia;
                         _.dia = horario.horDia;

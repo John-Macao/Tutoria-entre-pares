@@ -1,24 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class TutorModificarTelefonoController extends GetxController{
+
+  final UsuarioRepository _usuarioRepository;
   
   String nombre ='';
   var numero = TextEditingController();
 
   var cor = '';
   var rol = '';
+
+  TutorModificarTelefonoController(this._usuarioRepository);
   
   @override
   Future<void> onInit() async {
     super.onInit();
-    cor = (await MsalService().getCorreo())!; 
-    rol = (await MsalService().getRol(cor))!;
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
+    rol = (await MsalService(_usuarioRepository).getRol(cor))!;
     if(rol!='Tutor'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Tutor') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
@@ -29,15 +34,15 @@ class TutorModificarTelefonoController extends GetxController{
   }
 
   Future loadDatos()async{
-    nombre = (await Usuario_api.instace.fetch_usuario_nombre(cor))!;
+    nombre = (await _usuarioRepository.fetch_usuario_nombre(cor))!;
 
-    numero.text = (await Usuario_api.instace.fetch_usuario_telefono(cor))!;
+    numero.text = (await _usuarioRepository.fetch_usuario_telefono(cor))!;
 
     update();
   }
 
   Future modificar()async{
-    final insertar = await Usuario_api.instace.update_usuario_telefono(cor,numero.text);
+    final insertar = await _usuarioRepository.update_usuario_telefono(cor,numero.text);
     loadDatos();
   }
   

@@ -3,8 +3,10 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_agregar_tutor_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -31,7 +33,7 @@ class formularioNuevoTutor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AgregarNuevoTutorController>(
-      init: AgregarNuevoTutorController() ,
+      init: AgregarNuevoTutorController(locator.get<UsuarioRepository>()) ,
       builder: (_){
         return Center(
           child: Container(

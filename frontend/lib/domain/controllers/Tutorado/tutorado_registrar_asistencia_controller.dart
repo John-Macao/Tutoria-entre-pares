@@ -7,16 +7,23 @@ import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/asistencia.dart';
 import 'package:frontend/domain/models/horario.dart';
+import 'package:frontend/domain/repository/asistencia_repository.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class TutoradoRegistrarAsistenciaController extends GetxController{
 
+  final UsuarioRepository _usuarioRepository;
+  final HorarioRepository _horarioRepository;
+  final AsistenciaRepository _asistenciaRepository;
+
   int codigo = 0;
 
   Horario? horario;
 
-  TutoradoRegistrarAsistenciaController(this.codigo);
+  TutoradoRegistrarAsistenciaController(this.codigo, this._usuarioRepository, this._horarioRepository, this._asistenciaRepository);
   
   var tema = TextEditingController();
 
@@ -39,10 +46,10 @@ class TutoradoRegistrarAsistenciaController extends GetxController{
   @override
   Future<void> onInit() async {
     super.onInit();
-    cor = (await MsalService().getCorreo())!; 
-    rol = (await MsalService().getRol(cor))!;
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
+    rol = (await MsalService(_usuarioRepository).getRol(cor))!;
     if(rol!='Tutorado'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Tutorado') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
@@ -70,11 +77,11 @@ class TutoradoRegistrarAsistenciaController extends GetxController{
     listMotivo.add('Motivo3');
     motivo.value = listMotivo[0];
 
-    horario = (await Horario_api.instace.fetch_horarios_id(codigo))!;
+    horario = (await _horarioRepository.fetch_horarios_id(codigo))!;
 
-    tutorPar = (await Usuario_api.instace.fetch_usuario_nombre_por_id(horario!.usuId))!;
+    tutorPar = (await _usuarioRepository.fetch_usuario_nombre_por_id(horario!.usuId))!;
 
-    motivoBool = (await Usuario_api.instace.fetch_usuario_motivo(cor))!;
+    motivoBool = (await _usuarioRepository.fetch_usuario_motivo(cor))!;
 
 
     update();
@@ -84,7 +91,7 @@ class TutoradoRegistrarAsistenciaController extends GetxController{
   Future aceptar(BuildContext context)async{
 
     if(motivoBool==false){
-      final ingreso1 = await Usuario_api.instace.update_usuario_razon(cor, motivo.value);
+      final ingreso1 = await _usuarioRepository.update_usuario_razon(cor, motivo.value);
     }
 
 
@@ -93,7 +100,7 @@ class TutoradoRegistrarAsistenciaController extends GetxController{
     
     var json = jsonEncode(asistencia.toJson());
 
-    final ingreso2 = await Asistencia_api.instace.put_asistencia(cor, json);
+    final ingreso2 = await _asistenciaRepository.put_asistencia(cor, json);
 
   }
 

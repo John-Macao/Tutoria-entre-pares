@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_reporte_tutorias_controller.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -33,7 +35,7 @@ class reporteTutorias extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ReporteTutoriasController>(
-      init: ReporteTutoriasController(),
+      init: ReporteTutoriasController(locator.get<UsuarioRepository>()),
       builder: (_){
         return Container(
           child: Column(

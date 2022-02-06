@@ -5,10 +5,19 @@ import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/asistencia.dart';
 import 'package:frontend/domain/models/horario.dart';
+import 'package:frontend/domain/repository/asistencia_repository.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class TutoradoHistoricoController extends GetxController{
+
+  final AsistenciaRepository _asistenciaRepository;
+  final HorarioRepository _horarioRepository;
+  final UsuarioRepository _usuarioRepository;
+  final MateriaOfertaRepository _materiaOfertaRepository;
   
   List<Asistencia> listAsistencia = <Asistencia>[];
   List<Asistencia> listAsistenciaMostrados = <Asistencia>[];
@@ -23,13 +32,16 @@ class TutoradoHistoricoController extends GetxController{
 
   var cor = '';
   var rol = '';  
+
+  TutoradoHistoricoController(this._asistenciaRepository, this._horarioRepository, this._usuarioRepository, this._materiaOfertaRepository);
+
   @override
   Future<void> onInit() async {
     super.onInit();
-    cor = (await MsalService().getCorreo())!; 
-    rol = (await MsalService().getRol(cor))!;
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
+    rol = (await MsalService(_usuarioRepository).getRol(cor))!;
     if(rol!='Tutorado'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Tutorado') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
@@ -40,16 +52,16 @@ class TutoradoHistoricoController extends GetxController{
   }
 
   Future loadDatos()async{
-    listAsistencia = (await Asistencia_api.instace.fetch_asistencias_tutorado(cor))!;
+    listAsistencia = (await _asistenciaRepository.fetch_asistencias_tutorado(cor))!;
 
     for(int i=0; i<listAsistencia.length; i++){
-      final horario = (await Horario_api.instace.fetch_horarios_id(listAsistencia[i].horId))!;
+      final horario = (await _horarioRepository.fetch_horarios_id(listAsistencia[i].horId))!;
       listHorario.add(horario);
       
-      final nombre = (await Usuario_api.instace.fetch_usuario_nombre_por_id(horario.usuId))!;
+      final nombre = (await _usuarioRepository.fetch_usuario_nombre_por_id(horario.usuId))!;
       listTutorPar.add(nombre);
 
-      final materia = (await MateriaOferta_api.instace.fetch_materia__por_ip(horario.maofId))!;
+      final materia = (await _materiaOfertaRepository.fetch_materia__por_ip(horario.maofId))!;
       //BUSCAR EL NOMBRE DE LA MATERIA POR LA API DE LA U
       listAsignatura.add(materia.idMateriaApi.toString());
       //--------------------------------------------------

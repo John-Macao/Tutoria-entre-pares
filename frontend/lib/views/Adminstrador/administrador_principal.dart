@@ -1,8 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_principal_controller.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +16,7 @@ class VistaPrincipal extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return GetBuilder<PrincipalController>(
-      init: PrincipalController(),
+      init: PrincipalController(locator.get<UsuarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<HorarioRepository>()),
       builder: (_){
         return Scaffold(
           appBar: AppBar(

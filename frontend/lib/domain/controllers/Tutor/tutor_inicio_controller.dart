@@ -3,10 +3,17 @@ import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/horario.dart';
 import 'package:frontend/domain/models/tutor_horario.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class TutorInicioController extends GetxController{
+
+  final HorarioRepository _horarioRepository;
+  final MateriaOfertaRepository _materiaOfertaRepository;
+  final UsuarioRepository _usuarioRepository;
   
   List<String> horas = <String>[];
   
@@ -20,15 +27,17 @@ class TutorInicioController extends GetxController{
 
   var cor = '';
   var rol = '';
+
+  TutorInicioController(this._horarioRepository, this._materiaOfertaRepository, this._usuarioRepository);
   
   @override
   Future<void> onInit() async {
     super.onInit();
-    cor = (await MsalService().getCorreo())!; 
-    rol = (await MsalService().getRol(cor))!;
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
+    rol = (await MsalService(_usuarioRepository).getRol(cor))!;
 
     if(rol!='Tutor'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Tutor') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
@@ -61,13 +70,13 @@ class TutorInicioController extends GetxController{
   
   Future<void> loadHorarios() async{
     
-    cor = (await MsalService().getCorreo())!; 
-    final data = await Horario_api.instace.fetch_horarios_fijo(cor);
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
+    final data = await _horarioRepository.fetch_horarios_fijo(cor);
 
     horarios = data!;
 
     for (var i = 0; i < horarios.length; i++) {
-      final mat = await MateriaOferta_api.instace.fetch_materia__por_ip(horarios[i].maofId);
+      final mat = await _materiaOfertaRepository.fetch_materia__por_ip(horarios[i].maofId);
       //aqui se debe buscar (con el id de la api dentro de la variable materia) el nombre de la materia dentro de las apis ofrecidas por la u
       switch(horarios[i].horDia){
         case 'Lunes': {

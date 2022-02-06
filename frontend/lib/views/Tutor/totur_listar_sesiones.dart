@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_listar_sesiones_controller.dart';
 import 'package:frontend/domain/models/horario.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +12,7 @@ class TutorListarSesiones extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutorListarSesionesController>(
-      init: TutorListarSesionesController(),
+      init: TutorListarSesionesController(locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>()),
       builder: (_){
         return Scaffold(
           appBar: AppBar(

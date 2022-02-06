@@ -3,12 +3,10 @@ import 'package:frontend/domain/models/asistencia.dart';
 
 class Asistencia_api {
 
-  Asistencia_api._internal();
-  
-  static Asistencia_api _instance = Asistencia_api._internal();
-  static Asistencia_api get instace => _instance;
 
   final _dio = Dio();
+
+  Asistencia_api();
 
 
   Future<Object> put_asistencia(String correo, json) async{

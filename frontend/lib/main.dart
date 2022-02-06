@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'package:frontend/domain/controllers/Administrador/administrador_service_locator.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
-import 'package:frontend/domain/controllers/General/service_locator_general.dart';
-import 'package:frontend/domain/controllers/Tutor/tutor_service_locator.dart';
-import 'package:frontend/domain/controllers/Tutorado/tutorado_service_locator.dart';
 import 'package:frontend/views/General/login.dart';
 import 'package:frontend/views/General/verificar_login.dart';
 import 'package:frontend/views/Tutor/tutor_inicio.dart';
@@ -16,12 +13,9 @@ void main() {
   RoutePagina.configureRoutes();
   setPathUrlStrategy();
 
-  MsalService.initialize();
+  //MsalService.initialize();
 
-  setupGetItGeneral();
-  setupGetItAdministrador();
-  setupGetItTutor();
-  setupGetItTutorado();
+  setup();
   runApp(const MyApp());
 }
 

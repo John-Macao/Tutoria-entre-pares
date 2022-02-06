@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutorado/tutorado_historico_controller.dart';
 import 'package:frontend/domain/models/asistencia.dart';
 import 'package:frontend/domain/models/horario.dart';
+import 'package:frontend/domain/repository/asistencia_repository.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -32,7 +37,7 @@ class ListarSesiones extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutoradoHistoricoController>(
-      init: TutoradoHistoricoController(),
+      init: TutoradoHistoricoController(locator.get<AsistenciaRepository>(), locator.get<HorarioRepository>(), locator.get<UsuarioRepository>(), locator.get<MateriaOfertaRepository>()),
       builder: (_){
         return Form(
           child: Column(

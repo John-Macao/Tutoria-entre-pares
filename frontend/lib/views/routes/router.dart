@@ -10,13 +10,11 @@ import 'package:frontend/views/Adminstrador/administrador_reporte_tutorados.dart
 import 'package:frontend/views/Adminstrador/administrador_reporte_tutorias.dart';
 import 'package:frontend/views/General/login.dart';
 import 'package:frontend/views/General/verificar_login.dart';
-import 'package:frontend/views/Tutor/borrarView.dart';
 import 'package:frontend/views/Tutor/totur_listar_sesiones.dart';
 import 'package:frontend/views/Tutor/tutor_coordinacion.dart';
 import 'package:frontend/views/Tutor/tutor_coordinacion_editar.dart';
 import 'package:frontend/views/Tutor/tutor_datos_sesion_generada.dart';
 import 'package:frontend/views/Tutor/tutor_generar_sesion.dart';
-import 'package:frontend/views/Tutor/tutor_generar_tutoria.dart';
 import 'package:frontend/views/Tutor/tutor_inicio.dart';
 import 'package:frontend/views/Tutor/tutor_modificar_telefono.dart';
 import 'package:frontend/views/Tutor/tutor_modificar_tutoria.dart';
@@ -53,12 +51,6 @@ class RoutePagina {
   static Handler _tutorInicioHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params){
       return TutorInicio();
-    }
-  );
-
-  static Handler _tutorGenerarTutoria = Handler(
-    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
-      return TutorGenerarTutoria();
     }
   );
 
@@ -181,12 +173,6 @@ class RoutePagina {
     }
   );
 
-// ----------------------------------BORRAR
-  static Handler _borrar = Handler(
-    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
-      return BorrarView();
-    }
-  );
 
 
 
@@ -196,7 +182,6 @@ class RoutePagina {
     router.define('/verificar-login', handler: _verificarLogIn);
     //TUTOR PAR
     router.define('/tutor-par-inicio', handler: _tutorInicioHandler);
-    router.define('/tutor-generar-tutoria', handler: _tutorGenerarTutoria);
     router.define('/tutor-modificar-telefono', handler: _tutorModificarTelefono);
     router.define('/tutor-generar-sesion', handler: _tutorGenerarSesion);
     router.define('/tutor-listar-sesiones', handler: _tutorListarSesiones);
@@ -222,8 +207,6 @@ class RoutePagina {
     router.define("/administrador-reporte-tutorados", handler: _administradorReporteTutorados);
     router.define("/administrador-filtro-estudiantes", handler: _administradorFiltrarEstudiantes);
 
-    //-----------------------------BORRAR
-    router.define("/borrar", handler: _borrar);
     
 
   }

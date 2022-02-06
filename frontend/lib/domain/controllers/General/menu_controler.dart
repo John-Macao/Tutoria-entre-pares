@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:frontend/data/local_db/menu_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/menu.dart';
+import 'package:frontend/domain/repository/menu_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 
 
 class MenuController extends GetxController{
   
+  final MenuRepository _menuRepository;
+  final UsuarioRepository _usuarioRepository;
 
   static List<Menu> menus = [];
   //Menu? usu;
@@ -18,7 +22,7 @@ class MenuController extends GetxController{
 
   BuildContext? context;
 
-  MenuController(BuildContext context){
+  MenuController(BuildContext context, this._menuRepository, this._usuarioRepository){
     this.context = context;
   }
 
@@ -38,7 +42,7 @@ class MenuController extends GetxController{
   }
 
   Future<void> loadMenu() async {
-    final data = await Menu_api.instace.fetch_menu(MsalService.correo);
+    final data = await _menuRepository.fetch_menu(MsalService.correo);
     menus = data!;
     for (var i = 0; i < MenuController.menus.length; i++) {
       var menu = MenuController.menus[i];
@@ -54,7 +58,7 @@ class MenuController extends GetxController{
         );
       }else if(menu.mentipo=='P'){
         List<Widget> drawerHijos = [];
-        List<Menu>? menusHijos = await Menu_api.instace.fetch_menu_hijos(menu.menid);
+        List<Menu>? menusHijos = await _menuRepository.fetch_menu_hijos(menu.menid);
         for (var j = 0; j < menusHijos!.length; j++) {
           drawerHijos.add(
             new ListTile(
@@ -82,7 +86,7 @@ class MenuController extends GetxController{
         title: Text('Cerrar Sesión'),
         leading: Icon(IconData(int.parse('0xe3b3'), fontFamily: 'MaterialIcons')),
         onTap: (){
-          MsalService().logout(context!);
+          MsalService(_usuarioRepository).logout(context!);
         },
       )
     );

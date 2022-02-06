@@ -9,12 +9,19 @@ import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/estudiantes.dart';
 import 'package:frontend/domain/models/materia_oferta.dart';
 import 'package:frontend/domain/models/usuario.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 import 'package:url_launcher/url_launcher.dart';
 
 class PrincipalController extends GetxController{
+
+  final UsuarioRepository _usuarioRepository;
+  final MateriaOfertaRepository _materiaOfertaRepository;
+  final HorarioRepository _horarioRepository;
 
   List<String> materias = <String>[];
 
@@ -34,14 +41,16 @@ class PrincipalController extends GetxController{
 
   RxString opcion = ''.obs;
   List<String> opciones = [];
+
+  PrincipalController(this._usuarioRepository, this._materiaOfertaRepository, this._horarioRepository);
   
   @override
   Future<void> onInit() async {
     super.onInit();
-    var cor = await MsalService().getCorreo(); 
-    var rol = await MsalService().getRol(cor);
+    var cor = await MsalService(_usuarioRepository).getCorreo(); 
+    var rol = await MsalService(_usuarioRepository).getRol(cor);
     if(rol!='Administrador'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Administrador') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
@@ -57,10 +66,10 @@ class PrincipalController extends GetxController{
 
   Future loadDatos()async{
     materias = <String>[];
-    listTutores = (await Usuario_api.instace.fetch_usuario_tutores())!;
+    listTutores = (await _usuarioRepository.fetch_usuario_tutores())!;
     for(int i=0;i<listTutores.length;i++){
       materias.add('');
-      final List<MateriaOferta> mat = (await MateriaOferta_api.instace.fetch_materia_por_tutor(listTutores[i].usuCorreo))!;
+      final List<MateriaOferta> mat = (await _materiaOfertaRepository.fetch_materia_por_tutor(listTutores[i].usuCorreo))!;
       for(int j=0; j<mat.length;j++){
         //buscar el nombre de la materia mediante la api de la u
         materias[i] = materias[i] + mat[j].idMateriaApi.toString() + ', ';
@@ -72,7 +81,7 @@ class PrincipalController extends GetxController{
   Future cambioOpcion()async{
     if(opcion.value=='Materia'){
       listAsignaturas = [];
-      final listMatOferta = (await MateriaOferta_api.instace.fetch_materias_unicas())!;
+      final listMatOferta = (await _materiaOfertaRepository.fetch_materias_unicas())!;
     
       for(int i=0;i<listMatOferta.length;i++){
         //por cada id_mat_api que haya, buscar en la api el nombre de la materia
@@ -91,9 +100,9 @@ class PrincipalController extends GetxController{
   Future buscarPorCedula()async{
     listTutores = <Usuario>[];
     materias = [];
-    final usu = (await Usuario_api.instace.fetch_usuario_por_cedula(cedula.text))!;
+    final usu = (await _usuarioRepository.fetch_usuario_por_cedula(cedula.text))!;
     listTutores.add(usu);
-    final List<MateriaOferta> mat = (await MateriaOferta_api.instace.fetch_materia_por_tutor(listTutores[0].usuCorreo))!;
+    final List<MateriaOferta> mat = (await _materiaOfertaRepository.fetch_materia_por_tutor(listTutores[0].usuCorreo))!;
     materias.add('');
     for(int j=0; j<mat.length;j++){
       //buscar el nombre de la materia mediante la api de la u
@@ -114,13 +123,13 @@ class PrincipalController extends GetxController{
 
     var idMateria = mapAsignaturas[asignatura.value];
 
-    final materiasOferta = (await MateriaOferta_api.instace.fetch_materias_por_materia(idMateria))!;
+    final materiasOferta = (await _materiaOfertaRepository.fetch_materias_por_materia(idMateria))!;
 
     for(int i=0; i<materiasOferta.length; i++){
-      listTutores.add((await Usuario_api.instace.fetch_usuario_por_id(materiasOferta[i].usuId))!);
+      listTutores.add((await _usuarioRepository.fetch_usuario_por_id(materiasOferta[i].usuId))!);
 
 
-      final horarios = (await Horario_api.instace.fetch_horarios_fijo_de_materia_y_usuario(listTutores[i].usuId, materiasOferta[i].maofId))!;
+      final horarios = (await _horarioRepository.fetch_horarios_fijo_de_materia_y_usuario(listTutores[i].usuId, materiasOferta[i].maofId))!;
 
 
       listLunes.add('');

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_datos_sesion_generada_controller.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 
 class TutorDatosSesionGenerada extends StatelessWidget{
@@ -14,7 +18,7 @@ class TutorDatosSesionGenerada extends StatelessWidget{
       body: SingleChildScrollView(
         child: Center(
           child: GetBuilder<TutorDatosSesionGeneradaController>(
-            init: TutorDatosSesionGeneradaController(int.parse(horarioId)),
+            init: TutorDatosSesionGeneradaController(int.parse(horarioId), locator.get<UsuarioRepository>(), locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>()),
             builder: (_){
               return Form(
                 child: Column(

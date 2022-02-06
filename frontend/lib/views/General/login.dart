@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/General/login_controller.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
-import 'package:frontend/domain/controllers/Tutorado/tutorado_service_locator.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 
 
@@ -12,7 +15,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LoginController>(
-      init: LoginController(),
+      init: LoginController(locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>(), locator.get<HorarioRepository>()),
       builder: (_){
         return Scaffold(
           appBar: AppBar(

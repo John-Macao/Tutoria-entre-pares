@@ -2,6 +2,7 @@ import 'dart:js' as js;
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/data/local_db/usuario_api.dart';
 import 'package:frontend/domain/models/UserLogIn.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 
 
@@ -9,20 +10,24 @@ import 'package:get/get.dart';
 //esta clase sera llamada solo una vez en el main.dart
 class MsalService extends GetxController {
 
+  
+
+  final UsuarioRepository _usuarioRepository;
+
   final Rx<UserLogIn> _userLogin = Rx<UserLogIn>(UserLogIn());
   static String correo ='';
   static String rol ='';
 
-  static initialize() {
-    Get.put(MsalService());
-  }
+  // static initialize() {
+  //   Get.put(MsalService(_usuarioRepository));
+  // }
 
-  @override
-  void onInit() {
-    super.onInit();
+  MsalService(this._usuarioRepository){
     js.context.callMethod('msalInitialize');
     getCurrentUser();
   }
+
+  
 
   //inicio de sesion que llama al metodo en javascript
   login(BuildContext context) {
@@ -54,7 +59,7 @@ class MsalService extends GetxController {
     //se verifica el rol de un usuario segun su correo electronico
   Future verificarUsuario() async{
     
-    final data = await Usuario_api.instace.fetch_usuario_rol(MsalService.correo);
+    final data = await _usuarioRepository.fetch_usuario_rol(MsalService.correo);
     rol = data!;
 
 /*
@@ -87,7 +92,7 @@ class MsalService extends GetxController {
 
   Future<String?> getRol(correou) async{
     try {
-      final data = await Usuario_api.instace.fetch_usuario_rol(correou);
+      final data = await _usuarioRepository.fetch_usuario_rol(correou);
       rol = data!;
       return rol;
     } catch (e) {

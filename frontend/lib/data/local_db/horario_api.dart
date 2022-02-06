@@ -3,10 +3,7 @@ import 'package:frontend/domain/models/horario.dart';
 
 class Horario_api {
 
-  Horario_api._internal();
-
-  static Horario_api _instance = Horario_api._internal();
-  static Horario_api get instace => _instance;
+  Horario_api();
 
   final _dio = Dio();
 

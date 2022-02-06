@@ -3,10 +3,7 @@ import 'package:frontend/domain/models/usuario.dart';
 
 class Usuario_api {
 
-  Usuario_api._internal();
-
-  static Usuario_api _instance = Usuario_api._internal();
-  static Usuario_api get instace => _instance;
+  Usuario_api();
 
   final _dio = Dio();
 

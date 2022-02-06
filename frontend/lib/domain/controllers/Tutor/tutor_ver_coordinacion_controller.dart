@@ -1,10 +1,15 @@
 import 'package:frontend/data/local_db/coordinacion_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/coordinacion.dart';
+import 'package:frontend/domain/repository/coodrinacion_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class TutorVerCoordinacionController extends GetxController{
+
+  final CoordinacionRepository _coordinacionRepository;
+  final UsuarioRepository _usuarioRepository;
 
   List<Coordinacion> listCoordinacion = [];
   List<Coordinacion> listCoordinacionMostrados = <Coordinacion>[];
@@ -13,14 +18,16 @@ class TutorVerCoordinacionController extends GetxController{
 
   var cor = '';
   var rol = '';
+
+  TutorVerCoordinacionController(this._coordinacionRepository, this._usuarioRepository);
   
   @override
   Future<void> onInit() async {
     super.onInit();
-    cor = (await MsalService().getCorreo())!; 
-    rol = (await MsalService().getRol(cor))!;
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
+    rol = (await MsalService(_usuarioRepository).getRol(cor))!;
     if(rol!='Tutor'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Tutor') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
@@ -30,7 +37,7 @@ class TutorVerCoordinacionController extends GetxController{
   }
 
   Future loadDatos()async{
-    listCoordinacion = (await Coordinacion_api.instace.fetch_coordinacion_tutor(cor))!;
+    listCoordinacion = (await _coordinacionRepository.fetch_coordinacion_tutor(cor))!;
 
     if(listCoordinacion.length>=cantidad){
       listCoordinacionMostrados = listCoordinacion.sublist(0,cantidad);
@@ -46,7 +53,7 @@ class TutorVerCoordinacionController extends GetxController{
   Future elininar(Coordinacion coordinacion)async{
     var json = coordinacion.toJson();
 
-    final insertar = await Coordinacion_api.instace.delete_coordinacion(json);
+    final insertar = await _coordinacionRepository.delete_coordinacion(json);
 
     loadDatos();
 

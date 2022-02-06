@@ -5,10 +5,17 @@ import 'package:frontend/data/local_db/coordinacion_api.dart';
 import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
 import 'package:frontend/domain/models/coordinacion.dart';
+import 'package:frontend/domain/repository/coodrinacion_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class TutorCoordinacionEditarController extends GetxController{
+
+  final MateriaOfertaRepository _materiaOfertaRepository;
+  final CoordinacionRepository _coordinacionRepository;
+  final UsuarioRepository _usuarioRepository;
 
   int coordinacionId;
 
@@ -21,7 +28,7 @@ class TutorCoordinacionEditarController extends GetxController{
   RxString asignatura = ''.obs;
   var comentario = TextEditingController();
 
-  TutorCoordinacionEditarController(this.coordinacionId);
+  TutorCoordinacionEditarController(this.coordinacionId, this._materiaOfertaRepository, this._coordinacionRepository, this._usuarioRepository);
 
   var cor = '';
   var rol = '';
@@ -29,10 +36,10 @@ class TutorCoordinacionEditarController extends GetxController{
   @override
   Future<void> onInit() async {
     super.onInit();
-    cor = (await MsalService().getCorreo())!; 
-    rol = (await MsalService().getRol(cor))!;
+    cor = (await MsalService(_usuarioRepository).getCorreo())!; 
+    rol = (await MsalService(_usuarioRepository).getRol(cor))!;
     if(rol!='Tutor'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Tutor') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
@@ -47,9 +54,9 @@ class TutorCoordinacionEditarController extends GetxController{
   }
 
   Future loadDatos()async{
-    coor = (await Coordinacion_api.instace.fetch_coordinacion_por_id(coordinacionId))!;
+    coor = (await _coordinacionRepository.fetch_coordinacion_por_id(coordinacionId))!;
 
-    final listMatOferta = (await MateriaOferta_api.instace.fetch_materias_unicas())!;
+    final listMatOferta = (await _materiaOfertaRepository.fetch_materias_unicas())!;
     for(int i=0;i<listMatOferta.length;i++){
       //por cada id_mat_api que haya, buscar en la api el nombre de la materia
       listAsignatura.add(listMatOferta[i].idMateriaApi.toString());
@@ -82,7 +89,7 @@ class TutorCoordinacionEditarController extends GetxController{
 
     var json = jsonEncode(coordinacion.toJson());
 
-    final creacion = await Coordinacion_api.instace.update_coordinacion(json);
+    final creacion = await _coordinacionRepository.update_coordinacion(json);
 
 
     Navigator.pop(context);

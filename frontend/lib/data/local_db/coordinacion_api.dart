@@ -3,10 +3,7 @@ import 'package:frontend/domain/models/coordinacion.dart';
 
 class Coordinacion_api {
 
-  Coordinacion_api._internal();
-  
-  static Coordinacion_api _instance = Coordinacion_api._internal();
-  static Coordinacion_api get instace => _instance;
+  Coordinacion_api();
 
   final _dio = Dio();
 

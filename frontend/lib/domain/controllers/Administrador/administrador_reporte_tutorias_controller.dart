@@ -1,17 +1,22 @@
 import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
 class ReporteTutoriasController extends GetxController {
 
+  final UsuarioRepository _usuarioRepository;
+
+  ReporteTutoriasController(this._usuarioRepository);
+
   
   @override
   Future<void> onInit() async {
     super.onInit();
-    var cor = await MsalService().getCorreo(); 
-    var rol = await MsalService().getRol(cor);
+    var cor = await MsalService(_usuarioRepository).getCorreo(); 
+    var rol = await MsalService(_usuarioRepository).getRol(cor);
     if(rol!='Administrador'){
-      MsalService().getCurrentUser();
+      MsalService(_usuarioRepository).getCurrentUser();
       if (rol!='Administrador') {
         js.context.callMethod('redireccion', [MsalService.rol]);
       }
