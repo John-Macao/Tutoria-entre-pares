@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_inicio_controller.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:frontend/views/Tutor/tutor_menu.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +16,8 @@ class TutorInicio extends StatelessWidget{
       appBar: AppBar(
         title: Text('Tutor Par Inicio'),
       ),
-      drawer: TutorMenu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: TutorMenu.getDrawer(context),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -32,7 +38,7 @@ class HorarioInicio extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutorInicioController>(
-      init: TutorInicioController(),
+      init: TutorInicioController(locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>()),
       builder: (_){
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -58,26 +64,26 @@ class HorarioInicio extends StatelessWidget{
               ),
             ], 
             rows: List<DataRow>.generate(
-              _.horarios.length,
+              _.horas.length,
               (int index) => DataRow(
                 cells: <DataCell>[
                   DataCell(
-                    Text(_.horarios[index]),
+                    Text(_.horas[index]),
                   ),
                   DataCell(
-                    Text(_.mlunes[_.horarios[index]]!=null?_.mlunes[_.horarios[index]]:''),
+                    Text(_.mlunes[_.horas[index]]!=null?_.mlunes[_.horas[index]]:''),
                   ),
                   DataCell(
-                    Text(_.mmartes[_.horarios[index]]!=null?_.mmartes[_.horarios[index]]:''),
+                    Text(_.mmartes[_.horas[index]]!=null?_.mmartes[_.horas[index]]:''),
                   ),
                   DataCell(
-                    Text(_.mmiercoles[_.horarios[index]]!=null?_.mmiercoles[_.horarios[index]]:''),
+                    Text(_.mmiercoles[_.horas[index]]!=null?_.mmiercoles[_.horas[index]]:''),
                   ),
                   DataCell(
-                    Text(_.mjueves[_.horarios[index]]!=null?_.mjueves[_.horarios[index]]:''),
+                    Text(_.mjueves[_.horas[index]]!=null?_.mjueves[_.horas[index]]:''),
                   ),
                   DataCell(
-                    Text(_.mviernes[_.horarios[index]]!=null?_.mviernes[_.horarios[index]]:''),
+                    Text(_.mviernes[_.horas[index]]!=null?_.mviernes[_.horas[index]]:''),
                   ),
                 ]
               )

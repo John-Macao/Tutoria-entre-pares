@@ -1,61 +1,64 @@
 import 'package:flutter/cupertino.dart';
-import 'package:frontend/data/remote/http/prueba_servicio.dart';
-import 'package:frontend/domain/models/modelo_prueba.dart';
+import 'package:frontend/data/local_db/materia_oferta_api.dart';
+import 'package:frontend/data/local_db/usuario_api.dart';
+import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
+import 'dart:js' as js;
 
 class QuitarTutorController extends GetxController{
 
-  @override
-  void onInit() {
-    super.onInit();
-    print("igual a onReady");
-    this.cargaTest();
-    
-  }
+  final UsuarioRepository _usuarioRepository;
+  final MateriaOfertaRepository _materiaOfertaRepository;
 
-
-  var nombre = TextEditingController();
-  var correo = TextEditingController();
-  var apellido = TextEditingController();
-  var carrera = TextEditingController();
-  var telefono = TextEditingController();
-  var nivel = TextEditingController();
+  int idTutor = 0;
+  String nombre = '';
+  String correo = '';
+  String carrera = '';
+  String telefono = '';
+  String nivel = '';
   var cedula = TextEditingController();
-  var n = TextEditingController();
-  var materia1 = "Algebra Lineal";
-  var materia2 = "Ecuaciones ";
-  var materia3 = "Base de datos";
-
-  //varibales de test
-  List<Prueba> _test = [];
-  List<Prueba> get test => _test;
-  bool _loadingTest = true;
-  bool get loadingTest => _loadingTest;
-
+  List<String> listMaterias = [];
   
+  QuitarTutorController(this._usuarioRepository, this._materiaOfertaRepository);
   
-
-  eliminar(){
-    print("Quita los datos :  ----" );
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    var cor = await MsalService(_usuarioRepository).getCorreo(); 
+    var rol = await MsalService(_usuarioRepository).getRol(cor);
+    if(rol!='Administrador'){
+      MsalService(_usuarioRepository).getCurrentUser();
+      if (rol!='Administrador') {
+        js.context.callMethod('redireccion', [MsalService.rol]);
+      }
+    }
   }
 
-  buscar(){
-    nombre.text = "John";
-    correo.text = "johnm@gmail.com";
-    apellido.text = "Macao";
-    carrera.text= "Computación";
-    telefono.text = "0989449535";
-    nivel.text = "noveno";
-    n.text = "Algebra Lineal,  Ecuaciones,  Base de datos";
-  }
+  Future buscar()async{
+    final tutor = await _usuarioRepository.fetch_usuario_por_cedula(cedula.text);
+    nombre = tutor!.usuNomrbe;
+    correo = tutor.usuCorreo;
+    carrera = tutor.usuCarrera;
+    telefono = tutor.usuTelefono;
+    nivel = tutor.usuNivel.toString();
+    idTutor = tutor.usuId;
 
-  // Metodo Dio 
-  Future<void> cargaTest() async {
-    final data = await PruebaServicio.instace.obtener();
-    this._test = data!;
-    this._loadingTest = false;
-    print("Ternima la peticion --- ");
-    //update(['usersTest']);
+
+    final listMaOf = (await _materiaOfertaRepository.fetch_materia_por_tutor(correo))!;
+    for(int i=0;i<listMaOf.length;i++){
+      //aqui se busca el nombre de las materias en la api de la u
+      listMaterias.add(listMaOf[i].idMateriaApi.toString());
+    }
+
+    update();
+  }
+  
+
+  Future eliminar(BuildContext context)async{
+    final insertado = await _usuarioRepository.update_usuario_a_tutorado(idTutor);
+    Navigator.pushNamed(context, "/administrador-principal");
   }
 
   

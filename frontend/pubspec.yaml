@@ -39,7 +39,10 @@ dependencies:
   get_it: ^7.2.0
   fluro: ^2.0.3
   url_strategy: ^0.2.0
-  webviewx: ^0.2.1
+  js: ^0.6.3
+  flutter_web_plugins:
+    sdk: flutter
+  url_launcher: ^6.0.18
 
 dev_dependencies:
   flutter_test:

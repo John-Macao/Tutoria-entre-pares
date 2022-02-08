@@ -1,28 +1,31 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_filtro_estudiantes_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VistaFiltrarEstudiantes extends StatelessWidget {
   const VistaFiltrarEstudiantes({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Filtrar Estudiantes"),
       ),
-      drawer: Menu.getDrawer(context),
-      body: Center(
-        child: Container(
-          height: 600,
-          width: (queryData.size.width/1.1),
-          child: tablaFiltro(),
-        ),
-        
+      drawer: MenuView.getDrawer(context),
+      //drawer: Menu.getDrawer(context),
+      body: SingleChildScrollView(
+        child:Center(
+          child: Container(
+            child: tablaFiltro(),
+          ),
+        )
       )
     );
   }
@@ -35,7 +38,7 @@ class tablaFiltro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<FiltroEstudiantesController>(
-      init: FiltroEstudiantesController() ,
+      init: FiltroEstudiantesController(locator.get<UsuarioRepository>()) ,
       builder: (_){
         return Container(
           child: Column(
@@ -47,13 +50,40 @@ class tablaFiltro extends StatelessWidget {
                   ],
                 ),
               ),
-              InkWell(
-                child: TextField(
-                    textInputAction: TextInputAction.newline,
-                    maxLines: 1,
-                    minLines: 1,
-                  ),
+              CupertinoTextField(
+                onChanged: (texto){
+                  _.filtrar(texto);
+                },
               ),
+
+              Obx(()=>
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _.filtrado.length,
+                  itemBuilder: (context, index){
+                    return GetBuilder<FiltroEstudiantesController>(
+                      id: 'check',
+                      builder: (_){
+                        return ListTile(
+                          title: Text(_.filtrado[index].descripcion),
+                          subtitle: Text(_.filtrado[index].category),
+                          leading: Radio<dynamic>(
+                            value: _.filtrado[index].descripcion, 
+                            groupValue: _.seleccionado, 
+                            onChanged: (value){
+                              _.seleccionar(value);
+                            },
+                            activeColor: Colors.green, 
+                          ),
+                        );
+                      }
+                      );
+                    
+                  }
+                ),
+              ),
+
+
               InkWell(
                 child: Row(
                   children: [
@@ -61,51 +91,55 @@ class tablaFiltro extends StatelessWidget {
                   ],
                 ),
               ),
-              InkWell(
-                child: TextField(
-                    textInputAction: TextInputAction.newline,
-                    maxLines: 1,
-                    minLines: 1,
-                  ),
+              
+              CupertinoTextField(
+                controller: _.inputCalificacion,
               ),
+
               InkWell(
                 child: TextButton( style: TextButton.styleFrom(
                       padding: const EdgeInsets.all(16.0),
                       primary: Colors.blue,
                       textStyle: const TextStyle(fontSize: 20),
-                  ),   onPressed: (){ _.filtrar(); }, child: Text("Filtrar"))
+                  ),   onPressed: (){ _.buscarEstudiantes(); }, child: Text("Filtrar"))
               ),
-              InkWell(
-                child: DataTable(
-            columns: const <DataColumn>[
-              DataColumn(label: 
-                Text('Cedula', style: TextStyle(fontWeight: FontWeight.bold), )
-              ),
-              DataColumn(label: 
-                Text('Nombres', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Materia', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Calificación', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-              DataColumn(label: 
-                Text('Carrera', style: TextStyle(fontWeight: FontWeight.bold),)
-              ),
-            ],
-            rows: _.estudiante.map<DataRow>((e) => DataRow(cells: [
-              DataCell(Text(e.cedula)),
-              DataCell(Text(e.nombres)),
-              DataCell(Text(e.materia)),
-              DataCell(Text(e.calificacion)),
-              DataCell(Text(e.carrera)),
+
               
-            ])).toList()
-          ),
 
-
+              GetBuilder<FiltroEstudiantesController>(
+                id: 'tabla',
+                builder: (_){
+                  return PaginatedDataTable(
+                    columns: const <DataColumn>[
+                      DataColumn(label: 
+                        Text('Cedula', style: TextStyle(fontWeight: FontWeight.bold),)
+                      ),
+                      DataColumn(label: 
+                        Text('Nombre', style: TextStyle(fontWeight: FontWeight.bold),)
+                      ),
+                      DataColumn(label: 
+                        Text('Telefono', style: TextStyle(fontWeight: FontWeight.bold),)
+                      ),
+                      DataColumn(label: 
+                        Text('Materia', style: TextStyle(fontWeight: FontWeight.bold),)
+                      ),
+                      DataColumn(label: 
+                        Text('Nivel', style: TextStyle(fontWeight: FontWeight.bold),)
+                      ),
+                      DataColumn(label: 
+                        Text('Calificacion Promedio', style: TextStyle(fontWeight: FontWeight.bold),)
+                      ),
+                      DataColumn(label: 
+                        Text('Carrera', style: TextStyle(fontWeight: FontWeight.bold),)
+                      ),
+                    ], 
+                    source: FiltrarMiDataTableSource(_.listUsuarios,'Algebra')
+                  );
+                }
               ),
+
+
+
             ],
           ),
         );

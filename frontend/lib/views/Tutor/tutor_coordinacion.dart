@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_coordinacion_controller.dart';
+import 'package:frontend/domain/repository/coodrinacion_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:frontend/views/Tutor/tutor_menu.dart';
 import 'package:get/get.dart';
 
@@ -8,13 +13,14 @@ class TutorCoordinacion extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutorCoordinacionController>(
-      init: TutorCoordinacionController(),
+      init: TutorCoordinacionController(locator.get<MateriaOfertaRepository>(),locator.get<CoordinacionRepository>(), locator.get<UsuarioRepository>()),
       builder: (_){
         return Scaffold(
         appBar: AppBar(
           title: Text('Coordinacion'),
         ),
-      drawer: TutorMenu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: TutorMenu.getDrawer(context),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -30,6 +36,7 @@ class TutorCoordinacion extends StatelessWidget{
                         value: _.asignatura.value,
                         onChanged: (String? seleccionado){
                           _.asignatura.value = seleccionado!;
+                          _.consultar();
                         },
                         items: _.listAsignatura
                               .map<DropdownMenuItem<String>>((String value) {
@@ -39,12 +46,6 @@ class TutorCoordinacion extends StatelessWidget{
                             );
                         }).toList(),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: (){
-                        _.consultar();
-                      }, 
-                      child: Text('Consultar')
                     ),
                     
                     Text('Docente: '),
@@ -72,7 +73,7 @@ class TutorCoordinacion extends StatelessWidget{
 
                     TextButton(
                       onPressed: (){
-                        _.guardar();
+                        _.guardar(context);
                       }, 
                       child: Text('Guardar')
                     ),

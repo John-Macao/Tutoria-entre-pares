@@ -1,113 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Tutor/tutor_modificar_tutoria_controller.dart';
-import 'package:frontend/views/Tutor/tutor_menu.dart';
+import 'package:frontend/domain/models/horario.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
 class TutorModificarTutoria extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutorModificarTutoriaController>(
-      init: TutorModificarTutoriaController(),
+      init: TutorModificarTutoriaController(locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>()),
       builder: (_){
         return Scaffold(
         appBar: AppBar(
-          title: Text('Modificaar Horario de Tutoría'),
+          title: Text('Modificar Horario de Tutoría'),
         ),
-      drawer: TutorMenu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: TutorMenu.getDrawer(context),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //TutorMenu(),
-                Row(
-                  children: [
-                    Form(child: Column(
-                      children: [
-                        if (_.seleccionado.id>=0) ...[
-                          Text('Dia: '),
-                          Obx(() =>
-                              DropdownButton<String>(
-                              hint: Text('Seleccionar dia'),
-                              value: _.dia.value,
-                              onChanged: (String? seleccionado){
-                                _.dia.value = seleccionado!;
-                              },
-                              items: _.listDia
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                  );
-                              }).toList(),
-                            ),
-                          ),
-                          
-                          Text('Hora: '),
-                          Obx(() =>
-                              DropdownButton<String>(
-                              hint: Text('Seleccionar dia'),
-                              value: _.hora.value,
-                              onChanged: (String? seleccionado){
-                                _.hora.value = seleccionado!;
-                              },
-                              items: _.horarios
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                  );
-                              }).toList(),
-                            ),
-                          ),
-                          Text('Asignatura: '),
-                          Obx(() =>
-                              DropdownButton<String>(
-                              hint: Text('Seleccionar dia'),
-                              value: _.asignatura.value,
-                              onChanged: (String? seleccionado){
-                                _.asignatura.value = seleccionado!;
-                              },
-                              items: _.listAsignatura
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                  );
-                              }).toList(),
-                            ),
-                          ),
-
-                          TextButton(
-                            onPressed: (){
-                              _.actualizarHorario();
-                            }, 
-                            child: Text('Actualizar horario')
-                          ),
-                          TextButton(
-                            onPressed: (){
-                              _.eliminarHorario();
-                            }, 
-                            child: Text('Eliminar horario')
-                          ),
-                        ] else ...[
-                          Text('Dia: '),
-                          Text('???'),
-                          
-                          Text('Hora: '),
-                          Text('???'),
-                          Text('Asignatura: '),
-                          Text('???'),
-                        ],
-                          
-
-                        //upara seleccionar la materia
-                      ],
-                    )
-                    ),
-                    HorarioInicio(),
-                  ],
-                ),
+                HorarioInicio(),
               ],
             ),
           ),
@@ -125,6 +43,7 @@ class HorarioInicio extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return GetBuilder<TutorModificarTutoriaController>(
+      id: 'horario',
       builder: (_){
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -150,59 +69,79 @@ class HorarioInicio extends StatelessWidget{
               ),
             ], 
             rows: List<DataRow>.generate(
-              _.horarios.length,
+              _.horas.length,
               (int index) => DataRow(
                 cells: <DataCell>[
                   DataCell(
-                    Text(_.horarios[index]),
+                    Text(_.horas[index]),
                   ),
                   DataCell(
-                    Text(_.mlunes[_.horarios[index]]?.materia!=null?_.mlunes[_.horarios[index]]!.materia:''),
-                    onTap: (){
-                      if(_.mlunes[_.horarios[index]]!=null){
-                        _.seleccionarHorario(_.mlunes[_.horarios[index]]!);
+                    Text(_.mlunes[_.horas[index]]?.maofId!=null?_.materiaNombre[_.mlunes[_.horas[index]]!.horId]!:''),
+                    onTap: () async {
+                      if(_.mlunes[_.horas[index]]!=null){
+                        await modificarHorario(context, _.mlunes[_.horas[index]]!, _.materiaNombre[_.mlunes[_.horas[index]]!.horId]!, _.horas[index],'Lunes');
+                        _.actualizarHorario();
+                        // _.seleccionarHorario(_.mlunes[_.horas[index]]!);
                       }else{
-                        _.seleccionarVacio();
+                        await agregarNuevo(context, _.horas[index],'Lunes');
+                        _.actualizarHorario();
+                        //_.seleccionarVacio();
                       }
                     }
                   ),
                   DataCell(
-                    Text(_.mmartes[_.horarios[index]]?.materia!=null?_.mmartes[_.horarios[index]]!.materia:''),
-                    onTap: (){
-                      if(_.mmartes[_.horarios[index]]!=null){
-                        _.seleccionarHorario(_.mmartes[_.horarios[index]]!);
+                    Text(_.mmartes[_.horas[index]]?.maofId!=null?_.materiaNombre[_.mmartes[_.horas[index]]!.horId]!:''),
+                    onTap: () async {
+                      if(_.mmartes[_.horas[index]]!=null){
+                        await modificarHorario(context, _.mmartes[_.horas[index]]!, _.materiaNombre[_.mmartes[_.horas[index]]!.horId]!, _.horas[index],'Martes');
+                        _.actualizarHorario();
+                        // _.seleccionarHorario(_.mlunes[_.horas[index]]!);
                       }else{
-                        _.seleccionarVacio();
+                        await agregarNuevo(context, _.horas[index],'Martes');
+                        _.actualizarHorario();
+                        //_.seleccionarVacio();
                       }
                     }
                   ),
                   DataCell(
-                    Text(_.mmiercoles[_.horarios[index]]?.materia!=null?_.mmiercoles[_.horarios[index]]!.materia:''),
-                    onTap: (){
-                      if(_.mmiercoles[_.horarios[index]]!=null){
-                        _.seleccionarHorario(_.mmiercoles[_.horarios[index]]!);
+                    Text(_.mmiercoles[_.horas[index]]?.maofId!=null?_.materiaNombre[_.mmiercoles[_.horas[index]]!.horId]!:''),
+                    onTap: () async {
+                      if(_.mmiercoles[_.horas[index]]!=null){
+                        await modificarHorario(context, _.mmiercoles[_.horas[index]]!, _.materiaNombre[_.mmiercoles[_.horas[index]]!.horId]!, _.horas[index],'Miercoles');
+                        _.actualizarHorario();
+                        // _.seleccionarHorario(_.mlunes[_.horas[index]]!);
                       }else{
-                        _.seleccionarVacio();
+                        await agregarNuevo(context, _.horas[index],'Miercoles');
+                        _.actualizarHorario();
+                        //_.seleccionarVacio();
                       }
                     }
                   ),
                   DataCell(
-                    Text(_.mjueves[_.horarios[index]]?.materia!=null?_.mjueves[_.horarios[index]]!.materia:''),
-                    onTap: (){
-                      if(_.mjueves[_.horarios[index]]!=null){
-                        _.seleccionarHorario(_.mjueves[_.horarios[index]]!);
+                    Text(_.mjueves[_.horas[index]]?.maofId!=null?_.materiaNombre[_.mjueves[_.horas[index]]!.horId]!:''),
+                    onTap: () async {
+                      if(_.mjueves[_.horas[index]]!=null){
+                        await modificarHorario(context, _.mjueves[_.horas[index]]!, _.materiaNombre[_.mjueves[_.horas[index]]!.horId]!, _.horas[index],'Jueves');
+                        _.actualizarHorario();
+                        // _.seleccionarHorario(_.mlunes[_.horas[index]]!);
                       }else{
-                        _.seleccionarVacio();
+                        await agregarNuevo(context, _.horas[index],'Jueves');
+                        _.actualizarHorario();
+                        //_.seleccionarVacio();
                       }
                     }
                   ),
                   DataCell(
-                    Text(_.mviernes[_.horarios[index]]?.materia!=null?_.mviernes[_.horarios[index]]!.materia:''),
-                    onTap: (){
-                      if(_.mviernes[_.horarios[index]]!=null){
-                        _.seleccionarHorario(_.mviernes[_.horarios[index]]!);
+                    Text(_.mviernes[_.horas[index]]?.maofId!=null?_.materiaNombre[_.mviernes[_.horas[index]]!.horId]!:''),
+                    onTap: () async {
+                      if(_.mviernes[_.horas[index]]!=null){
+                        await modificarHorario(context, _.mviernes[_.horas[index]]!, _.materiaNombre[_.mviernes[_.horas[index]]!.horId]!, _.horas[index],'Viernes');
+                        _.actualizarHorario();
+                        // _.seleccionarHorario(_.mlunes[_.horas[index]]!);
                       }else{
-                        _.seleccionarVacio();
+                        await agregarNuevo(context, _.horas[index],'Viernes');
+                        _.actualizarHorario();
+                        //_.seleccionarVacio();
                       }
                     }
                   ),
@@ -214,4 +153,140 @@ class HorarioInicio extends StatelessWidget{
       }
     );
   }
+
+  Future agregarNuevo(BuildContext context, hora, dia) async{
+    return showDialog<ModificarHorario>(
+      context: context, 
+      builder: (p){
+          return AlertDialog(
+            title: Text('Agrgar Horario de Tutoría'),
+            content: Column(
+              children: [
+                Form(child: Column(
+                  children: [
+                    GetBuilder<ModificarHorario>(
+                      init: ModificarHorario(locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>()),
+                      builder: (_){
+                        _.dia = dia;
+                        _.hora = hora;
+                        return Column(
+                          children: [
+                              Text('Dia: '),
+                                Text(dia),
+                                Text('Hora: '),
+                                Text(hora),
+                                Text('Asignatura: '),
+                                Obx(() =>
+                                    DropdownButton<String>(
+                                    hint: Text('Seleccionar dia'),
+                                    value: _.asignatura.value,
+                                    onChanged: (String? seleccionado){
+                                      _.asignatura.value = seleccionado!;
+                                    },
+                                    items: _.listAsignatura
+                                          .map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                        );
+                                    }).toList(),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    await _.agregarHorario();
+                                    Navigator.pop(context);
+                                  }, 
+                                  child: Text('Agregar horario')
+                                ),
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('Canselar')
+                                ),
+                          ],
+                        );
+                      }
+                    ),
+                  ],
+                )
+                ),
+              ],
+            ),
+          );
+        }
+      );
+  }
+
+  Future modificarHorario(BuildContext context, Horario horario, String materia, hora, dia) async{
+    return showDialog<ModificarHorario>(
+      context: context, 
+      builder: (p){
+          return AlertDialog(
+            title: Text('Agrgar Horario de Tutoría'),
+            content: Column(
+              children: [
+                Form(child: Column(
+                  children: [
+                    GetBuilder<ModificarHorario>(
+                      init: ModificarHorario(locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>()),
+                      builder: (_){
+                        _.asignatura.value = materia;
+                        _.dia = horario.horDia;
+                        _.hora = horario.horHora;
+                        return Column(
+                          children: [
+                              Text('Dia: '),
+                                Text(dia),
+                                Text('Hora: '),
+                                Text(hora),
+                                Text('Asignatura: '),
+                                Obx(() =>
+                                    DropdownButton<String>(
+                                    hint: Text('Seleccionar dia'),
+                                    value: _.asignatura.value,
+                                    onChanged: (String? seleccionado){
+                                      _.asignatura.value = seleccionado!;
+                                    },
+                                    items: _.listAsignatura
+                                          .map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                        );
+                                    }).toList(),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    await _.actualizarHorario(horario);
+                                    Navigator.pop(context);
+                                  }, 
+                                  child: Text('Actualizar horario')
+                                ),
+                                TextButton(
+                                  onPressed: ()async{
+                                    await _.eliminarHorario(horario);
+                                    Navigator.pop(context);
+                                  }, 
+                                  child: Text('Eliminar horario')
+                                ),
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('Canselar')
+                                ),
+                          ],
+                        );
+                      }
+                    ),
+                  ],
+                )
+                ),
+              ],
+            ),
+          );
+        }
+      );
+  }
+
 }
+

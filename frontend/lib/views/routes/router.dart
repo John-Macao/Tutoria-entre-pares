@@ -9,13 +9,16 @@ import 'package:frontend/views/Adminstrador/administrador_quitar_tutor.dart';
 import 'package:frontend/views/Adminstrador/administrador_reporte_tutorados.dart';
 import 'package:frontend/views/Adminstrador/administrador_reporte_tutorias.dart';
 import 'package:frontend/views/General/login.dart';
+import 'package:frontend/views/General/verificar_login.dart';
 import 'package:frontend/views/Tutor/totur_listar_sesiones.dart';
 import 'package:frontend/views/Tutor/tutor_coordinacion.dart';
+import 'package:frontend/views/Tutor/tutor_coordinacion_editar.dart';
+import 'package:frontend/views/Tutor/tutor_datos_sesion_generada.dart';
 import 'package:frontend/views/Tutor/tutor_generar_sesion.dart';
-import 'package:frontend/views/Tutor/tutor_generar_tutoria.dart';
 import 'package:frontend/views/Tutor/tutor_inicio.dart';
 import 'package:frontend/views/Tutor/tutor_modificar_telefono.dart';
 import 'package:frontend/views/Tutor/tutor_modificar_tutoria.dart';
+import 'package:frontend/views/Tutor/tutor_ver_coordinacion.dart';
 import 'package:frontend/views/Tutorado/tutorado_historico.dart';
 import 'package:frontend/views/Tutorado/tutorado_horario_tutor.dart';
 import 'package:frontend/views/Tutorado/tutorado_inicio.dart';
@@ -38,16 +41,16 @@ class RoutePagina {
     }
   );
 
+  static Handler _verificarLogIn = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return VerificarLogin();
+    }
+  );
+
   //TUTOR PAR
   static Handler _tutorInicioHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params){
       return TutorInicio();
-    }
-  );
-
-  static Handler _tutorGenerarTutoria = Handler(
-    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
-      return TutorGenerarTutoria();
     }
   );
 
@@ -82,6 +85,24 @@ class RoutePagina {
     }
   );
 
+  static final Handler _tutorDatosSesionGenerada = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return TutorDatosSesionGenerada(horarioId: params['horarioId'][0]);
+    }
+  );
+
+  static Handler _tutorVerCoordinacion = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return TutorVerCoordinacion();
+    }
+  );
+
+  static final Handler _tutorEditarCoordinacion = Handler(
+    handlerFunc: (BuildContext? context, Map<String, dynamic> params){
+      return TutorEditarCoordinacion(coordinacionId: params['coordinacionId'][0]);
+    }
+  );
+
 
   //TUTORADO
   static Handler _tutoradoInicio = Handler(
@@ -92,7 +113,7 @@ class RoutePagina {
 
   static Handler _tutoradoRegistrarAsistencia = Handler(
     handlerFunc: (BuildContext? context, Map<String, dynamic> params){
-      return TutoradoRegistrarAsistencia();
+      return TutoradoRegistrarAsistencia(codigo: params['codigo'][0]);
     }
   );
 
@@ -154,20 +175,24 @@ class RoutePagina {
 
 
 
+
   static void configureRoutes() {
     //GENERAL
     router.define('/login', handler: _logIn);
+    router.define('/verificar-login', handler: _verificarLogIn);
     //TUTOR PAR
     router.define('/tutor-par-inicio', handler: _tutorInicioHandler);
-    router.define('/tutor-generar-tutoria', handler: _tutorGenerarTutoria);
     router.define('/tutor-modificar-telefono', handler: _tutorModificarTelefono);
     router.define('/tutor-generar-sesion', handler: _tutorGenerarSesion);
     router.define('/tutor-listar-sesiones', handler: _tutorListarSesiones);
     router.define('/tutor-modificar-tutoria', handler: _tutorModificarTutoria);
     router.define('/tutor-coordinacion', handler: _tutorCoordinacion);
+    router.define('tutor-datos-sesion-generado/:horarioId', handler: _tutorDatosSesionGenerada);
+    router.define('/tutor-ver-coordinacion', handler: _tutorVerCoordinacion);
+    router.define('tutor-editar-coordinacion/:coordinacionId', handler: _tutorEditarCoordinacion);
     //TUTORADO
     router.define('/tutorado-inicio', handler: _tutoradoInicio);
-    router.define('/tutorado-registrar-asistencia', handler: _tutoradoRegistrarAsistencia);
+    router.define('/tutorado-registrar-asistencia/:codigo', handler: _tutoradoRegistrarAsistencia);
     router.define('/tutorado-historico', handler: _tutoradoHistorico);
     router.define('/tutorado-horario-tutor', handler: _tutoradoHorarioTutor);
     //POR DEFECTO
@@ -181,7 +206,9 @@ class RoutePagina {
     router.define("/administrador-reporte-tutorias", handler: _administradorReporteTutorias);
     router.define("/administrador-reporte-tutorados", handler: _administradorReporteTutorados);
     router.define("/administrador-filtro-estudiantes", handler: _administradorFiltrarEstudiantes);
+
     
 
   }
 }
+

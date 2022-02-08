@@ -1,8 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_materia_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
 class VistaMateria extends StatelessWidget {
@@ -15,7 +19,8 @@ class VistaMateria extends StatelessWidget {
       appBar: AppBar(
         title: Text("Asignar/Quitar Materia"),
       ),
-      drawer: Menu.getDrawer(context),
+      drawer: MenuView.getDrawer(context),
+      //drawer: Menu.getDrawer(context),
       body: Center(
         child: Container(
           height: 600,
@@ -34,7 +39,7 @@ class formularioMateria extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MateriaController>(
-      init: MateriaController(),
+      init: MateriaController(locator.get<MateriaOfertaRepository>(),locator.get<UsuarioRepository>()),
       builder: (_){
         return Form(
           child: Column(
@@ -48,30 +53,31 @@ class formularioMateria extends StatelessWidget {
                   _.buscar();
                 }, 
                 child: Text("Buscar")
-                ),
+              ),
 
-                Text("Nombre: "),
-                CupertinoTextField(
-                controller: _.nombre,
-              ),
+              Text("Nombre: "),
+              Text(_.nombre),
               Text("Carrera: "),
-                CupertinoTextField(
-                controller: _.carrera,
-              ),
+              Text(_.carrera),
 
               Text("Materias: "),
-              Text("Algebra Lineal"),
-              TextButton(
-                onPressed: (){
-                }, 
-                child: Text("Deshabilitar")
-                ),
-              Text("Base de Datos"),
-              TextButton(
-                onPressed: (){
-                }, 
-                child: Text("Deshabilitar")
-                ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: _.listMateriasOfertadas.length,
+                itemBuilder: (context, index){
+                  return Column(
+                    children: [
+                      Text(_.listMateriasOfertadas[index]),
+                      TextButton(
+                        onPressed: (){
+                          _.deshabilitar(_.listMateriasOfertadas[index]);
+                        }, 
+                        child: Text("Deshabilitar")
+                      ),
+                    ],
+                  );
+                }
+              ),
 
               Text("Calificación minima: "),
               CupertinoTextField(
@@ -82,18 +88,26 @@ class formularioMateria extends StatelessWidget {
                   _.buscarMaterias();
                 }, 
                 child: Text("Buscar")
-                ),
-                CupertinoTextField(
-                controller: _.materias,
               ),
-    
-
-              TextButton(
-                onPressed: (){
-                  _.eliminar();
-                }, 
-                child: Text("Agregar ")
-                ),
+              
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: _.listMateriasPosibles.length,
+                itemBuilder: (context, index){
+                  return Column(
+                    children: [
+                      Text(_.listMateriasPosibles[index]),
+                      TextButton(
+                        onPressed: (){
+                          _.agregarMateria(_.listMateriasPosibles[index]);
+                        }, 
+                        child: Text("Asignar materia")
+                      ),
+                    ],
+                  );
+                }
+              ),
+              
 
             ],
            

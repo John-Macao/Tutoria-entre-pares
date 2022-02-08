@@ -3,30 +3,26 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_agregar_tutor_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
-import 'package:frontend/util/responsive.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
-import 'package:frontend/util/style.dart' as style;
 
 class VistaNuevoTutor extends StatelessWidget {
   const VistaNuevoTutor({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //ResponsiveApp responsiveP = ResponsiveApp(context);
-    //MediaQueryData queryData = MediaQuery.of(context);
-    //print("Media query ==  + $queryData");
+    MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Agregar Tutor Par'),
+        title: Text('Agregar Tutor Par'),
       ),
-      drawer: Menu.getDrawer(context),
-      
-      body: const SingleChildScrollView(
-        child: formularioNuevoTutor(),
-      ) 
-      
+      drawer: MenuView.getDrawer(context),
+      //drawer: Menu.getDrawer(context),
+      body: formularioNuevoTutor ()
     );
   }
 }
@@ -36,173 +32,42 @@ class formularioNuevoTutor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ResponsiveApp responsiveP = ResponsiveApp(context);
     return GetBuilder<AgregarNuevoTutorController>(
-      init: AgregarNuevoTutorController() ,
+      init: AgregarNuevoTutorController(locator.get<UsuarioRepository>()) ,
       builder: (_){
         return Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: responsiveP.sizeBox1H,
-                width: responsiveP.sizeBox1W,
-                child: Center(
-                  child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Cédula: ", style: TextStyle(fontSize: responsiveP.text)),
-                     Padding( padding: responsiveP.padding1Hrz),
-                    SizedBox(
-                      width: responsiveP.boxWidth,
-                      height: responsiveP.boxHeight,
-                      child: CupertinoTextField(
-                        style: TextStyle(fontSize: responsiveP.textField),
-                        controller: _.cedula,
-                      ),
-                    ),
-                    Padding(padding: responsiveP.padding1Hrz),
-                    MaterialButton(
-                      shape: RoundedRectangleBorder( borderRadius: responsiveP.border1C),
-                      color: style.colorBotones,
-                      child: Text("Buscar", style: TextStyle(fontSize: responsiveP.buttonSize)),
-                      onPressed: (){}
-                    ),
-                  ],
-                  ),
-                  
+          child: Container(
+            padding: EdgeInsets.all(50.0),
+            child: Column(
+              children: <Widget>[
+                Text("Cédula : "),
+                CupertinoTextField(
+                  controller: _.cedula,
                 ),
-              ),
-              SizedBox(
-                height: responsiveP.sizeBox2H,
-                width: responsiveP.sizeBox2W,
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Nombres:  ", style: TextStyle(fontSize: responsiveP.text)),
-                    Padding(padding: responsiveP.padding1Hrz),
-                    SizedBox(
-                      width: responsiveP.boxLabelW,
-                      height: responsiveP.boxLabelH,
-                      child: CupertinoTextField( 
-                        enabled: false,
-                        style: TextStyle(fontSize: responsiveP.textField),
-                        controller: _.cedula,
-                      ),
-                    ),
-                    Padding(padding: responsiveP.padding2Hrz),
-                    Text("Correo:   ", style: TextStyle(fontSize: responsiveP.text)),
-                    Padding(padding: responsiveP.padding1Hrz),
-                    SizedBox(
-                      width: responsiveP.boxLabelW,
-                      height: responsiveP.boxLabelH,
-                      child: CupertinoTextField(  
-                        enabled: false,
-                        style: TextStyle(fontSize: responsiveP.textField),
-                        controller: _.cedula,
-                      ),
-                    ),
-                  ],
-                  ),
-                  
+                TextButton(
+                  onPressed: (){
+                    _.buscar();
+                  }, 
+                  child: Text('Buscar')
                 ),
-              ),
-              SizedBox(
-                height: responsiveP.sizeBox2H,
-                width: responsiveP.sizeBox2W,
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Apellido:  ", style: TextStyle(fontSize: responsiveP.text)),
-                    Padding(padding: responsiveP.padding1Hrz),
-                    SizedBox(
-                      width: responsiveP.boxLabelW,
-                      height: responsiveP.boxLabelH,
-                      child: CupertinoTextField( 
-                        enabled: false,
-                        style: TextStyle(fontSize: responsiveP.textField),
-                        controller: _.cedula,
-                      ),
-                    ),
-                    Padding(padding: responsiveP.padding2Hrz),
-                    Text("Carrera:  ", style: TextStyle(fontSize: responsiveP.text)),
-                    Padding(padding: responsiveP.padding1Hrz),
-                    SizedBox(
-                      width: responsiveP.boxLabelW,
-                      height: responsiveP.boxLabelH,
-                      child: CupertinoTextField(  
-                        enabled: false,
-                        style: TextStyle(fontSize: responsiveP.textField),
-                        controller: _.cedula,
-                      ),
-                    ),
-                  ],
-                  ),
-                  
+                Divider(color: Colors.black,), 
+                Text("Nombre: " + _.nombre),
+                Text("Correo: " + _.correo),
+                Text("Carrera: " + _.carrera),
+                Text("Telefono: " + _.telefono),
+                Text("Nivel: " + _.nivel),
+
+                TextButton(
+                  onPressed: (){
+                    _.agregar(context);
+                  }, 
+                  child: Text("Agregar como tutor")
                 ),
-              ),
-              SizedBox(
-                height: responsiveP.sizeBox2H,
-                width: responsiveP.sizeBox2W,
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Teléfono:  ", style: TextStyle(fontSize: responsiveP.text)),
-                    Padding(padding: responsiveP.padding1Hrz),
-                    SizedBox(
-                      width: responsiveP.boxLabelW,
-                      height: responsiveP.boxLabelH,
-                      child: CupertinoTextField( 
-                        enabled: false,
-                        style: TextStyle(fontSize: responsiveP.textField),
-                        controller: _.cedula,
-                      ),
-                    ),
-                    Padding(padding: responsiveP.padding2Hrz),
-                    Text("Nivel:    ", style: TextStyle(fontSize: responsiveP.text)),
-                    Padding(padding: responsiveP.padding1Hrz),
-                    SizedBox(
-                      width: responsiveP.boxLabelW,
-                      height: responsiveP.boxLabelH,
-                      child: CupertinoTextField(  
-                        enabled: false,
-                        style: TextStyle(fontSize: responsiveP.textField),
-                        controller: _.cedula,
-                      ),
-                    ),
-                  ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: responsiveP.sizeBox3H,
-                width: responsiveP.sizeBox3W,
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                  children: [
-                    MaterialButton(
-                      shape: RoundedRectangleBorder( borderRadius: responsiveP.border1C),
-                      color: style.colorBotones,
-                      child: Text("Agregar ", style: TextStyle(fontSize: responsiveP.buttonSize)),
-                      onPressed: (){}
-                    ),
-                    Padding(padding: responsiveP.padding3Hrz),
-                    MaterialButton(
-                      shape: RoundedRectangleBorder( borderRadius: responsiveP.border1C),
-                      color: style.colorBotones,
-                      child: Text("Cancelar ", style: TextStyle(fontSize: responsiveP.buttonSize)),
-                      onPressed: (){}
-                    ),
-                  ]
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
+        
       }
       
     );

@@ -1,92 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/General/login_controller.dart';
-import 'package:frontend/domain/controllers/Tutorado/tutorado_service_locator.dart';
+import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/domain/repository/horario_repository.dart';
+import 'package:frontend/domain/repository/materia_oferta_repository.dart';
+import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:get/get.dart';
 
 
+class Login extends StatelessWidget {
+  const Login({Key? key}) : super(key: key);
 
-class Login extends StatefulWidget{
+
   @override
-  _LoginState createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  final stateManager = getIt<LoginController>();
-
-  Widget build(BuildContext context){
-  MediaQueryData queryData = MediaQuery.of(context);
-    return Scaffold(
-      appBar: AppBar(title: Text('Log In'),),
-      body: Center(
-        child: Container(
-          height: 600,
-          width: (queryData.size.width/2.3),
-          child: Card(
-            color: Color(0xFFFFFFFF),
-            
+  Widget build(BuildContext context) {
+    return GetBuilder<LoginController>(
+      init: LoginController(locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>(), locator.get<HorarioRepository>()),
+      builder: (_){
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Inicio'),
+            actions: [
+              TextButton(
+                onPressed: (){
+                  _.login(context);
+                }, 
+                child: Text(
+                  'Iniciar Sesión',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Image(
-                      image: AssetImage('assets/usuario.png'),
-                      width: 90,
-                      height: 90,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: TextField(
-                    obscureText: false,
-                    controller: stateManager.textCorreo,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Correo Electrónico',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: TextField(
-                    obscureText: true,
-                    controller: stateManager.textContrasena,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Contraseña',
-                    ),
-                  ),
-                ),
-                
-                MostrarBoton(),
+                EscogerAsignatura(),
+                HorarioTabla(),
               ],
-            )
+            ),
           ),
-        ),
-      ),
+        );
+      }
     );
+    
+    
   }
 }
 
-class MostrarBoton extends StatelessWidget{
-  MostrarBoton({Key? key}) : super(key: key);
-  final stateManager = getIt<LoginController>();
+class EscogerAsignatura extends StatelessWidget{
   @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<loginState>(
-      valueListenable: stateManager.loginNotifier, 
-      builder: (context, loginEstado, child){
+  Widget build(BuildContext context){
+    return GetBuilder<LoginController>(
+      builder: (_){
         return Column(
           children: [
-            if (loginEstado == loginState.inicio) ... [
-              Boton(),
-            ],
-            if (loginEstado == loginState.incorrecto) ... [
-              Text(
-                'Correo o contraseña incorrectos, intente de nuevo',
-                style: TextStyle(color: Colors.red[400]),
+            Text('Matteria: '),
+            Obx(() =>
+                DropdownButton<String>(
+                hint: Text('Seleccionar asignatura'),
+                value: _.asignatura.value,
+                onChanged: (String? seleccionado){
+                  _.asignatura.value = seleccionado!;
+                  _.buscar();
+                },
+                items: _.listAsignatura
+                      .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                    );
+                }).toList(),
               ),
-              Boton(),
-            ],
+            ),
           ],
         );
       }
@@ -94,19 +83,43 @@ class MostrarBoton extends StatelessWidget{
   }
 }
 
-class Boton extends StatelessWidget{
-  const Boton({Key? key}) : super(key: key);
+class HorarioTabla extends StatelessWidget{
+  HorarioTabla({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child:TextButton(
-        onPressed: () {
-          final stateManager = getIt<LoginController>();
-          stateManager.comprobarLogin(context);
-        },
-        child: Text('Iniciar Sesion'),
-      ),
+    return GetBuilder<LoginController>(
+      id: 'horario',
+      builder: (_){
+        return PaginatedDataTable(
+          columns: const <DataColumn>[
+            DataColumn(label: 
+              Text('Nombre', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Contacto', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Materia', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Lunes', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Martes', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Miércoles', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Jueves', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+            DataColumn(label: 
+              Text('Viernes', style: TextStyle(fontWeight: FontWeight.bold),)
+            ),
+          ], 
+          source: InicioTutorMiDataTableSource(_.listUsuario,_.listLunes,_.listMartes,_.listMiercoles,_.listJueves,_.listViernes,_.asignatura.value)
+        );
+      }
     );
-    
   }
 }
