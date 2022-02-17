@@ -20,14 +20,12 @@ get colorBotones => argbColorBotones(bA, bR, bG, bB);
 
 
 
-
 Color argbColorBotones(int bA, int bR, int bG, int bB) {
   return Color.fromARGB(bA, bR, bG, bB);
 }
 
 Color argbColor(int a, int r, int g, int b ){
   return Color.fromARGB(a, r, g, b);
-
 }
 
 

@@ -108,9 +108,7 @@ class PrincipalController extends GetxController{
       //buscar el nombre de la materia mediante la api de la u
       materias[0] = materias[0] + mat[j].idMateriaApi.toString() + ', ';
     }
-
     update(['tabla']);
-
   }
 
   Future buscarPorMateria()async{

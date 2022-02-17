@@ -11,7 +11,7 @@ from sqlalchemy.pool import NullPool
 connect_url = URL(
     "postgresql+psycopg2",
     username="postgres",
-    password="ka29kai9",
+    password="Sistemas123",
     host="localhost",
     port="5432",
     database="base"

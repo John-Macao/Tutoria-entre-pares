@@ -2,11 +2,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/dependencies/di.dart';
-import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_principal_controller.dart';
 import 'package:frontend/domain/repository/horario_repository.dart';
 import 'package:frontend/domain/repository/materia_oferta_repository.dart';
 import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -20,40 +20,48 @@ class VistaPrincipal extends StatelessWidget {
       builder: (_){
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: colorPrimario,
             title: const Text("Administrador"),
           ),
           drawer: MenuView.getDrawer(context),
           //drawer: Menu.getDrawer(context),
-          body: Center(
+          body: SingleChildScrollView(
+            child: Center(
             child: Column(
               children: [
-                FormularioAdmin(),
+                Formulario(),
                 TutoresTabla(),
               ],
             ),
           ),
+          ),
         );
       }
     );
-    
-    
-    
   }
 }
 
 
-class FormularioAdmin extends StatelessWidget{
-  const FormularioAdmin({Key? key}) : super(key: key);
+class Formulario extends StatelessWidget{
+  const Formulario({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
     return GetBuilder<PrincipalController>(
       id: 'formulario',
       builder: (_){
-        return Column(
+        return Container(
+          margin: EdgeInsets.only(top: 30.0, bottom: 20.0),
+
+          child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Obx(() =>
-                DropdownButton<String>(
+              DropdownButton<String>(
+                style: TextStyle(color: colorPrimario, fontSize: 18) ,
+                icon: Icon(Icons.filter_alt_outlined),
+                dropdownColor: Colors.indigo[50],
               hint: Text('Seleccionar asignatura'),
               value: _.opcion.value,
               onChanged: (String? seleccionado){
@@ -70,16 +78,48 @@ class FormularioAdmin extends StatelessWidget{
               ),
             ),
 
+            SizedBox(width: 15.0),
+
             if (_.opcion == 'Cedula') ...[
-              CupertinoTextField(
+              SizedBox(
+                width: 160, height: 25,
+              child: CupertinoTextField(
                 controller: _.cedula,
               ),
-              TextButton(
-                onPressed: (){
-                  _.buscarPorCedula();
-                }, 
-                child: Text('Buscar')
               ),
+              const SizedBox(width: 15.0 ),
+
+              ElevatedButton(
+                child: Text(
+                  "Buscar -- ",
+                  style: TextStyle(
+                    color: colorPrimario,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              onPressed: (){
+                _.buscarPorCedula();
+
+                }, 
+                style: ElevatedButton.styleFrom(
+                  primary : Colors.indigo[50],
+                  shape:
+                  const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft:
+                      Radius.circular(10),
+                    bottomRight:
+                      Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
+                ),
+              ),
+
+
+
             ] else if(_.opcion == 'Materia')...[
               Obx(() =>
                   DropdownButton<String>(
@@ -97,16 +137,51 @@ class FormularioAdmin extends StatelessWidget{
                   }).toList(),
                 ),
               ),
+
+
+/*
+              ElevatedButton(
+                child: Text(
+                    "Buscar Por Materia ---",
+                    style: TextStyle(
+                      color: colorPrimario,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                onPressed: (){
+                  _.buscarPorMateria();
+
+                  }, 
+                  style: ElevatedButton.styleFrom(
+                    primary : Colors.indigo[50],
+                    shape:
+                    const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft:
+                        Radius.circular(10),
+                      bottomRight:
+                        Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              */
+
+              
               TextButton(
                 onPressed: (){
                   _.buscarPorMateria();
                 }, 
-                child: Text('Buscar')
+                child: Text('Buscar pp')
               ),
-            ],
-            
+              
 
+            ],
           ],
+          ),
         );
       }
     );
@@ -120,10 +195,18 @@ class TutoresTabla extends StatelessWidget{
     return GetBuilder<PrincipalController>(
       id: 'tabla',
       builder: (_){
-        return Column(
+        return Card(
+          elevation: 10,
+          margin: EdgeInsets.symmetric(horizontal: 290, vertical: 1 ),
+          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
+          
+          child: Column(
             children: [
               if (_.opcion.value == 'Cedula') ...[
                 PaginatedDataTable(
+                  arrowHeadColor: colorPrimario,
+                  //columnSpacing: 50,
+                  rowsPerPage: 9,
                   columns: const <DataColumn>[
                     DataColumn(label: 
                       Text('Cedula', style: TextStyle(fontWeight: FontWeight.bold),)
@@ -148,6 +231,9 @@ class TutoresTabla extends StatelessWidget{
                 ),
               ] else if(_.opcion.value == 'Materia')...[
                 PaginatedDataTable(
+                  rowsPerPage: 9,
+                  arrowHeadColor: colorPrimario,
+                  //columnSpacing: 50,
                   columns: const <DataColumn>[
                     DataColumn(label: 
                       Text('Cedula', style: TextStyle(fontWeight: FontWeight.bold),)
@@ -182,6 +268,7 @@ class TutoresTabla extends StatelessWidget{
               ],
             ],
           
+        ),
         );
       }
     );

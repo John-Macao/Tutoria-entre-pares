@@ -43,6 +43,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   url_launcher: ^6.0.18
+  webviewx: ^0.2.1
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - imagenes/
+
     - assets/AyudantiasLogo.png
     - assets/usuario.png
 

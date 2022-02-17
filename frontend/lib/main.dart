@@ -27,11 +27,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(
-        scaffoldBackgroundColor: Color(0xFFF3F9F6),
+        scaffoldBackgroundColor:Colors.indigo[50],
       ),
       debugShowCheckedModeBanner: false,
       title: 'Tutoria Entre Pares',
+      
       initialRoute: '/verificar-login',
+      //initialRoute: '/administrador-principal',
       onGenerateRoute: RoutePagina.router.generator,
       home: VerificarLogin(),
     );

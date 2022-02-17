@@ -23,6 +23,10 @@ class MsalService extends GetxController {
   // }
 
   MsalService(this._usuarioRepository){
+    print("------------");
+    print(this._usuarioRepository);
+    print("------------");
+
     js.context.callMethod('msalInitialize');
     getCurrentUser();
   }
@@ -43,6 +47,8 @@ class MsalService extends GetxController {
         _userLogin.refresh();
 
         correo = user.username!;
+        print("VER USUARIO RETORNO DE BASE -------");
+        print(correo);
         
         await verificarUsuario();
         //return user;
