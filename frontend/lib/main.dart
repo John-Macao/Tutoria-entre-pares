@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/General/msla_service.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/login.dart';
 import 'package:frontend/views/General/verificar_login.dart';
 import 'package:frontend/views/Tutor/tutor_inicio.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(
+        primaryColor: colorPrimario,
         scaffoldBackgroundColor:Colors.indigo[50],
       ),
       debugShowCheckedModeBanner: false,

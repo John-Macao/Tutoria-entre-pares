@@ -19,24 +19,6 @@ class Login extends StatelessWidget {
       init: LoginController(locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>(), locator.get<HorarioRepository>()),
       builder: (_){
         return Scaffold(
-          /*
-          appBar: AppBar(
-            title: Text('Inicio'),
-            actions: [
-              TextButton(
-                onPressed: (){
-                  _.login(context);
-                }, 
-                child: Text(
-                  'Iniciar Sesión',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          */
           backgroundColor: Colors.indigo[50],
           body: Container(
             //child: Card(
@@ -61,10 +43,9 @@ class Login extends StatelessWidget {
         );
       }
     );
-    
-    
   }
 }
+
 class LateralIzquierdo extends StatelessWidget {
   const LateralIzquierdo({Key? key}) : super(key: key);
 
@@ -80,37 +61,12 @@ class LateralIzquierdo extends StatelessWidget {
           children: [
             Image.asset("imagenes/img-asu.png", width: 400, height: 200 ),
             Image.asset("imagenes/img-ietaes.png", width: 400, height: 200),
-            
-            
-            /*Material(
-              //color: Colors.white,
-              borderRadius: BorderRadius.circular(15.0),
-              //child: Image.asset("imagenes/img-asu.png"),
-              //child: Center(
-                            child: Hero(
-                              tag: 'img', 
-                              child: Material(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(25.0),
-                                child: Image.asset(
-                                  "imagenes/img-asu.png",
-                                  //fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          //),
-            ),
-            */
-
-
           ],
           ),
           ),
           ),
         );
-      
       }
-      
     );
   }
 }
@@ -171,18 +127,6 @@ class LateralDerecho extends StatelessWidget {
                 ),
                 ),
               ),
-              /*TextButton(
-                onPressed: (){
-                  _.login(context);
-                    }, 
-                    child: const Text(
-                      'Iniciar Sesión',
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  */
             )
             ],
             ),
@@ -226,7 +170,7 @@ class LateralDerecho extends StatelessWidget {
               shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15),
               ),
               child: PaginatedDataTable(
-                arrowHeadColor: Colors.red,
+                arrowHeadColor: colorPrimario,
                 columnSpacing: 80,
               columns: const <DataColumn>[
                 DataColumn(label: 
@@ -282,7 +226,7 @@ class LateralDerecho extends StatelessWidget {
 
 
 
-
+/*
 
 class EscogerAsignatura extends StatelessWidget{
   @override
@@ -367,3 +311,4 @@ class HorarioTabla extends StatelessWidget{
     );
   }
 }
+*/

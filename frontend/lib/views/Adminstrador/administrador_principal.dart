@@ -21,7 +21,8 @@ class VistaPrincipal extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: colorPrimario,
-            title: const Text("Administrador"),
+            title: Container( alignment: Alignment.center, child: Text("Administrador", style: TextStyle(fontSize: 23),)),
+
           ),
           drawer: MenuView.getDrawer(context),
           //drawer: Menu.getDrawer(context),
@@ -90,10 +91,10 @@ class Formulario extends StatelessWidget{
               const SizedBox(width: 15.0 ),
 
               ElevatedButton(
-                child: Text(
-                  "Buscar -- ",
+                child: const Text(
+                  "Buscar",
                   style: TextStyle(
-                    color: colorPrimario,
+                    color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
@@ -103,7 +104,7 @@ class Formulario extends StatelessWidget{
 
                 }, 
                 style: ElevatedButton.styleFrom(
-                  primary : Colors.indigo[50],
+                  primary : colorPrimario,
                   shape:
                   const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -138,47 +139,34 @@ class Formulario extends StatelessWidget{
                 ),
               ),
 
-
-/*
               ElevatedButton(
-                child: Text(
-                    "Buscar Por Materia ---",
-                    style: TextStyle(
-                      color: colorPrimario,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                onPressed: (){
-                  _.buscarPorMateria();
-
-                  }, 
-                  style: ElevatedButton.styleFrom(
-                    primary : Colors.indigo[50],
-                    shape:
-                    const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft:
-                        Radius.circular(10),
-                      bottomRight:
-                        Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
+                child: const Text(
+                  "Buscar",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              */
+              onPressed: (){
+                _.buscarPorMateria();
 
-              
-              TextButton(
-                onPressed: (){
-                  _.buscarPorMateria();
                 }, 
-                child: Text('Buscar pp')
+                style: ElevatedButton.styleFrom(
+                  primary : colorPrimario,
+                  shape:
+                  const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft:
+                      Radius.circular(10),
+                    bottomRight:
+                      Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
+                ),
               ),
-              
-
             ],
           ],
           ),
@@ -197,7 +185,7 @@ class TutoresTabla extends StatelessWidget{
       builder: (_){
         return Card(
           elevation: 10,
-          margin: EdgeInsets.symmetric(horizontal: 290, vertical: 1 ),
+          margin: EdgeInsets.symmetric(horizontal: 150, vertical: 1 ),
           shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
           
           child: Column(

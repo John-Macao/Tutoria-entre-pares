@@ -9,14 +9,17 @@ import 'package:get/get.dart';
 class MenuView{
 
   static Widget getDrawer(BuildContext context) {
-    
-    
-
     return Drawer(
+      backgroundColor: Colors.indigo[50],
       child: Column(
         children: <Widget>[
-          UserAccountsDrawerHeader(
-              accountName: Text(""), accountEmail: Text("")),
+          SizedBox(height: 200.0, 
+          child: Container(
+            child: Image.asset("imagenes/img-asu.png", width: 400, height: 200 ),
+            color: colorPrimario,
+            )
+          ),
+          
           GetBuilder<MenuController>(
             init: MenuController(context, locator.get<MenuRepository>(), locator.get<UsuarioRepository>()),
             builder: (_){
