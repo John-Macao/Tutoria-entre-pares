@@ -5,6 +5,7 @@ import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_filtro_estudiantes_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,7 +17,8 @@ class VistaFiltrarEstudiantes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Filtrar Estudiantes"),
+        backgroundColor: colorPrimario,
+        title: Container( alignment: Alignment.center, child: Text("Filtrar Estudiantes", style: TextStyle(fontSize: 23),)),
       ),
       drawer: MenuView.getDrawer(context),
       //drawer: Menu.getDrawer(context),
@@ -41,6 +43,10 @@ class tablaFiltro extends StatelessWidget {
       init: FiltroEstudiantesController(locator.get<UsuarioRepository>()) ,
       builder: (_){
         return Container(
+          child: Card(
+              elevation: 10,
+              margin: const EdgeInsets.symmetric(horizontal: 150, vertical: 70 ),
+              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
           child: Column(
             children: [
               InkWell(
@@ -141,6 +147,7 @@ class tablaFiltro extends StatelessWidget {
 
 
             ],
+          ),
           ),
         );
 

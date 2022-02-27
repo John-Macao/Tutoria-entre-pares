@@ -3,9 +3,12 @@ import 'package:frontend/domain/repository/usuario_repository.dart';
 import 'package:get/get.dart';
 import 'dart:js' as js;
 
+import 'package:webviewx/webviewx.dart';
+
 class ReporteTutoradosController extends GetxController {
 
   final UsuarioRepository _usuarioRepository;
+  late WebViewXController webViewXController;
 
   ReporteTutoradosController(this._usuarioRepository);
 
@@ -29,6 +32,11 @@ class ReporteTutoradosController extends GetxController {
   List<String> hasta = ['01/12/2021', '02/12/2021', '03/12/2021', '04/12/2021', '05/12/2021', '06/12/2021'];
   List<String> grafica = ['Pastel' , 'Barras'];
 
+
+  final String _reporteTutorados = 'https://www.metabase.com/';
+  
+  String get reporteTutorados => _reporteTutorados;
+  
 
 
 }

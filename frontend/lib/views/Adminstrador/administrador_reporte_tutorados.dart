@@ -3,8 +3,10 @@ import 'package:frontend/dependencies/di.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/domain/controllers/Administrador/administrador_reporte_tutorados_controller.dart';
 import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
+import 'package:webviewx/webviewx.dart';
 
 class VistaReporteTutorados extends StatelessWidget {
   const VistaReporteTutorados({Key? key}) : super(key: key);
@@ -14,17 +16,13 @@ class VistaReporteTutorados extends StatelessWidget {
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-      title: Text("Reporte Tutorados"),
+        backgroundColor: colorPrimario,
+        title: Container( alignment: Alignment.center, child: Text("Reporte Tutorados", style: TextStyle(fontSize: 23),)),
       ),
-      drawer: MenuView.getDrawer(context),
+      
+      drawer: WebViewAware(child: MenuView.getDrawer(context)),
       //drawer: Menu.getDrawer(context),
-      body: Center(
-        child: Container(
-          height: 600,
-          width: (queryData.size.width/1.1),
-          child: reporteTutorados(),
-        ),
-      )
+      body:reporteTutorados(),
     );
   }
 }
@@ -34,118 +32,23 @@ class reporteTutorados extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData = MediaQuery.of(context);
     return GetBuilder<ReporteTutoradosController>(
       init: ReporteTutoradosController(locator.get<UsuarioRepository>()),
       builder: (_){
-        return Container(
+        return Center(
           child: Column(
-             
-                children: [
-                  InkWell(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          child: Text("Filtro: "),
-                        ),
-                        InkWell(
-                      child: DropdownButton(
-                        hint: Text('Tipo de filtro'),
-                        value: _.opcion,
-                        items: _.opciones.map((location) {
-                          return DropdownMenuItem(
-                            child: new Text(location),
-                            value: location,
-                          );
-                        }).toList(),
-                        onChanged: (_) {
-                        },
-                      ),
-                      
-                          ),
-                    InkWell(
-                      child: Center(
-                        child: Text("                 "),
-                      ),
-                  ),
-                  InkWell(
-                      child: Center(
-                        child: Text("Desde:  "),
-                      ),
-                  ),
-                  InkWell(
-                      child: DropdownButton(
-                        hint: Text('Tipo de tutoria'),
-                        value: _.opcion,
-                        items: _.desde.map((location) {
-                          return DropdownMenuItem(
-                            child: new Text(location),
-                            value: location,
-                          );
-                        }).toList(),
-                        onChanged: (_) {
-                        },
-                      ),
-                          ),
-                    InkWell(
-                      child: Center(
-                        child: Text("Hasta:  "),
-                      ),
-                  ),
-                  InkWell(
-                      child: DropdownButton(
-                        hint: Text('Tipo de tutoria'),
-                        value: _.opcion,
-                        items: _.hasta.map((location) {
-                          return DropdownMenuItem(
-                            child: new Text(location),
-                            value: location,
-                          );
-                        }).toList(),
-                        onChanged: (_) {
-                        },
-                      ),
-                          ),
+            children: <Widget> [
+              WebViewX(
+                initialContent: _.reporteTutorados,
+                initialSourceType: SourceType.url,
+                height: queryData.size.height-80, 
+                width: queryData.size.width,
+                onWebViewCreated: (controller) => _.webViewXController = controller,
+              )
 
-                      ],
-                      
-                    ),
-                  ),
-                  InkWell(
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(16.0),
-                      primary: Colors.red,
-                      textStyle: const TextStyle(fontSize: 30),
-                  ),
-                      
-                      onPressed: (){
-                      }, 
-                      child: Text("Generar")),
-                      
-                      
-                  ),
-                  InkWell(
-                      child: DropdownButton(
-                        hint: Text('Tipo de Grafica : '),
-                        value: _.opcion,
-                        items: _.grafica.map((location) {
-                          return DropdownMenuItem(
-                            child: new Text(location),
-                            value: location,
-                          );
-                        }).toList(),
-                        onChanged: (_) {
-                        },
-                      ),
-                          ),
-                    
-                ],
-
+            ],
           ),
-          
-
-          
         );
       },
       

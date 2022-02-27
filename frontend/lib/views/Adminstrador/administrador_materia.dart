@@ -1,4 +1,6 @@
 
+import 'dart:js';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/dependencies/di.dart';
@@ -6,6 +8,7 @@ import 'package:frontend/domain/controllers/Administrador/administrador_materia_
 import 'package:frontend/domain/controllers/Administrador/administrador_menu_controller.dart';
 import 'package:frontend/domain/repository/materia_oferta_repository.dart';
 import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -17,17 +20,13 @@ class VistaMateria extends StatelessWidget {
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Asignar/Quitar Materia"),
+        backgroundColor: colorPrimario,
+        title: Container( alignment: Alignment.center, child: Text("Asignar/Quitar Materia", style: TextStyle(fontSize: 23),)),
       ),
       drawer: MenuView.getDrawer(context),
       //drawer: Menu.getDrawer(context),
-      body: Center(
-        child: Container(
-          height: 600,
-          width: (queryData.size.width/1.1),
-          child: formularioMateria(),
-        ),
-        
+      body: const SingleChildScrollView(
+        child: formularioMateria(),
       )
     );
   }
@@ -41,84 +40,149 @@ class formularioMateria extends StatelessWidget {
     return GetBuilder<MateriaController>(
       init: MateriaController(locator.get<MateriaOfertaRepository>(),locator.get<UsuarioRepository>()),
       builder: (_){
-        return Form(
-          child: Column(
-            children: [
-              Text("Cédula: "),
-              CupertinoTextField(
-                controller: _.cedula,
-              ),
-              TextButton(
-                onPressed: (){
-                  _.buscar();
-                }, 
-                child: Text("Buscar")
-              ),
+        return Center(
+          child: Container(
+            //padding: EdgeInsets.all(50.0),
+            child: Card(
+              elevation: 10,
+              margin: const EdgeInsets.symmetric(horizontal: 150, vertical: 70 ),
+              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
 
-              Text("Nombre: "),
-              Text(_.nombre),
-              Text("Carrera: "),
-              Text(_.carrera),
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 15.0,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    Text("Cédula :", style: TextStyle(fontSize: 20),),
+                    
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    
+                    SizedBox(
+                      width: 160, height: 23,
+                    child: CupertinoTextField(
+                      controller: _.cedula,
+                    ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
 
-              Text("Materias: "),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: _.listMateriasOfertadas.length,
-                itemBuilder: (context, index){
-                  return Column(
-                    children: [
-                      Text(_.listMateriasOfertadas[index]),
-                      TextButton(
-                        onPressed: (){
-                          _.deshabilitar(_.listMateriasOfertadas[index]);
-                        }, 
-                        child: Text("Deshabilitar")
+                    ElevatedButton(
+                      child: const Text(
+                        "Buscar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ],
-                  );
-                }
-              ),
+                    onPressed: (){
+                      _.buscar();
 
-              Text("Calificación minima: "),
-              CupertinoTextField(
-                controller: _.calificacion,
-              ),
-              TextButton(
-                onPressed: (){
-                  _.buscarMaterias();
-                }, 
-                child: Text("Buscar")
-              ),
-              
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: _.listMateriasPosibles.length,
-                itemBuilder: (context, index){
-                  return Column(
-                    children: [
-                      Text(_.listMateriasPosibles[index]),
-                      TextButton(
-                        onPressed: (){
-                          _.agregarMateria(_.listMateriasPosibles[index]);
-                        }, 
-                        child: Text("Asignar materia")
+                      }, 
+                      style: ElevatedButton.styleFrom(
+                        primary : colorPrimario,
+                        shape:
+                        const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft:
+                            Radius.circular(10),
+                          bottomRight:
+                            Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
                       ),
-                    ],
-                  );
-                }
-              ),
-              
+                      ),
+                    ),
+                  ],
+                ),
 
-            ],
-           
-          )
-          
-          
-          );
-          
+                const SizedBox(height: 50.0,
+                ),
+                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    const Text("Nombre:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.nombre, style: TextStyle(fontSize: 18)), 
+                    ),
+                    const Text("Carrera:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.carrera, style: TextStyle(fontSize: 18)), 
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 50.0,
+                  child: Divider(color: Colors.black,), 
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    Column(
+                      children: [
+                        const Text("Materias: ", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        Row(
+                          children: [
+                            /*ListView.builder(
+                              itemCount: 3,
+                              itemBuilder: ,
+                              )
+                              */
+                          ],
+                        )
+
+                      ],
+                      
+                    )
+
+                  ]
+                ),
+
+
+                
+                
+                ElevatedButton(
+                  child: const Text(
+                    "Aceptar --- ",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary : colorPrimario,
+                    shape:
+                    const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft:
+                        Radius.circular(10),
+                      bottomRight:
+                        Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  ), onPressed: () {  },
+                ),
+                const SizedBox(
+                    height: 50,
+                ),
+              ],
+            ),
+            ),
+          ),
+        );
 
       },
-      
     );
   }
 }

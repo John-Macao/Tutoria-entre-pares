@@ -6,6 +6,7 @@ import 'package:frontend/domain/controllers/Administrador/administrador_menu_con
 import 'package:frontend/domain/controllers/Administrador/administrador_quitar_tutor_controller.dart';
 import 'package:frontend/domain/repository/materia_oferta_repository.dart';
 import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -17,17 +18,14 @@ class VistaQuitarTutor extends StatelessWidget {
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-      title: Text("Quitar Tutor Par"),
+        backgroundColor: colorPrimario,
+        title: Container( alignment: Alignment.center, child: Text("Quitar Tutor Par", style: TextStyle(fontSize: 23),)),
       ),
       drawer: MenuView.getDrawer(context),
       //drawer: Menu.getDrawer(context),
-      body: Center(
-        child: Container(
-          height: 600,
-          width: (queryData.size.width/1.1),
-          child: formularioQuitarTutor(),
-        ),
-      )
+      body: const SingleChildScrollView(
+        child: formularioQuitarTutor(),
+      ),
     );
   }
 }
@@ -40,52 +38,162 @@ class formularioQuitarTutor extends StatelessWidget {
     return GetBuilder<QuitarTutorController>(
       init: QuitarTutorController(locator.get<UsuarioRepository>(),locator.get<MateriaOfertaRepository>()) ,
       builder: (_){
-        return Form(
-          child: Column(
-            children: [
-              Text("Cédula: "),
-              CupertinoTextField(
-                controller: _.cedula,
-              ),
-              TextButton(
-                onPressed: (){
-                  _.buscar();
-                }, 
-                child: Text("Buscar")
-              ),
+        return Center(
+          child: Container(
+            //padding: EdgeInsets.all(50.0),
+            child: Card(
+              elevation: 10,
+              margin: const EdgeInsets.symmetric(horizontal: 150, vertical: 70 ),
+              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
 
-              Text("Nombre: "),
-              Text(_.nombre),
-              Text("Correo: "),
-              Text(_.correo),
-              Text("Carrera: "),
-              Text(_.carrera),
-              Text("Telefono: "),
-              Text(_.telefono),
-              Text("Nivel: "),
-              Text(_.nivel),
-              Text("Materias:"),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: _.listMaterias.length,
-                itemBuilder: (context, index){
-                  return Text(_.listMaterias[index]);
-                }
-              ),
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 15.0,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    Text("Cédula :", style: TextStyle(fontSize: 20),),
+                    
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    
+                    SizedBox(
+                      width: 160, height: 23,
+                    child: CupertinoTextField(
+                      controller: _.cedula,
+                    ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
 
+                    ElevatedButton(
+                      child: const Text(
+                        "Buscar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    onPressed: (){
+                      _.buscar();
 
-              TextButton(
-                onPressed: (){
-                  _.eliminar(context);
-                }, 
-                child: Text("Eliminar ")
+                      }, 
+                      style: ElevatedButton.styleFrom(
+                        primary : colorPrimario,
+                        shape:
+                        const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft:
+                            Radius.circular(10),
+                          bottomRight:
+                            Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      ),
+                    ),
+                  ],
                 ),
 
-            ],
-           
-          )
-          
-          );
+                const SizedBox(height: 50.0,
+                  child: Divider(color: Colors.black,), 
+                ),
+                
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    const Text("Nombre:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.nombre, style: TextStyle(fontSize: 18)), 
+                    ),
+                    const Text("Correo:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.correo, style: TextStyle(fontSize: 18)), 
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                    height: 50,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    const Text("Carrera:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.carrera, style: TextStyle(fontSize: 18)), 
+                    ),
+                    const Text("Telefono:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.telefono, style: TextStyle(fontSize: 18)), 
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                    height: 50,
+                ),
+                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    const Text("Nivel:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.nivel, style: TextStyle(fontSize: 18)), 
+                    ),
+                    const SizedBox(
+                      width: 200,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                    height: 25,
+                ),
+                
+                ElevatedButton(
+                  child: const Text(
+                    "Eliminar Tutor",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                onPressed: (){
+                  _.eliminar(context);
+
+                  }, 
+                  style: ElevatedButton.styleFrom(
+                    primary : colorPrimario,
+                    shape:
+                    const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft:
+                        Radius.circular(10),
+                      bottomRight:
+                        Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  ),
+                ),
+                const SizedBox(
+                    height: 50,
+                ),
+              ],
+            ),
+            ),
+          ),
+        );
       }
       
     );

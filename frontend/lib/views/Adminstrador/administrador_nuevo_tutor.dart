@@ -1,6 +1,4 @@
-
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -42,39 +40,67 @@ class formularioNuevoTutor extends StatelessWidget {
       init: AgregarNuevoTutorController(locator.get<UsuarioRepository>()) ,
       builder: (_){
         return Center(
-          
           child: Container(
             //padding: EdgeInsets.all(50.0),
             child: Card(
               elevation: 10,
-              margin: const EdgeInsets.symmetric(horizontal: 150, vertical: 50 ),
+              margin: const EdgeInsets.symmetric(horizontal: 150, vertical: 70 ),
               shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
 
             child: Column(
               children: <Widget>[
-                SizedBox(height: 15.0,),
+                const SizedBox(height: 15.0,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget> [
                     Text("Cédula :", style: TextStyle(fontSize: 20),),
                     
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    
                     SizedBox(
-                      width: 160, height: 25,
+                      width: 160, height: 23,
                     child: CupertinoTextField(
                       controller: _.cedula,
                     ),
                     ),
+                    const SizedBox(
+                      width: 10,
+                    ),
 
-                    TextButton(
-                      onPressed: (){
-                        _.buscar();
+                    ElevatedButton(
+                      child: const Text(
+                        "Buscar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    onPressed: (){
+                      _.buscar();
+
                       }, 
-                      child: Text('Buscar', style: TextStyle(fontSize: 20))
+                      style: ElevatedButton.styleFrom(
+                        primary : colorPrimario,
+                        shape:
+                        const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft:
+                            Radius.circular(10),
+                          bottomRight:
+                            Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      ),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 50.0,
+                const SizedBox(height: 50.0,
                   child: Divider(color: Colors.black,), 
                 ),
                 
@@ -82,35 +108,87 @@ class formularioNuevoTutor extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget> [
-                    Text("Nombre:    " + _.nombre , style: TextStyle(fontSize: 20)),
+                    const Text("Nombre:  ", style: TextStyle(fontSize: 20)),
                     SizedBox(
-                      width: 160, height: 25,
-                    child: Text(_.nombre),
+                      width: 200,
+                      child: Text(_.nombre, style: TextStyle(fontSize: 18)), 
                     ),
+                    const Text("Correo:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.correo, style: TextStyle(fontSize: 18)), 
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                    height: 50,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    const Text("Carrera:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.carrera, style: TextStyle(fontSize: 18)), 
+                    ),
+                    const Text("Telefono:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.telefono, style: TextStyle(fontSize: 18)), 
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                    height: 50,
+                ),
+                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    const Text("Nivel:  ", style: TextStyle(fontSize: 20)),
+                    SizedBox(
+                      width: 200,
+                      child: Text(_.nivel, style: TextStyle(fontSize: 18)), 
+                    ),
+                    const SizedBox(
+                      width: 200,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                    height: 25,
+                ),
+                
+                ElevatedButton(
+                  child: const Text(
+                    "Agregar Tutor",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                onPressed: (){
+                  _.agregar(context);
 
-                    Text("Correo: " + _.correo, style: TextStyle(fontSize: 20)),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
-                    Text("Carrera: " + _.carrera, style: TextStyle(fontSize: 20)),
-                    Text("Telefono: " + _.telefono, style: TextStyle(fontSize: 20)),
-                  ],
-                ),
-                
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
-                    Text("Nivel: " + _.nivel, style: TextStyle(fontSize: 20)),
-                  ],
-                ),
-                
-                TextButton(
-                  onPressed: (){
-                    _.agregar(context);
                   }, 
-                  child: Text("Agregar como tutor")
+                  style: ElevatedButton.styleFrom(
+                    primary : colorPrimario,
+                    shape:
+                    const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft:
+                        Radius.circular(10),
+                      bottomRight:
+                        Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  ),
+                ),
+                const SizedBox(
+                    height: 50,
                 ),
               ],
             ),
