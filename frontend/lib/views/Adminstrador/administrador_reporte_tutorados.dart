@@ -41,7 +41,7 @@ class reporteTutorados extends StatelessWidget {
             children: <Widget> [
               WebViewX(
                 initialContent: _.reporteTutorados,
-                initialSourceType: SourceType.url,
+                initialSourceType: SourceType.urlBypass,
                 height: queryData.size.height-80, 
                 width: queryData.size.width,
                 onWebViewCreated: (controller) => _.webViewXController = controller,
