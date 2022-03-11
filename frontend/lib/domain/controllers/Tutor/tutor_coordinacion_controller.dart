@@ -87,7 +87,7 @@ class TutorCoordinacionController extends GetxController{
     final creacion = await _coordinacionRepository.put_coordinacion(cor, json);
 
 
-    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, '/tutor-ver-coordinacion');
 
   }
 

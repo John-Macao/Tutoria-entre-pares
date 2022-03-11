@@ -22,7 +22,7 @@ class TutoradoHistoricoController extends GetxController{
   List<Asistencia> listAsistencia = <Asistencia>[];
   List<Asistencia> listAsistenciaMostrados = <Asistencia>[];
   bool cantidadAsistencia = true;
-  int cantidad = 20;
+  int cantidad = 10;
 
 
   List<String> listAsignatura = <String>[];
@@ -52,6 +52,7 @@ class TutoradoHistoricoController extends GetxController{
   }
 
   Future loadDatos()async{
+    listAsistenciaMostrados.clear();
     listAsistencia = (await _asistenciaRepository.fetch_asistencias_tutorado(cor))!;
 
     for(int i=0; i<listAsistencia.length; i++){

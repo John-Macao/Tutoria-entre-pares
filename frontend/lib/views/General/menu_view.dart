@@ -16,13 +16,17 @@ class MenuView{
           SizedBox(height: 200.0, 
           child: Container(
             child: Image.asset("imagenes/img-asu.png", width: 400, height: 200 ),
-            color: colorPrimario,
+            color: colorAzul,
             )
           ),
           
           GetBuilder<MenuController>(
             init: MenuController(context, locator.get<MenuRepository>(), locator.get<UsuarioRepository>()),
             builder: (_){
+              if (_.loading) {
+                return Center(child: CircularProgressIndicator( color: colorAzul, strokeWidth: 4.0,));
+                
+              }
               return Column(children: _.drawerOptions,);
             }
           ),

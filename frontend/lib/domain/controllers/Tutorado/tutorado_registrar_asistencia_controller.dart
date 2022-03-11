@@ -102,6 +102,8 @@ class TutoradoRegistrarAsistenciaController extends GetxController{
 
     final ingreso2 = await _asistenciaRepository.put_asistencia(cor, json);
 
+    Navigator.pushReplacementNamed(context, '/tutorado-inicio');
+
   }
 
 

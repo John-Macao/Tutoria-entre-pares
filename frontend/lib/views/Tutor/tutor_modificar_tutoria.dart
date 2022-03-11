@@ -5,6 +5,7 @@ import 'package:frontend/domain/models/horario.dart';
 import 'package:frontend/domain/repository/horario_repository.dart';
 import 'package:frontend/domain/repository/materia_oferta_repository.dart';
 import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -15,11 +16,11 @@ class TutorModificarTutoria extends StatelessWidget{
       init: TutorModificarTutoriaController(locator.get<HorarioRepository>(), locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>()),
       builder: (_){
         return Scaffold(
-        appBar: AppBar(
-          title: Text('Modificar Horario de Tutoría'),
-        ),
-      drawer: MenuView.getDrawer(context),
-      //drawer: TutorMenu.getDrawer(context),
+          appBar: AppBar(
+            backgroundColor: colorAzul,
+            title: Container( alignment: Alignment.center, child: Text("Modificar/Agregar Horario de Tutoría", style: TextStyle(fontSize: 23),)),
+          ),
+        drawer: MenuView.getDrawer(context),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -45,7 +46,11 @@ class HorarioInicio extends StatelessWidget{
     return GetBuilder<TutorModificarTutoriaController>(
       id: 'horario',
       builder: (_){
-        return SingleChildScrollView(
+        return Card(
+          elevation: 10,
+          margin: const EdgeInsets.symmetric( vertical: 20 ),
+          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
+        child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
             columns: const <DataColumn>[
@@ -149,6 +154,7 @@ class HorarioInicio extends StatelessWidget{
               )
             ),
           ),
+        ),
         );
       }
     );
@@ -159,7 +165,7 @@ class HorarioInicio extends StatelessWidget{
       context: context, 
       builder: (p){
           return AlertDialog(
-            title: Text('Agrgar Horario de Tutoría'),
+            title: Text('Agregar Horario de Tutoría', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: colorAzul),),
             content: Column(
               children: [
                 Form(child: Column(
@@ -171,11 +177,28 @@ class HorarioInicio extends StatelessWidget{
                         _.hora = hora;
                         return Column(
                           children: [
-                              Text('Dia: '),
-                                Text(dia),
-                                Text('Hora: '),
-                                Text(hora),
-                                Text('Asignatura: '),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center ,
+                              children: [
+                                Text('Dia:',  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+                                SizedBox(width: 10,),
+                                Text(dia,  style: TextStyle(fontSize: 17),),
+                              ],
+                            ),
+                            SizedBox(height: 20,),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center ,
+                              children: [
+                                Text('Hora:',  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,)),
+                                SizedBox(width: 10,),
+                                Text(hora, style: TextStyle(fontSize: 17),),
+                                
+                              ],
+                            ),
+                            SizedBox(height: 20,), 
+
+                                Text('Asignatura: ',  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
                                 Obx(() =>
                                     DropdownButton<String>(
                                     hint: Text('Seleccionar dia'),
@@ -192,17 +215,67 @@ class HorarioInicio extends StatelessWidget{
                                     }).toList(),
                                   ),
                                 ),
-                                TextButton(
+
+                                SizedBox( height: 20,),
+
+                                ElevatedButton(
+                                  child: const Text(
+                                    "Agregar Horario",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   onPressed: () async {
                                     await _.agregarHorario();
                                     Navigator.pop(context);
-                                  }, 
-                                  child: Text('Agregar horario')
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary : colorAzul,
+                                    shape:
+                                    const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft:
+                                        Radius.circular(10),
+                                      bottomRight:
+                                        Radius.circular(10),
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                    ),
+                                  ),
+                                  ),
                                 ),
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('Canselar')
+
+                                SizedBox( height: 20,),
+
+                                ElevatedButton(
+                                  child: const Text(
+                                    "Cancelar",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                onPressed: () => Navigator.pop(context),
+
+                                  style: ElevatedButton.styleFrom(
+                                    primary : Colors.red,
+                                    shape:
+                                    const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft:
+                                        Radius.circular(10),
+                                      bottomRight:
+                                        Radius.circular(10),
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                    ),
+                                  ),
+                                  ),
                                 ),
+
                           ],
                         );
                       }
@@ -222,7 +295,7 @@ class HorarioInicio extends StatelessWidget{
       context: context, 
       builder: (p){
           return AlertDialog(
-            title: Text('Agrgar Horario de Tutoría'),
+            title: Text('Modificar Horario de Tutoría'),
             content: Column(
               children: [
                 Form(child: Column(
@@ -235,11 +308,29 @@ class HorarioInicio extends StatelessWidget{
                         _.hora = horario.horHora;
                         return Column(
                           children: [
-                              Text('Dia: '),
-                                Text(dia),
-                                Text('Hora: '),
-                                Text(hora),
-                                Text('Asignatura: '),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center ,
+                              children: [
+                                Text('Dia:',  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+                                SizedBox(width: 10,),
+                                Text(dia,  style: TextStyle(fontSize: 17),),
+                              ],
+                            ),
+                            SizedBox(height: 20,),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center ,
+                              children: [
+                                Text('Hora:',  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,)),
+                                SizedBox(width: 10,),
+                                Text(hora, style: TextStyle(fontSize: 17),),
+                                
+                              ],
+                            ),
+                            SizedBox(height: 20,), 
+
+                            Text('Asignatura: ',  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+
                                 Obx(() =>
                                     DropdownButton<String>(
                                     hint: Text('Seleccionar dia'),
@@ -256,24 +347,100 @@ class HorarioInicio extends StatelessWidget{
                                     }).toList(),
                                   ),
                                 ),
-                                TextButton(
+
+                                SizedBox( height: 20,),
+
+
+                                ElevatedButton(
+                                  child: const Text(
+                                    "Actualizar Horario",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   onPressed: () async {
                                     await _.actualizarHorario(horario);
                                     Navigator.pop(context);
-                                  }, 
-                                  child: Text('Actualizar horario')
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary : colorAzul,
+                                    shape:
+                                    const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft:
+                                        Radius.circular(10),
+                                      bottomRight:
+                                        Radius.circular(10),
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                    ),
+                                  ),
+                                  ),
                                 ),
-                                TextButton(
-                                  onPressed: ()async{
+
+                                SizedBox( height: 20,),
+
+                                ElevatedButton(
+                                  child: const Text(
+                                    "Eliminar Horario",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                onPressed: ()async{
                                     await _.eliminarHorario(horario);
                                     Navigator.pop(context);
                                   }, 
-                                  child: Text('Eliminar horario')
+
+                                  style: ElevatedButton.styleFrom(
+                                    primary : colorAzulClaro,
+                                    shape:
+                                    const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft:
+                                        Radius.circular(10),
+                                      bottomRight:
+                                        Radius.circular(10),
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                    ),
+                                  ),
+                                  ),
                                 ),
-                                TextButton(
+
+                                SizedBox( height: 20,),
+
+                                ElevatedButton(
+                                  child: const Text(
+                                    "Cancelar",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   onPressed: () => Navigator.pop(context),
-                                  child: Text('Canselar')
+
+                                  style: ElevatedButton.styleFrom(
+                                    primary : Colors.red,
+                                    shape:
+                                    const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft:
+                                        Radius.circular(10),
+                                      bottomRight:
+                                        Radius.circular(10),
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                    ),
+                                  ),
+                                  ),
                                 ),
+
                           ],
                         );
                       }

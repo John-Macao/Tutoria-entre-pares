@@ -18,7 +18,7 @@ class VistaNuevoTutor extends StatelessWidget {
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorPrimario,
+        backgroundColor: colorAzul,
         title: Container( alignment: Alignment.center, child: Text("Nuevo Tutor Par", style: TextStyle(fontSize: 23),)),
       ),
       
@@ -74,7 +74,7 @@ class formularioNuevoTutor extends StatelessWidget {
                         "Buscar",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -83,7 +83,7 @@ class formularioNuevoTutor extends StatelessWidget {
 
                       }, 
                       style: ElevatedButton.styleFrom(
-                        primary : colorPrimario,
+                        primary : colorAzul,
                         shape:
                         const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
@@ -103,90 +103,154 @@ class formularioNuevoTutor extends StatelessWidget {
                 const SizedBox(height: 50.0,
                   child: Divider(color: Colors.black,), 
                 ),
+
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 250),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Nombres:"
+                        ),
+                        controller: _.nombre,
+                      ),
+                      SizedBox(height: 25.0,),
+
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Correo:"
+                        ),
+                        controller: _.correo,
+                      ),
+
+                      SizedBox(height: 25.0,),
+
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Carrera:"
+                        ),
+                        controller: _.carrera,
+                      ),
+
+                      SizedBox(height: 25.0,),
+
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Telefono:"
+                        ),
+                        controller: _.telefono,
+                      ),
+
+                      SizedBox(height: 25.0,),
+
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Nivel:"
+                        ),
+                        controller: _.nivel,
+                      ),
+
+                    ],
+
+                  ),
+
+                ),
+
                 
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
-                    const Text("Nombre:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.nombre, style: TextStyle(fontSize: 18)), 
-                    ),
-                    const Text("Correo:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.correo, style: TextStyle(fontSize: 18)), 
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                    height: 50,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
-                    const Text("Carrera:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.carrera, style: TextStyle(fontSize: 18)), 
-                    ),
-                    const Text("Telefono:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.telefono, style: TextStyle(fontSize: 18)), 
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                    height: 50,
-                ),
-                
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
-                    const Text("Nivel:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.nivel, style: TextStyle(fontSize: 18)), 
-                    ),
-                    const SizedBox(
-                      width: 200,
-                    ),
-                  ],
-                ),
                 const SizedBox(
                     height: 25,
                 ),
-                
-                ElevatedButton(
-                  child: const Text(
-                    "Agregar Tutor",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                onPressed: (){
-                  _.agregar(context);
 
-                  }, 
-                  style: ElevatedButton.styleFrom(
-                    primary : colorPrimario,
-                    shape:
-                    const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft:
-                        Radius.circular(10),
-                      bottomRight:
-                        Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      child: const Text(
+                        "Agregar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    onPressed: (){
+                      _.agregar(context);
+
+                      }, 
+                      style: ElevatedButton.styleFrom(
+                        primary : colorAzul,
+                        shape:
+                        const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft:
+                            Radius.circular(10),
+                          bottomRight:
+                            Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      ),
                     ),
-                  ),
-                  ),
+
+                    const SizedBox(
+                      width: 20,
+                    ),
+
+                    ElevatedButton(
+                      child: const Text(
+                        "Cancelar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    onPressed: (){
+                      Navigator.pushReplacementNamed(context, "/administrador-principal",);
+                      //_.agregar(context);
+
+                      }, 
+                      style: ElevatedButton.styleFrom(
+                        primary : colorRojo,
+                        shape:
+                        const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft:
+                            Radius.circular(10),
+                          bottomRight:
+                            Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      ),
+                    ),
+                  ],
                 ),
+                
                 const SizedBox(
                     height: 50,
                 ),

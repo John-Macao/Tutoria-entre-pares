@@ -4,6 +4,7 @@ import 'package:frontend/domain/controllers/Tutorado/tutorado_horario_tutor_cont
 import 'package:frontend/domain/repository/horario_repository.dart';
 import 'package:frontend/domain/repository/materia_oferta_repository.dart';
 import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,7 +14,8 @@ class TutoradoHorarioTutor extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tutor Par Inicio'),
+        backgroundColor: colorAzul,
+        title: Container( alignment: Alignment.center, child: Text("Horario Tutor Par", style: TextStyle(fontSize: 23),)),
       ),
       drawer: MenuView.getDrawer(context),
       body: SingleChildScrollView(
@@ -40,7 +42,11 @@ class AsignaturaDeTabla extends StatelessWidget{
       builder: (_){
         return Column(
           children: [
-            Text('Matteria: '),
+            SizedBox(height: 15,),
+            Text('Selecciona la Materia:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            
+            SizedBox(height: 15,),
+
             Obx(() =>
                 DropdownButton<String>(
                 hint: Text('Seleccionar asignatura'),
@@ -72,7 +78,12 @@ class TablaTutorHorario extends StatelessWidget{
     return GetBuilder<TutoradoHorarioTutorController>(
       init: TutoradoHorarioTutorController(locator.get<MateriaOfertaRepository>(), locator.get<UsuarioRepository>(), locator.get<HorarioRepository>()),
       builder: (_){
-        return PaginatedDataTable(
+        return Card(
+          elevation: 10,
+          margin: const EdgeInsets.symmetric(horizontal: 150, vertical: 20 ),
+          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
+
+        child: PaginatedDataTable(
           columns: const <DataColumn>[
             DataColumn(label: 
               Text('Nombre', style: TextStyle(fontWeight: FontWeight.bold),)
@@ -100,6 +111,7 @@ class TablaTutorHorario extends StatelessWidget{
             ),
           ], 
           source: TutoradoTutorMiDataTableSource(_.listUsuario,_.listLunes,_.listMartes,_.listMiercoles,_.listJueves,_.listViernes,_.asignatura.value)
+        ),
         );
       }
     );

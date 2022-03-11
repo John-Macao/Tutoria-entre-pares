@@ -14,12 +14,16 @@ class AgregarNuevoTutorController extends GetxController {
   final UsuarioRepository _usuarioRepository;
 
   Usuario? usuario;
-  String nombre ='';
-  String correo = '';
-  String carrera = '';
-  String telefono = '';
-  String nivel = '';
+  //String nombre ='';
+  var nombre = TextEditingController();
+  var correo = TextEditingController();
+  var carrera = TextEditingController();
+  var telefono = TextEditingController();
+  var nivel = TextEditingController();
   var cedula = TextEditingController();
+
+  bool _comprobar = false;
+  bool get comprobar => _comprobar;
 
   AgregarNuevoTutorController(this._usuarioRepository);
 
@@ -41,21 +45,23 @@ class AgregarNuevoTutorController extends GetxController {
     usuario = Usuario(usuId: 0, usuCorreo: "jmacao@est.ups.edu.ec", usuNomrbe: "John Macao", usuCedula: cedula.text, usuEstado: 'A', usuTelefono: "0989449535", usuBeca: "No", 
                       usuNivel: 9, usuCarrera: "Computación", usuRazon: "", tuId: 2);
 
-    nombre = usuario!.usuNomrbe;
-    correo = usuario!.usuCorreo;
-    carrera = usuario!.usuCarrera;
-    telefono = usuario!.usuTelefono;
-    nivel = usuario!.usuNivel.toString();
+    nombre.text = usuario!.usuNomrbe;
+    correo.text = usuario!.usuCorreo;
+    carrera.text = usuario!.usuCarrera;
+    telefono.text = usuario!.usuTelefono;
+    nivel.text = usuario!.usuNivel.toString();
+
+    this._comprobar = true;
 
     update();
   }
 
   Future agregar(BuildContext context)async{
-    final existe = await _usuarioRepository.comprobar_usuario_por_correo(correo);
+    final existe = await _usuarioRepository.comprobar_usuario_por_correo(correo.text);
 
 
     if(existe==true){
-      final comprobacion = (await _usuarioRepository.fetch_usuario_por_correo(correo))!;
+      final comprobacion = (await _usuarioRepository.fetch_usuario_por_correo(correo.text))!;
       final usu = Usuario(usuId: comprobacion.usuId, usuCorreo: comprobacion.usuCorreo, usuNomrbe: comprobacion.usuNomrbe, usuCedula: comprobacion.usuCedula, usuEstado: 'A', 
                       usuTelefono: comprobacion.usuTelefono, usuBeca: usuario!.usuBeca, usuNivel: usuario!.usuNivel, usuCarrera: usuario!.usuCarrera, usuRazon: comprobacion.usuRazon, 
                       tuId: 2);
@@ -73,7 +79,7 @@ class AgregarNuevoTutorController extends GetxController {
 
 
     }
-    Navigator.pushNamed(context, '/administrador-principal');
+    Navigator.pushReplacementNamed(context, '/administrador-principal');
 
   }
 

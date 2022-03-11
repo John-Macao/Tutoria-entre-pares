@@ -7,6 +7,7 @@ import 'package:frontend/domain/repository/asistencia_repository.dart';
 import 'package:frontend/domain/repository/horario_repository.dart';
 import 'package:frontend/domain/repository/materia_oferta_repository.dart';
 import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +16,8 @@ class TutoradoHistorico extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tutor Par Inicio'),
+        backgroundColor: colorAzul,
+        title: Container( alignment: Alignment.center, child: Text("Histórico", style: TextStyle(fontSize: 23),)),
       ),
       drawer: MenuView.getDrawer(context),
       body: SingleChildScrollView(
@@ -39,9 +41,51 @@ class ListarSesiones extends StatelessWidget{
     return GetBuilder<TutoradoHistoricoController>(
       init: TutoradoHistoricoController(locator.get<AsistenciaRepository>(), locator.get<HorarioRepository>(), locator.get<UsuarioRepository>(), locator.get<MateriaOfertaRepository>()),
       builder: (_){
-        return Form(
+        return Card(
+          elevation: 10,
+          margin: const EdgeInsets.symmetric(horizontal: 150, vertical: 70 ),
+          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
+
+          child: Container( 
+            margin: EdgeInsets.symmetric(horizontal: 270),
           child: Column(
             children: [
+              Card(
+                elevation: 1,
+                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
+                child: ElevatedButton(
+                  child: const Text(
+                    "Refrescar",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                onPressed: (){
+                  _.loadDatos();
+
+                  }, 
+                  style: ElevatedButton.styleFrom(
+                    primary : colorAzulClaro,
+                    shape:
+                    const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft:
+                        Radius.circular(10),
+                      bottomRight:
+                        Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  ),
+                ),
+
+              ),
+
+              SizedBox(height: 20,),
+
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: _.listAsistenciaMostrados.length,
@@ -62,6 +106,9 @@ class ListarSesiones extends StatelessWidget{
                   );
                 }
               ),
+
+              SizedBox(height: 20,),
+
               if (_.cantidadAsistencia == true) ...[
                 IconButton(
                   onPressed: (){
@@ -71,7 +118,8 @@ class ListarSesiones extends StatelessWidget{
                 ),
               ] 
             ],
-          )
+          ),
+          ),
         );
       }
     );

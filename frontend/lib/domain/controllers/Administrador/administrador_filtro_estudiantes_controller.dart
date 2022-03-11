@@ -19,7 +19,9 @@ class FiltroEstudiantesController extends GetxController {
 
   List<Ejemplo> datosEjemplo = <Ejemplo>[];
   RxList<Ejemplo> filtrado = <Ejemplo>[].obs;
-  var seleccionado = '';
+  //var seleccionado = '';
+
+  var materia = TextEditingController();
 
   List<Usuario> listUsuarios = <Usuario>[];
 
@@ -50,8 +52,8 @@ class FiltroEstudiantesController extends GetxController {
       )),
     ).toList();
 
-    filtrado.value = filtrado.value.sublist(0,5);
-    seleccionado = '';
+    filtrado.value = filtrado.value.sublist(0,3);
+    materia.text = '';
   }
 
   Future<void> loadDatos()async{
@@ -59,15 +61,15 @@ class FiltroEstudiantesController extends GetxController {
   }
   
   seleccionar(valor){
-    seleccionado = valor;
+    materia.text = valor;
     update(['check']);
   }
 
 
   Future buscarEstudiantes()async{
-
+    listUsuarios.clear();
     print('Se buscara con los siguientes parametros:');
-    print('Materia:' + seleccionado);
+    print('Materia:' + materia.text);
     print('Calificacion: ' + inputCalificacion.text);
     //se necesitaria un nuevo esturiante para obtener su calificacion 
     listUsuarios.add(Usuario(usuId: 1, usuCorreo: 'correo1@correo.com', usuNomrbe: 'Nombre1 Apellido1', usuCedula: '0102030203', usuEstado: 'A', usuTelefono: '0996325412', usuBeca: 'No', usuNivel: 5, usuCarrera: 'Computacion', usuRazon: '', tuId: 0));
@@ -75,18 +77,13 @@ class FiltroEstudiantesController extends GetxController {
     listUsuarios.add(Usuario(usuId: 1, usuCorreo: 'correo3@correo.com', usuNomrbe: 'Nombre3 Apellido3', usuCedula: '0102020294', usuEstado: 'A', usuTelefono: '0994135904', usuBeca: 'No', usuNivel: 5, usuCarrera: 'Electronica', usuRazon: '', tuId: 0));
 
     update(['tabla']);
-    
-
   }
-
-
-
 }
 
 class FiltrarMiDataTableSource extends DataTableSource{
   List<Usuario> listUsuarios;
-  String materia;
-  FiltrarMiDataTableSource(this.listUsuarios,this.materia);
+  String materia2;
+  FiltrarMiDataTableSource(this.listUsuarios,this.materia2);
   @override
   DataRow? getRow(int index){
     if(index >= listUsuarios.length){
@@ -111,7 +108,7 @@ class FiltrarMiDataTableSource extends DataTableSource{
           ),
           
         ),
-        DataCell(Text(materia)),
+        DataCell(Text(materia2)),
         DataCell(Text(listUsuarios[index].usuNivel.toString())),
         DataCell(Text('77')),
         DataCell(Text(listUsuarios[index].usuCarrera)),

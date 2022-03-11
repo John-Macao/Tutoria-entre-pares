@@ -16,7 +16,7 @@ class VistaReporteTutorados extends StatelessWidget {
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorPrimario,
+        backgroundColor: colorAzul,
         title: Container( alignment: Alignment.center, child: Text("Reporte Tutorados", style: TextStyle(fontSize: 23),)),
       ),
       

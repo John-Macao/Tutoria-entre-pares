@@ -42,6 +42,9 @@ class PrincipalController extends GetxController{
   RxString opcion = ''.obs;
   List<String> opciones = [];
 
+  bool _estadoTablaPrincipal = true;
+  bool get estadoTablaPrincipal => _estadoTablaPrincipal;
+
   PrincipalController(this._usuarioRepository, this._materiaOfertaRepository, this._horarioRepository);
   
   @override
@@ -75,6 +78,7 @@ class PrincipalController extends GetxController{
         materias[i] = materias[i] + mat[j].idMateriaApi.toString() + ', ';
       }
     }
+    this._estadoTablaPrincipal = false;
     update();
   }
 

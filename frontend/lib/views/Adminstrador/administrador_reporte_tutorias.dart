@@ -16,7 +16,7 @@ class VistaReporteTutorias extends StatelessWidget {
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorPrimario,
+        backgroundColor: colorAzul,
         title: Container( alignment: Alignment.center, child: Text("Reporte Tutorias", style: TextStyle(fontSize: 23),)),
       ),
       drawer: WebViewAware(child: MenuView.getDrawer(context)),

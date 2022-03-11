@@ -20,7 +20,7 @@ class VistaPrincipal extends StatelessWidget {
       builder: (_){
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: colorPrimario,
+            backgroundColor: colorAzul,
             title: Container( alignment: Alignment.center, child: Text("Administrador", style: TextStyle(fontSize: 23),)),
 
           ),
@@ -60,7 +60,7 @@ class Formulario extends StatelessWidget{
           children: [
             Obx(() =>
               DropdownButton<String>(
-                style: TextStyle(color: colorPrimario, fontSize: 18) ,
+                style: TextStyle(color: colorAzul, fontSize: 18) ,
                 icon: Icon(Icons.filter_alt_outlined),
                 dropdownColor: Colors.indigo[50],
               hint: Text('Seleccionar asignatura'),
@@ -95,7 +95,7 @@ class Formulario extends StatelessWidget{
                   "Buscar",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -104,7 +104,7 @@ class Formulario extends StatelessWidget{
 
                 }, 
                 style: ElevatedButton.styleFrom(
-                  primary : colorPrimario,
+                  primary : colorAzul,
                   shape:
                   const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -144,7 +144,7 @@ class Formulario extends StatelessWidget{
                   "Buscar",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -153,7 +153,7 @@ class Formulario extends StatelessWidget{
 
                 }, 
                 style: ElevatedButton.styleFrom(
-                  primary : colorPrimario,
+                  primary : colorAzul,
                   shape:
                   const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -183,6 +183,9 @@ class TutoresTabla extends StatelessWidget{
     return GetBuilder<PrincipalController>(
       id: 'tabla',
       builder: (_){
+        if (_.estadoTablaPrincipal) {
+          return Center(child: CircularProgressIndicator( color: colorAzul, strokeWidth: 4.0,));
+        }
         return Card(
           elevation: 10,
           margin: EdgeInsets.symmetric(horizontal: 150, vertical: 1 ),
@@ -192,7 +195,7 @@ class TutoresTabla extends StatelessWidget{
             children: [
               if (_.opcion.value == 'Cedula') ...[
                 PaginatedDataTable(
-                  arrowHeadColor: colorPrimario,
+                  arrowHeadColor: colorAzul,
                   //columnSpacing: 50,
                   rowsPerPage: 9,
                   columns: const <DataColumn>[
@@ -220,7 +223,7 @@ class TutoresTabla extends StatelessWidget{
               ] else if(_.opcion.value == 'Materia')...[
                 PaginatedDataTable(
                   rowsPerPage: 9,
-                  arrowHeadColor: colorPrimario,
+                  arrowHeadColor: colorAzul,
                   //columnSpacing: 50,
                   columns: const <DataColumn>[
                     DataColumn(label: 

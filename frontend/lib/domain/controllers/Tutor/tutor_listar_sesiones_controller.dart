@@ -25,7 +25,7 @@ class TutorListarSesionesController extends GetxController{
   List<Horario> horarios = <Horario>[];
   List<Horario> horariosMostrados = <Horario>[];
   bool cantidaddHorarios = true;
-  int cantidad = 20;
+  int cantidad = 10;
   Map materias = {};
   Map maofIdAMateriaId = {};//un mapa en donde se ingresa el id de la materia ofertada por el tutor y se obtiene el id de la materia que se encuentra en la api de la universidad
 
@@ -109,7 +109,7 @@ class TutorListarSesionesController extends GetxController{
   }
 
   agregar(){
-    cantidad = cantidad + 20;
+    cantidad = cantidad + 10;
     if(horarios.length>=cantidad){
       horariosMostrados = horarios.sublist(0,cantidad);
     }else{

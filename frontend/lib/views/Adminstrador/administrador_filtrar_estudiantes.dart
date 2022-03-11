@@ -17,22 +17,208 @@ class VistaFiltrarEstudiantes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorPrimario,
+        backgroundColor: colorAzul,
         title: Container( alignment: Alignment.center, child: Text("Filtrar Estudiantes", style: TextStyle(fontSize: 23),)),
       ),
       drawer: MenuView.getDrawer(context),
       //drawer: Menu.getDrawer(context),
       body: SingleChildScrollView(
-        child:Center(
-          child: Container(
-            child: tablaFiltro(),
+            //child: tablaFiltro(),
+            child: filtro(),
           ),
-        )
-      )
     );
   }
-
 }
+
+class filtro extends StatelessWidget {
+  const filtro({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<FiltroEstudiantesController>(
+      init: FiltroEstudiantesController(locator.get<UsuarioRepository>()) ,
+      builder: (_){
+        return Container(
+          child: Center(
+            child: Card(
+              elevation: 10,
+              margin: const EdgeInsets.symmetric(horizontal: 150, vertical: 70 ),
+              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
+              child: Column(
+                children: [
+                  const SizedBox(height: 15.0,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget> [
+                      Text("Materia:", style: TextStyle(fontSize: 20),),
+                      
+                      const SizedBox(
+                        width: 10,
+                      ),
+
+                      SizedBox(
+                        width: 160, height: 23,
+                      child: CupertinoTextField(
+                        onChanged: (texto){
+                        _.filtrar(texto);
+                        }
+                        //controller: _.materia,
+                        //onChanged: _.filtrar(_.materia.text),
+                      ),
+                      ),
+
+                      const SizedBox(
+                        width: 30,
+                      ),
+
+                      const Text("Calificación min:", style: TextStyle(fontSize: 20),),
+                      
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      
+                      SizedBox(
+                        width: 160, height: 23,
+                      child: CupertinoTextField(
+                        controller: _.inputCalificacion,
+                      ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+
+                      ElevatedButton(
+                        child: const Text(
+                          "Filtrar",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      onPressed: (){
+                        _.buscarEstudiantes();
+
+                        }, 
+                        style: ElevatedButton.styleFrom(
+                          primary : colorAzul,
+                          shape:
+                          const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft:
+                              Radius.circular(10),
+                            bottomRight:
+                              Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                        ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+                      const SizedBox(
+                      width: 320,
+                    ),
+
+                  SizedBox(
+                    width: 300,
+                    child: Obx(()=>
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _.filtrado.length,
+                              itemBuilder: (context, index){
+                                return GetBuilder<FiltroEstudiantesController>(
+                                  id: 'check',
+                                  builder: (_){
+                                    return ListTile(
+                                      title: Text(_.filtrado[index].descripcion),
+                                      //subtitle: Text(_.filtrado[index].descripcion),
+                                      leading: Radio<dynamic>(
+                                        value: _.filtrado[index].descripcion, 
+                                        groupValue: _.materia.text, 
+                                        onChanged: (value){
+                                          _.seleccionar(value);
+                                        },
+                                        activeColor: Color.fromARGB(255, 233, 233, 3), 
+                                      ),
+                                      
+                                    );
+                                  }
+                                  );
+                              }
+                            ),
+                          ),
+                    ),
+                    ],
+                  ),
+
+                      SizedBox( height: 25,),
+
+                      GetBuilder<FiltroEstudiantesController>(
+                        id: 'tabla',
+                        builder: (_){
+                          return PaginatedDataTable(
+                            arrowHeadColor: colorAzul,
+                            rowsPerPage: 9,
+                            columns: const <DataColumn>[
+                              DataColumn(label: 
+                                Text('Cedula', style: TextStyle(fontWeight: FontWeight.bold),)
+                              ),
+                              DataColumn(label: 
+                                Text('Nombres', style: TextStyle(fontWeight: FontWeight.bold),)
+                              ),
+                              DataColumn(label: 
+                                Text('Telefono', style: TextStyle(fontWeight: FontWeight.bold),)
+                              ),
+                              DataColumn(label: 
+                                Text('Materia', style: TextStyle(fontWeight: FontWeight.bold),)
+                              ),
+                              DataColumn(label: 
+                                Text('Nivel', style: TextStyle(fontWeight: FontWeight.bold),)
+                              ),
+                              DataColumn(label: 
+                                Text('Calificacion Promedio', style: TextStyle(fontWeight: FontWeight.bold),)
+                              ),
+                              DataColumn(label: 
+                                Text('Carrera', style: TextStyle(fontWeight: FontWeight.bold),)
+                              ),
+                            ], 
+                            source: FiltrarMiDataTableSource(_.listUsuarios,'Algebra')
+                          );
+                        }
+                      ),
+                    ],
+                ),
+            ),
+          ),
+        );
+      }
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class tablaFiltro extends StatelessWidget {
   const tablaFiltro({Key? key}) : super(key: key);
@@ -73,14 +259,15 @@ class tablaFiltro extends StatelessWidget {
                         return ListTile(
                           title: Text(_.filtrado[index].descripcion),
                           subtitle: Text(_.filtrado[index].category),
-                          leading: Radio<dynamic>(
+                          /* leading: Radio<dynamic>(
                             value: _.filtrado[index].descripcion, 
-                            groupValue: _.seleccionado, 
+                            //groupValue: _.seleccionado, 
                             onChanged: (value){
                               _.seleccionar(value);
                             },
                             activeColor: Colors.green, 
                           ),
+                          */
                         );
                       }
                       );

@@ -13,13 +13,19 @@ class QuitarTutorController extends GetxController{
   final MateriaOfertaRepository _materiaOfertaRepository;
 
   int idTutor = 0;
-  String nombre = '';
-  String correo = '';
-  String carrera = '';
-  String telefono = '';
-  String nivel = '';
+  var nombre = TextEditingController();
+  var correo = TextEditingController();
+  var carrera = TextEditingController();
+  var telefono = TextEditingController();
+  var nivel = TextEditingController();
   var cedula = TextEditingController();
-  List<String> listMaterias = [];
+  RxList<String> listMaterias = [''].obs;
+
+  bool _comprobar = false;
+  bool get comprobar => _comprobar;
+
+  bool _ver = false;
+  bool get ver => _ver;
   
   QuitarTutorController(this._usuarioRepository, this._materiaOfertaRepository);
   
@@ -38,27 +44,30 @@ class QuitarTutorController extends GetxController{
 
   Future buscar()async{
     final tutor = await _usuarioRepository.fetch_usuario_por_cedula(cedula.text);
-    nombre = tutor!.usuNomrbe;
-    correo = tutor.usuCorreo;
-    carrera = tutor.usuCarrera;
-    telefono = tutor.usuTelefono;
-    nivel = tutor.usuNivel.toString();
+    nombre.text = tutor!.usuNomrbe;
+    correo.text = tutor.usuCorreo;
+    carrera.text = tutor.usuCarrera;
+    telefono.text = tutor.usuTelefono;
+    nivel.text = tutor.usuNivel.toString();
     idTutor = tutor.usuId;
 
+    listMaterias.clear();
 
-    final listMaOf = (await _materiaOfertaRepository.fetch_materia_por_tutor(correo))!;
+    final listMaOf = (await _materiaOfertaRepository.fetch_materia_por_tutor(correo.text))!;
     for(int i=0;i<listMaOf.length;i++){
       //aqui se busca el nombre de las materias en la api de la u
       listMaterias.add(listMaOf[i].idMateriaApi.toString());
     }
+    this._comprobar = true;
 
     update();
+    update(['listaMateria']);
   }
   
 
   Future eliminar(BuildContext context)async{
     final insertado = await _usuarioRepository.update_usuario_a_tutorado(idTutor);
-    Navigator.pushNamed(context, "/administrador-principal");
+    Navigator.pushReplacementNamed(context, "/administrador-principal");
   }
 
   

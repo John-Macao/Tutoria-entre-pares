@@ -13,20 +13,26 @@ const int bR = 0;
 const int bG = 142;
 const int bB = 211;
 
-get colorPrimario => argbColor(pA, pR, pG, pB);
+// COLOR AZUL OSCURO PRINCIPAL
+get colorAzul => ColorA(255, 0, 55, 114);
+get colorRojo => ColorR(255, 199, 13, 0);
 
-get colorBotones => argbColorBotones(bA, bR, bG, bB);
+get colorAzulClaro => ColorAC(255,0,142,211);
 
-
-
-
-Color argbColorBotones(int bA, int bR, int bG, int bB) {
-  return Color.fromARGB(bA, bR, bG, bB);
-}
-
-Color argbColor(int a, int r, int g, int b ){
+Color ColorA(int a, int r, int g, int b ){
   return Color.fromARGB(a, r, g, b);
 }
+
+Color ColorR(int a, int r, int g, int b){
+  return Color.fromARGB(a, r, g, b);
+}
+
+Color ColorAC(int a, int r, int g, int b){
+  return Color.fromARGB(a, r, g, b);
+}
+
+
+
 
 
 /*

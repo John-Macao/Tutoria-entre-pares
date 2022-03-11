@@ -14,6 +14,8 @@ class MenuController extends GetxController{
   
   final MenuRepository _menuRepository;
   final UsuarioRepository _usuarioRepository;
+  bool _loading = true;
+  bool get loading => _loading;
 
   static List<Menu> menus = [];
   //Menu? usu;
@@ -52,7 +54,7 @@ class MenuController extends GetxController{
             title: Text(menu.mendescripcion),
             leading: Icon(IconData(int.parse(menu.menicono), fontFamily: 'MaterialIcons')),
             onTap: (){
-              Navigator.pushNamed(this.context!, menu.menurl);
+              Navigator.pushReplacementNamed(this.context!, menu.menurl);
             },
           )
         );
@@ -65,7 +67,7 @@ class MenuController extends GetxController{
               title: Text(menusHijos[j].mendescripcion),
               leading: Icon(IconData(int.parse(menusHijos[j].menicono), fontFamily: 'MaterialIcons')),
               onTap: (){
-                Navigator.pushNamed(this.context!, menusHijos[j].menurl);
+                Navigator.pushReplacementNamed(this.context!, menusHijos[j].menurl);
               },
             )
           );
@@ -78,7 +80,6 @@ class MenuController extends GetxController{
           )
         );
       }
-      
     }
 
     drawerOptions.add(
@@ -90,6 +91,7 @@ class MenuController extends GetxController{
         },
       )
     );
+    this._loading = false;
     
     update();
   }

@@ -79,6 +79,9 @@ class LateralDerecho extends StatelessWidget {
     return GetBuilder<LoginController>(
       id: 'horario',
       builder: (_){
+        if (_.estadoTablaLogin) {
+          return Center(child: CircularProgressIndicator( color: colorAzul, strokeWidth: 4.0,));
+        }
         return SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 50),
@@ -113,7 +116,7 @@ class LateralDerecho extends StatelessWidget {
 
                 }, 
                 style: ElevatedButton.styleFrom(
-                  primary : colorPrimario,
+                  primary : colorAzul,
                   shape:
                   const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -170,7 +173,7 @@ class LateralDerecho extends StatelessWidget {
               shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15),
               ),
               child: PaginatedDataTable(
-                arrowHeadColor: colorPrimario,
+                arrowHeadColor: colorAzul,
                 columnSpacing: 80,
               columns: const <DataColumn>[
                 DataColumn(label: 

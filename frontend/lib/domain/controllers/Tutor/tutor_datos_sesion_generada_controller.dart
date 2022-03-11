@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:frontend/data/local_db/horario_api.dart';
 import 'package:frontend/data/local_db/materia_oferta_api.dart';
 import 'package:frontend/data/local_db/usuario_api.dart';
@@ -22,9 +23,9 @@ class TutorDatosSesionGeneradaController extends GetxController{
 
   TutorDatosSesionGeneradaController(this.horarioId, this._usuarioRepository, this._horarioRepository, this._materiaOfertaRepository);
 
-  String nombre = '';
+  var nombre = TextEditingController();
 
-  String asignatura = '';
+  var asignatura = TextEditingController();
   
   
   var cor = '';
@@ -47,14 +48,14 @@ class TutorDatosSesionGeneradaController extends GetxController{
   Future<void> loadDatos() async{
     //print('se busca con: ' + horarioId.toString());
 
-    nombre = (await _usuarioRepository.fetch_usuario_nombre(cor))!;
+    nombre.text = (await _usuarioRepository.fetch_usuario_nombre(cor))!;
 
     horario = (await _horarioRepository.fetch_horarios_id(horarioId))!;
 
     MateriaOferta mo = (await _materiaOfertaRepository.fetch_materia__por_ip(horario.maofId))!;
 
     //buscar en la api de la u el nombre de la asignatura, por el momento se usa el id de la asingatura
-    asignatura = mo.idMateriaApi.toString();
+    asignatura.text = mo.idMateriaApi.toString();
 
     //print('debuelve: ' + horario.horId.toString());
 

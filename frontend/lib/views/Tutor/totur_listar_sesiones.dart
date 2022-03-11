@@ -5,6 +5,7 @@ import 'package:frontend/domain/models/horario.dart';
 import 'package:frontend/domain/repository/horario_repository.dart';
 import 'package:frontend/domain/repository/materia_oferta_repository.dart';
 import 'package:frontend/domain/repository/usuario_repository.dart';
+import 'package:frontend/util/style.dart';
 import 'package:frontend/views/General/menu_view.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +17,8 @@ class TutorListarSesiones extends StatelessWidget{
       builder: (_){
         return Scaffold(
           appBar: AppBar(
-            title: Text('Listar Sesiones'),
+            backgroundColor: colorAzul,
+            title: Container( alignment: Alignment.center, child: Text("Listar Sesiones", style: TextStyle(fontSize: 23),)),
             actions: [
               IconButton(
                 onPressed: (){
@@ -27,7 +29,6 @@ class TutorListarSesiones extends StatelessWidget{
             ],
           ),
           drawer: MenuView.getDrawer(context),
-          //drawer: TutorMenu.getDrawer(context),
           body: SingleChildScrollView(
             child: Center(
               child: Column(
@@ -51,7 +52,11 @@ class ListarSesiones extends StatelessWidget{
   Widget build(BuildContext context){
     return GetBuilder<TutorListarSesionesController>(
       builder: (_){
-        return Form(
+        return Card(
+          elevation: 10,
+          margin: const EdgeInsets.symmetric(horizontal: 350, vertical: 70 ),
+          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(15)),
+
           child: Column(
             children: [
               ListView.builder(
@@ -63,12 +68,36 @@ class ListarSesiones extends StatelessWidget{
                       return ListTile(
                       title: Text('Asignatura: ' + _.obtenerNombreMateria(horario.maofId)),
                       subtitle: Text('Fecha: ' + horario.horFehca.toString() + '\n Hora: ' + horario.horHora),
-                      trailing: TextButton(
-                        onPressed: (){
-                          _.modificar(index, horario.maofId);
-                        },
-                        child: Text('Modificar'),
+                      trailing: ElevatedButton(
+                        child: const Text(
+                          "Modificar",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      onPressed: (){
+                        _.modificar(index, horario.maofId);
+
+                        }, 
+                        style: ElevatedButton.styleFrom(
+                          primary : colorAzul,
+                          shape:
+                          const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft:
+                              Radius.circular(10),
+                            bottomRight:
+                              Radius.circular(10),
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                        ),
+                        ),
                       ),
+                      
+
                     );
                   }else{
                     return Obx(() =>
@@ -88,12 +117,35 @@ class ListarSesiones extends StatelessWidget{
                                       }).toList(),
                                 ),
                         subtitle: Text('Fecha: ' + horario.horFehca.toString() + '\n Hora: ' + horario.horHora),
-                        trailing: TextButton(
+                        trailing: ElevatedButton(
+                          child: const Text(
+                            "Aceptar",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         onPressed: (){
-                            _.modificarSesion(horario);
-                          },
-                          child: Text('Aceptar'),
+                          _.modificarSesion(horario);
+
+                          }, 
+                          style: ElevatedButton.styleFrom(
+                            primary : colorAzul,
+                            shape:
+                            const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft:
+                                Radius.circular(10),
+                              bottomRight:
+                                Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                            ),
+                          ),
+                          ),
                         ),
+                        
                       )
                     );
                   }

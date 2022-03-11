@@ -18,14 +18,15 @@ class VistaQuitarTutor extends StatelessWidget {
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorPrimario,
+        backgroundColor: colorAzul,
         title: Container( alignment: Alignment.center, child: Text("Quitar Tutor Par", style: TextStyle(fontSize: 23),)),
       ),
       drawer: MenuView.getDrawer(context),
       //drawer: Menu.getDrawer(context),
-      body: const SingleChildScrollView(
-        child: formularioQuitarTutor(),
-      ),
+      body: SingleChildScrollView(
+            child: formularioQuitarTutor(),
+            //child: test1(),
+        ),
     );
   }
 }
@@ -73,7 +74,7 @@ class formularioQuitarTutor extends StatelessWidget {
                         "Buscar",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -82,7 +83,7 @@ class formularioQuitarTutor extends StatelessWidget {
 
                       }, 
                       style: ElevatedButton.styleFrom(
-                        primary : colorPrimario,
+                        primary : colorAzul,
                         shape:
                         const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
@@ -102,100 +103,222 @@ class formularioQuitarTutor extends StatelessWidget {
                 const SizedBox(height: 50.0,
                   child: Divider(color: Colors.black,), 
                 ),
-                
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
-                    const Text("Nombre:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.nombre, style: TextStyle(fontSize: 18)), 
-                    ),
-                    const Text("Correo:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.correo, style: TextStyle(fontSize: 18)), 
-                    ),
-                  ],
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 250),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Nombres:"
+                        ),
+                        controller: _.nombre,
+                      ),
+                      SizedBox(height: 25.0,),
+
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Correo:"
+                        ),
+                        controller: _.correo,
+                      ),
+
+                      SizedBox(height: 25.0,),
+
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Carrera:"
+                        ),
+                        controller: _.carrera,
+                      ),
+
+                      SizedBox(height: 25.0,),
+
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Telefono:"
+                        ),
+                        controller: _.telefono,
+                      ),
+
+                      SizedBox(height: 25.0,),
+
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        enabled: _.comprobar,
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15),
+                          labelText: "Nivel:"
+                        ),
+                        controller: _.nivel,
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                    height: 50,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
-                    const Text("Carrera:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.carrera, style: TextStyle(fontSize: 18)), 
-                    ),
-                    const Text("Telefono:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.telefono, style: TextStyle(fontSize: 18)), 
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                    height: 50,
-                ),
-                
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
-                    const Text("Nivel:  ", style: TextStyle(fontSize: 20)),
-                    SizedBox(
-                      width: 200,
-                      child: Text(_.nivel, style: TextStyle(fontSize: 18)), 
-                    ),
-                    const SizedBox(
-                      width: 200,
-                    ),
-                  ],
-                ),
+
                 const SizedBox(
                     height: 25,
                 ),
-                
-                ElevatedButton(
-                  child: const Text(
-                    "Eliminar Tutor",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                onPressed: (){
-                  _.eliminar(context);
 
-                  }, 
-                  style: ElevatedButton.styleFrom(
-                    primary : colorPrimario,
-                    shape:
-                    const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft:
-                        Radius.circular(10),
-                      bottomRight:
-                        Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
+                Text("Materias del Tutor Par:" , style: TextStyle(
+                  fontSize: 17, fontWeight: FontWeight.bold, color: colorAzul),
                   ),
+
+                Obx(()=>
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _.listMaterias.length,
+                    itemBuilder: (context, index){
+                      return GetBuilder<QuitarTutorController>(
+                        id: 'listaMateria',
+                        builder: (_){
+                          return Center(
+                              child: Column(
+                                children: [
+                                  Text(_.listMaterias[index], style: TextStyle(fontSize: 15),),
+                                
+                                ],
+                            ),
+                          );
+                        }
+                      );
+                    }
                   ),
                 ),
+
+                const SizedBox(
+                  height: 50,
+                ),
+                    
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      child: const Text(
+                        "Eliminar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    onPressed: (){
+                      _.eliminar(context);
+
+                      }, 
+                      style: ElevatedButton.styleFrom(
+                        primary : colorAzul,
+                        shape:
+                        const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft:
+                            Radius.circular(10),
+                          bottomRight:
+                            Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      ),
+                    ),
+
+                    const SizedBox(
+                      width: 20,
+                    ),
+
+                    ElevatedButton(
+                      child: const Text(
+                        "Cancelar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    onPressed: (){
+                      Navigator.pushReplacementNamed(context, "/administrador-principal",);
+                      //_.agregar(context);
+
+                      }, 
+                      style: ElevatedButton.styleFrom(
+                        primary : colorRojo,
+                        shape:
+                        const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft:
+                            Radius.circular(10),
+                          bottomRight:
+                            Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      ),
+                    ),
+                  ],
+                ),
+
                 const SizedBox(
                     height: 50,
                 ),
               ],
             ),
+            
+
             ),
           ),
         );
       }
       
+    );
+  }
+}
+
+class test1 extends StatelessWidget {
+  const test1 ({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<QuitarTutorController>(
+      init: QuitarTutorController(locator.get<UsuarioRepository>(),locator.get<MateriaOfertaRepository>()) ,
+      builder: (_){
+        return Container(
+                  //margin: EdgeInsets.symmetric(horizontal: 1),
+                  child: ListView.builder(
+                    itemCount: 2,
+                    itemBuilder: (BuildContext context, int index)
+                    {
+                      return Column(
+                        children: [
+                          ListTile(
+                          title: Text("$index"),
+                        ),
+                        ],
+                        
+                      );
+                    }
+                    ),
+                  );
+      
+      },
     );
   }
 }

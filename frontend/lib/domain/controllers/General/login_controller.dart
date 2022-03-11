@@ -31,6 +31,9 @@ class LoginController extends GetxController {
   List<String> listJueves = <String>[];
   List<String> listViernes = <String>[];
 
+  bool _estadoTablaLogin = true;
+  bool get estadoTablaLogin => _estadoTablaLogin;
+
   LoginController(this._materiaOfertaRepository, this._usuarioRepository, this._horarioRepository);
 
   @override
@@ -55,6 +58,7 @@ class LoginController extends GetxController {
     }
     asignatura.value = listAsignatura[0];
 
+    this._estadoTablaLogin = false;
     buscar();
   }
 

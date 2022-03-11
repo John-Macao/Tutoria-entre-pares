@@ -21,7 +21,7 @@ class TutorGenerarSesionController extends GetxController{
   final HorarioRepository _horarioRepository;
   final MateriaOfertaRepository _materiaOfertaRepository;
   
-  String nombre ='';
+  var nombre = TextEditingController();
   List<String> listAsignatura = <String>[];
   RxString asignatura = ''.obs;
 
@@ -51,7 +51,7 @@ class TutorGenerarSesionController extends GetxController{
   Future<void> loadDatos() async{
     cor = (await MsalService(_usuarioRepository).getCorreo())!; 
 
-    nombre = (await _usuarioRepository.fetch_usuario_nombre(cor))!;
+    nombre.text = (await _usuarioRepository.fetch_usuario_nombre(cor))!;
 
     final data = await _materiaOfertaRepository.fetch_materia_por_tutor(cor);
     List<MateriaOferta> mat = data!;
@@ -107,7 +107,7 @@ class TutorGenerarSesionController extends GetxController{
     int horarioId = (await _horarioRepository.fetch_ultimo_horario_creado(cor))!;
 
     //Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new TutorDatosSesionGenerada(horarioId: horarioId.toString())));
-    Navigator.pushNamed(context, 'tutor-datos-sesion-generado/$horarioId');
+    Navigator.pushReplacementNamed(context, 'tutor-datos-sesion-generado/$horarioId');
 
   }
   
