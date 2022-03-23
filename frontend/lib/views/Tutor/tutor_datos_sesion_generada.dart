@@ -88,7 +88,7 @@ class TutorDatosSesionGenerada extends StatelessWidget{
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Sesión: " , style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          Text("Código Sesión: " , style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                           const SizedBox( width: 25, ),
                           Text(_.horario.horId.toString(), style: TextStyle(fontSize: 20)),
 

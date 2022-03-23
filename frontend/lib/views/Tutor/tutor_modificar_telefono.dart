@@ -84,7 +84,14 @@ class formularioTelefono extends StatelessWidget{
                   ),
                 ),
               onPressed: (){
-                _.modificar();
+                _.modificar().then(
+                  (value) {
+                    if(value){
+                      mensajeEditado(context);
+                    }
+                  }
+
+                );
 
                 }, 
                 style: ElevatedButton.styleFrom(
@@ -109,6 +116,26 @@ class formularioTelefono extends StatelessWidget{
           )
         );
       }
+    );
+  }
+
+  void mensajeEditado (BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Modificar", style: TextStyle(fontWeight: FontWeight.bold , color: colorAzul),),
+          content: const Text("Teléfono editado correctamente"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Aceptar", style: TextStyle(color: colorAzul)),
+            ),
+          ],
+        );
+      },
     );
   }
 }

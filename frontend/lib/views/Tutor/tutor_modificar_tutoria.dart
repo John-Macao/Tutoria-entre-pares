@@ -295,7 +295,7 @@ class HorarioInicio extends StatelessWidget{
       context: context, 
       builder: (p){
           return AlertDialog(
-            title: Text('Modificar Horario de Tutoría'),
+            title: Text('Modificar Horario de Tutoría', style: TextStyle(fontWeight: FontWeight.bold)),
             content: Column(
               children: [
                 Form(child: Column(
@@ -333,7 +333,7 @@ class HorarioInicio extends StatelessWidget{
 
                                 Obx(() =>
                                     DropdownButton<String>(
-                                    hint: Text('Seleccionar dia'),
+                                    hint: Text('Seleccionar Materia'),
                                     value: _.asignatura.value,
                                     onChanged: (String? seleccionado){
                                       _.asignatura.value = seleccionado!;

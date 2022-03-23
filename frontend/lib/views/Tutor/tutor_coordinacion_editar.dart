@@ -135,7 +135,7 @@ class TutorEditarCoordinacion extends StatelessWidget{
                             Navigator.pushReplacementNamed(context, '/tutor-ver-coordinacion');
                           }, 
                           style: ElevatedButton.styleFrom(
-                            primary : colorAzul,
+                            primary : colorRojo,
                             shape:
                             const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(

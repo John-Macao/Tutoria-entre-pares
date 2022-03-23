@@ -15,7 +15,7 @@ class TutoradoHorarioTutor extends StatelessWidget{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorAzul,
-        title: Container( alignment: Alignment.center, child: Text("Horario Tutor Par", style: TextStyle(fontSize: 23),)),
+        title: Container( alignment: Alignment.center, child: Text("Consulta el horario de  una materia", style: TextStyle(fontSize: 23),)),
       ),
       drawer: MenuView.getDrawer(context),
       body: SingleChildScrollView(

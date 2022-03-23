@@ -79,7 +79,9 @@ class MateriaController extends GetxController{
   
   Future deshabilitar(String materiaNombre)async{
     int idMateria = materiasOfertadas[materiaNombre];
-    final cambio = await _materiaOfertaRepository.update_deshabilitar_materia(correoTutor,idMateria);
+    print("-----------------------------------------------##");
+    print(idMateria);
+    final cambio = await _materiaOfertaRepository.update_deshabilitar_materia(correoTutor.text ,idMateria);
 
     buscar();
   }
@@ -95,10 +97,10 @@ class MateriaController extends GetxController{
 
     //datos creador poque no hay conexion con la api aun
     
-    listMateriasPosibles.add('622');
-    materiasPosibles['622']=622;
-    listMateriasPosibles.add('444');
-    materiasPosibles['444']=444;
+    listMateriasPosibles.add('16');
+    materiasPosibles['16']=16;
+    listMateriasPosibles.add('17');
+    materiasPosibles['17']=17;
 
     this._ver2 = false;
     update();
@@ -108,13 +110,15 @@ class MateriaController extends GetxController{
   Future agregarMateria(String nombre2)async{
     print("VERRRRRRRRRR");
     print(nombre2);
-    String vv = '622';
-    print(materiasPosibles[vv]);
+    //String vv = '16';
+    print(materiasPosibles[nombre2]);
 
     int idMateriaApi = materiasPosibles[nombre2];
+
+    print(correoTutor.text);
     
 
-    //final agregacion = await _materiaOfertaRepository.put_materia_oferta(correoTutor, idMateriaApi);
+    final agregacion = await _materiaOfertaRepository.put_materia_oferta(correoTutor.text, idMateriaApi);
 
     buscar();
 

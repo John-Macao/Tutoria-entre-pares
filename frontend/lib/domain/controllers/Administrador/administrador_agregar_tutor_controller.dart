@@ -42,7 +42,7 @@ class AgregarNuevoTutorController extends GetxController {
 
   buscar(){
     //SE MANDA A BUSCAR AL ESTUDIANTE EN LA API DE LA U CON EL NUMERO DE CEDULA Y SE LO CONVIERTE EN USUARIO Y ESO DEBE OBTENER ESTE METODO
-    usuario = Usuario(usuId: 0, usuCorreo: "jmacao@est.ups.edu.ec", usuNomrbe: "John Macao", usuCedula: cedula.text, usuEstado: 'A', usuTelefono: "0989449535", usuBeca: "No", 
+    usuario = Usuario(usuId: 0, usuCorreo: "usuarioTest@est.ups.edu.ec", usuNomrbe: "Usuario Test", usuCedula: cedula.text, usuEstado: 'A', usuTelefono: "0989449535", usuBeca: "No", 
                       usuNivel: 9, usuCarrera: "Computación", usuRazon: "", tuId: 2);
 
     nombre.text = usuario!.usuNomrbe;

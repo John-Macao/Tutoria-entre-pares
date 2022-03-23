@@ -41,9 +41,16 @@ class TutorModificarTelefonoController extends GetxController{
     update();
   }
 
-  Future modificar()async{
-    final insertar = await _usuarioRepository.update_usuario_telefono(cor,numero.text);
-    loadDatos();
+  Future<bool> modificar()async{
+    try {
+      final insertar = await _usuarioRepository.update_usuario_telefono(cor,numero.text);
+      loadDatos();
+      return true;
+      
+    } catch (e) {
+      return false;
+    }
+    
   }
   
 }

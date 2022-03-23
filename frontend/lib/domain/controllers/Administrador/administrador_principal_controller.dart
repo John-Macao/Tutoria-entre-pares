@@ -62,14 +62,16 @@ class PrincipalController extends GetxController{
     opciones.add('Cedula');
     opciones.add('Materia');
     opcion.value = opciones[0];
-
     loadDatos();
 
   }
 
+
+
   Future loadDatos()async{
     materias = <String>[];
     listTutores = (await _usuarioRepository.fetch_usuario_tutores())!;
+    
     for(int i=0;i<listTutores.length;i++){
       materias.add('');
       final List<MateriaOferta> mat = (await _materiaOfertaRepository.fetch_materia_por_tutor(listTutores[i].usuCorreo))!;

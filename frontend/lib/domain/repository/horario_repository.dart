@@ -35,7 +35,7 @@ class HorarioRepository {
   }
 
   Future<Object> update_horario_tutor(json) async{
-    return await update_horario_tutor(json);
+    return await _horarioApi.update_horario_tutor(json);
   }
   
   Future<Object> update_horario_tutor_sesion(json) async{

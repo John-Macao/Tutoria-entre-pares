@@ -66,6 +66,8 @@ class QuitarTutorController extends GetxController{
   
 
   Future eliminar(BuildContext context)async{
+    //print("VER ID TUTOR");
+    //print(idTutor);
     final insertado = await _usuarioRepository.update_usuario_a_tutorado(idTutor);
     Navigator.pushReplacementNamed(context, "/administrador-principal");
   }

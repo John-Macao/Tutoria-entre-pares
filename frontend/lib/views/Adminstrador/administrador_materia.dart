@@ -365,7 +365,7 @@ class materia extends StatelessWidget {
                                                   ),
                                                 ),
                                               onPressed: (){
-                                                _.agregarMateria(_.listMateriasOfertadas[index]);
+                                                _.agregarMateria(_.listMateriasPosibles[index]);
 
                                                 }, 
                                                 style: ElevatedButton.styleFrom(
